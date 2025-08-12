@@ -59,7 +59,7 @@ async function setupLocalPostgres() {
   const dockerComposeContent = `
 services:
   postgres:
-    image: postgres:16.4-alpine
+    image: postgres:17-alpine
     container_name: survivor_dot_fun_postgres
     environment:
       POSTGRES_DB: postgres
