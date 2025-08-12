@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
 import { createAppKit } from '@reown/appkit/react';
 import { WagmiProvider } from 'wagmi';
-import { base } from '@reown/appkit/networks';
+import { base, type AppKitNetwork } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 
@@ -17,7 +17,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 };
 
-const networks = [base];
+const networks: [AppKitNetwork, ...AppKitNetwork[]] = [base];
 const wagmiAdapter = new WagmiAdapter({
   networks,
   projectId,
@@ -44,11 +44,7 @@ export function Providers(props: { children: ReactNode }) {
     >
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-
-          <html lang="en">
-            <meta name="viewport" content="width=device-width, initial-scale=1, max-scale=1" />
-            {props.children}
-          </html>
+          {props.children}
         </QueryClientProvider>
       </WagmiProvider>
     </MiniKitProvider>

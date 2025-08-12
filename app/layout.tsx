@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { type ReactNode } from 'react';
-import { Providers } from './providers'; 
-
-
-
+import { Providers } from './providers';
+import './globals.css';
 
 /**
  * Metadata for the page
@@ -17,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     other: {
       "fc:frame": JSON.stringify({
         version: "next",
-         imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
+        imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
         button: {
           title: `Launch ${process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}`,
           action: {
@@ -37,8 +35,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout(props: { children: ReactNode }) {
   return (
-       <Providers>
-        {props.children}
-     </Providers>
+    <html lang="en">
+      <body>
+        <Providers>
+          {props.children}
+        </Providers>
+      </body>
+    </html>
   );
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: false,
+  viewportFit: "cover"
+};
