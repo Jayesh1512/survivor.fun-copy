@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
     ppr: true,
     clientSegmentCache: true,
     nodeMiddleware: true
-  }
+  },
+  serverExternalPackages: ["twitter-api-v2"]
 };
 
 export default nextConfig;

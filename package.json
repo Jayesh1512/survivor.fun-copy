@@ -47,6 +47,7 @@
     "swr": "^2.3.3",
     "tailwind-merge": "^3.3.0",
     "tw-animate-css": "^1.3.0",
+    "twitter-api-v2": "^1.24.0",
     "typescript": "^5.8.3",
     "viem": "^2.31.3",
     "wagmi": "^2.15.6",
