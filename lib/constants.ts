@@ -25,7 +25,7 @@ export const scenarios = (characterName: string) => [
 ];
 
 export const DEFAULT_NFT = {
-    name: "baby punk",
+    name: "Baby Punk",
     bio: "super unhinged",
     attributes: {
         compliance: 80,

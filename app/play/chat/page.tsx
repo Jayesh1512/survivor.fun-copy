@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CHAT_DURATION_MS, DEFAULT_NFT, INITIAL_MESSAGE, scenarios } from "@/lib/constants";
+import Image from 'next/image';
 
 type Exchange = { [characterName: string]: string } | { user: string };
 
@@ -149,49 +150,112 @@ export default function ChatPage() {
     }, [name, scenario]);
 
     return (
-        <div className="mx-auto max-w-md h-[calc(100vh-2rem)] p-4 flex flex-col gap-3">
-            <div className="space-y-1">
-                <div className="text-xs opacity-80">Your Scenario</div>
-                <div className="text-lg font-semibold">{scenario}</div>
-                <div className="text-xs opacity-70">{name} · Time left {msToClock(timeLeftMs)}</div>
+        <div className="bg-[#04022F] min-h-screen flex flex-col">
+            {/* Top Bar */}
+            <div className="bg-[#C131F5] px-4 py-3 h-[100px] flex items-center justify-between">
+                <div className="rounded-lg p-2">
+                    <Image
+                        src="/assets/sound.svg"
+                        alt="Sound"
+                        width={48}
+                        height={48}
+                    />
+                </div>
+                <div className="text-white text-xl font-bold">
+                    {msToClock(timeLeftMs)} s
+                </div>
+                <div className="rounded-lg p-2">
+                    <Image
+                        src="/assets/home.svg"
+                        alt="Home"
+                        width={48}
+                        height={48}
+                    />
+                </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-2 rounded-md p-2 bg-black/10">
+            {/* Separator Line */}
+            <div className="h-px bg-white opacity-30"></div>
+
+            {/* Scenario Area */}
+            <div className="bg-[#04022F] px-4 py-3">
+                <div className="text-center text-white text-lg">
+                    {scenario}
+                </div>
+            </div>
+
+            {/* Separator Line */}
+            <div className="h-px bg-white opacity-30"></div>
+
+            {/* Chat Area */}
+            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-[#04022F]">
                 {display.map((m, idx) => (
                     <div
                         key={idx}
-                        className={m.role === "nft" ? "text-left" : "text-right"}
+                        className={`flex items-start gap-3 ${m.role === "nft" ? "justify-start" : "justify-end"}`}
                     >
-                        <span
-                            className={
-                                "inline-block px-3 py-2 rounded-2xl max-w-[85%] " +
-                                (m.role === "nft" ? "bg-purple-600 text-white" : "bg-white text-black")
-                            }
-                        >
-                            {m.text}
-                        </span>
+                        {m.role === "nft" && (
+                            <div className="w-10 h-10 rounded-full bg-purple-400 flex-shrink-0">
+                                <Image
+                                    src="/assets/characters/two.svg"
+                                    alt="Character"
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full"
+                                />
+                            </div>
+                        )}
+
+                        <div className={`max-w-[70%] ${m.role === "nft" ? "order-2" : "order-1"}`}>
+                            <div
+                                className={`px-4 py-3 rounded-2xl ${m.role === "nft"
+                                        ? "bg-gray-700 text-white"
+                                        : "bg-white text-black"
+                                    }`}
+                            >
+                                {m.text}
+                            </div>
+                        </div>
+
+                        {m.role === "user" && (
+                            <div className="w-10 h-10 rounded-full bg-yellow-400 flex-shrink-0 order-2">
+                                <div className="w-full h-full rounded-full bg-yellow-300 flex items-center justify-center text-black font-bold">
+                                    A
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ))}
                 <div ref={endRef} />
             </div>
 
-            <div className="flex items-center gap-2">
-                <Input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") handleSend();
-                    }}
-                    placeholder="Type your suggestion..."
-                    autoFocus
-                    disabled={timeUp}
-                />
-                <Button onClick={handleSend} disabled={isLoading || timeUp}>
-                    Send
-                </Button>
+            {/* Input Area */}
+            <div className="px-4 py-3">
+                <div className="flex items-center gap-3 text-white">
+                    <Input
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") handleSend();
+                        }}
+                        placeholder="Type your suggestion..."
+                        className="flex-1 bg-gray-700 text-white border-gray-600 rounded-xl px-4 py-3 h-[54px]"
+                        autoFocus
+                        disabled={timeUp}
+                    />
+                    <Button
+                        onClick={handleSend}
+                        disabled={isLoading || timeUp}
+                    >
+                        <Image
+                            src="/assets/sendMessage.svg"
+                            alt="Sound"
+                            width={48}
+                            height={48}
+                        />
+                    </Button>
+                </div>
             </div>
-
-            {/* No continue button; auto-redirect when time is up */}
         </div>
     );
 }

@@ -327,4 +327,14 @@
   .bg-startgame {
     background-image: url("/assets/game/gameBackground.svg");
   }
+
+  .bg-collab-background {
+    background-image: url("/assets/game/collabBackground.svg");
+  }
+
+  .bg-judge-background {
+    background-image: url("/assets/game/judgeBackground.svg");
+  }
+
+  
 }

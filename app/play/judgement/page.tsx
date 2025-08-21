@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 type Exchange = Record<string, string>;
 
@@ -94,34 +95,54 @@ export default function JudgementPage() {
     }, [phase, fetchNarration, router]);
 
     return (
-        <div className="mx-auto max-w-md p-6 space-y-6">
-            <div className="space-y-1">
+        <div className="text-white min-h-screen bg-judge-background bg-cover bg-center bg-no-repeat relative">
+            <div className="mx-auto max-w-md p-6 space-y-6">
+                {/* <div className="space-y-1">
                 <div className="text-xs opacity-80">Your Scenario</div>
                 <div className="text-lg font-semibold">{scenario}</div>
+            </div> */}
+
+                {phase === "decision" && (
+                    <div className="space-y-4">
+                        <div className="text-sm font-medium opacity-80">Survival Strategy</div>
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-lg leading-relaxed">
+                            {!decision && loading ? "Thinking…" : decision || "Couldn't decide. Lets try again."}
+                        </div>
+                    </div>
+                )}
+
+                {phase !== "decision" && narration && (
+                    <div className="space-y-4">
+                        <div className="text-sm font-medium opacity-80">Judgement</div>
+                        {/* <div className="rounded-xl border border-white/10 bg-white/5 p-4 whitespace-pre-line leading-relaxed">
+                        {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
+                    </div> */}
+
+
+                    </div>
+                )}
+
+                <Button className="w-full" onClick={onContinue} disabled={loading}>
+                    {phase === "decision" ? "Continue" : phase === "story" ? "Reveal Fate" : "Play Again"}
+                </Button>
             </div>
 
-            {phase === "decision" && (
-                <div className="space-y-4">
-                    <div className="text-sm font-medium opacity-80">Survival Strategy</div>
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-lg leading-relaxed">
-                        {!decision && loading ? "Thinking…" : decision || "Couldn't decide. Lets try again."}
-                    </div>
-                </div>
-            )}
+            <div className="absolute -bottom-5 left-0">
+                <Image
+                    src="/assets/game/judge.svg"
+                    alt="Judge"
+                    width={257}
+                    height={257}
+                />
+            </div>
 
-            {phase !== "decision" && narration && (
-                <div className="space-y-4">
-                    <div className="text-sm font-medium opacity-80">Judgement</div>
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-4 whitespace-pre-line leading-relaxed">
-                        {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
-                    </div>
-                </div>
-            )}
-
-            <Button className="w-full" onClick={onContinue} disabled={loading}>
-                {phase === "decision" ? "Continue" : phase === "story" ? "Reveal Fate" : "Play Again"}
-            </Button>
+            <div className="flex items-center justify-center">
+                <Button className="bg-button bg-cover bg-center bg-no-repeat w-[129px] h-[58px] absolute bottom-10 items-center justify-center flex">
+                    Continue
+                </Button>
+            </div>
         </div>
+
     );
 }
 
