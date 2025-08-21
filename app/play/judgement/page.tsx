@@ -59,7 +59,7 @@ export default function JudgementPage() {
             const res = await fetch("/api/narrator", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ scenario, finalDecision: decision }),
+                body: JSON.stringify({ scenario, finalDecision: decision, chatHistory }),
             });
             const data = (await res.json()) as { response?: string };
             let story = "";

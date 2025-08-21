@@ -9,13 +9,14 @@ import type { AgentResponse } from "@/types/api";
 type NarratorRequest = {
     scenario: string;
     finalDecision: string;
+    chatHistory?: unknown[];
 };
 
 export async function POST(
     req: Request & { json: () => Promise<NarratorRequest> },
 ): Promise<NextResponse<AgentResponse>> {
     try {
-        const { scenario, finalDecision } = await req.json();
+        const { scenario, finalDecision, chatHistory = [] } = await req.json();
 
         if (!scenario || !finalDecision) {
             return NextResponse.json(
@@ -29,7 +30,7 @@ export async function POST(
         const tools = getVercelAITools(agentkit);
         const maxSteps = 10;
 
-        const system = NarratorPrompt(scenario, finalDecision);
+        const system = NarratorPrompt(scenario, finalDecision, chatHistory as any);
 
         const { text } = await generateText({
             model,
