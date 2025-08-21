@@ -60,7 +60,6 @@ export async function prepareAgentkitAndWalletProvider(): Promise<{
   walletProvider: WalletProvider;
 }> {
   try {
-    console.log("prepareAgentkitAndWalletProvider function called");
     // Initialize WalletProvider: https://docs.cdp.coinbase.com/agentkit/docs/wallet-management
     let privateKey = process.env.PRIVATE_KEY as `0x${string}`;
     if (!privateKey) {
