@@ -66,7 +66,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -279,6 +278,74 @@
 
 @layer utilities {
   .bg-survivor-pattern {
-    background-image: url('/assets/background.svg');
+    background-image: url("/assets/background.svg");
   }
+
+  .bg-button {
+    background-image: url("/assets/button.svg");
+  }
+
+  .bg-address-display {
+    display: grid;
+    align-items: center;
+    background-color: #3e2b4f;
+    padding: 10px 0px 10px 0px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1rem;
+    border: double 2px transparent;
+    border-radius: 10px;
+    background-image: linear-gradient(#3e2b4f, #3e2b4f),
+      linear-gradient(
+        to right,
+        #94e5ba 0%,
+        #ffce7f 25%,
+        #7bbfff 50%,
+        #76ff86 75%,
+        #f860ff 100%
+      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .bg-mint-background {
+    background-image: url("/assets/mint/background.svg");
+  }
+
+  .bg-character-background {
+    background-image: url("/assets/mint/characterBg.svg");
+  }
+
+  .bg-character-frame {
+    background-image: url("/assets/mint/characterFrame.svg");
+  }
+
+  .bg-bottom-frame {
+    background-image: url("/assets/mint/bottomFrame.svg");
+  }
+
+  .bg-startgame {
+    background-image: url("/assets/game/gameBackground.svg");
+  }
+
+  .bg-collab-background {
+    background-image: url("/assets/game/collabBackground.svg");
+  }
+
+  .bg-judge-background {
+    background-image: url("/assets/game/judgeBackground.svg");
+  }
+
+  .bg-strategy-frame {
+    background-image: url("/assets/game/strategyFrame.svg");
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
 }

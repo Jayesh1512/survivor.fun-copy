@@ -6,7 +6,9 @@ const nextConfig: NextConfig = {
     clientSegmentCache: true,
     nodeMiddleware: true
   },
-  serverExternalPackages: ["twitter-api-v2"]
+  serverExternalPackages: [
+    "twitter-api-v2"
+  ]
 };
 
 export default nextConfig;

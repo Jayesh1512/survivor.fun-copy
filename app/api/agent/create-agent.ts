@@ -1,7 +1,6 @@
 import { openai } from "@ai-sdk/openai";
 import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
-import { prepareAgentkitAndWalletProvider } from "./prepare-agentkit";
-
+import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 
 /**
  * Agent Configuration Guide
@@ -47,12 +46,12 @@ export async function createAgent(): Promise<Agent> {
 
   try {
     // Initialize LLM: https://platform.openai.com/docs/models#gpt-4o
-    const model = openai("gpt-4.1");
+    const model = openai("gpt-4.1-mini");
 
     const { agentkit } = await prepareAgentkitAndWalletProvider();
 
     // Initialize Agent
- const system = `
+    const system = `
 You are an Agent in a game.
 
 The game has 2 roles:
