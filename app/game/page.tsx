@@ -59,8 +59,7 @@ const Game: React.FC = () => {
                 <div className="text-center">
                     <h2 className="text-[#D983F9] text-lg mb-4">Your Scenario</h2>
                     <div className="text-white text-[32px] font-bold leading-tight">
-                        <div>Baby Punk is falling</div>
-                        <div>off the building..</div>
+                        <div>{scenario}</div>
                     </div>
                 </div>
             </div>
