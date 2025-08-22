@@ -1,12 +1,19 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import Mobile from "./mobile";
+import { useMiniKit } from "@coinbase/onchainkit/minikit";
 
 export default function Page() {
+    const { setFrameReady, isFrameReady } = useMiniKit();
+
+    useEffect(() => {
+        if (!isFrameReady) setFrameReady();
+    }, [isFrameReady, setFrameReady]);
+
     return (
         <main>
             <div className="mobile-ui">
-               <Mobile/>
+                <Mobile />
             </div>
             <div className="desktop-ui">
                 <h1>Welcome to Survivor.fun! (Desktop)</h1>
