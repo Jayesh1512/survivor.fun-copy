@@ -7,7 +7,11 @@ const nextConfig: NextConfig = {
     nodeMiddleware: true
   },
   serverExternalPackages: [
-    "twitter-api-v2"
+    "twitter-api-v2",
+    "@hpke/core",
+    "@privy-io/server-auth",
+    "@coinbase/agentkit",
+    "@coinbase/agentkit-vercel-ai-sdk"
   ]
 };
 

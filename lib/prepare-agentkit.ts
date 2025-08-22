@@ -107,11 +107,11 @@ export async function prepareAgentkitAndWalletProvider(): Promise<{
       walletActionProvider(),
       erc20ActionProvider(),
     ];
-    const canUseCdpApi = process.env.CDP_API_KEY_NAME && process.env.CDP_API_KEY_PRIVATE_KEY;
+    const canUseCdpApi = process.env.NEXT_PUBLIC_CDP_API_KEY_NAME && process.env.CDP_API_KEY_PRIVATE_KEY;
     if (canUseCdpApi) {
       actionProviders.push(
         cdpApiActionProvider({
-          apiKeyName: process.env.CDP_API_KEY_NAME,
+          apiKeyName: process.env.NEXT_PUBLIC_CDP_API_KEY_NAME,
           apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY,
         }),
       );
