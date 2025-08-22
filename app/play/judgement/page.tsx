@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import Image from 'next/image';
 
 type Exchange = Record<string, string>;
 
@@ -91,59 +91,86 @@ export default function JudgementPage() {
             setPhase("result");
             return;
         }
-        router.push("/play/setup");
+        router.push("/mint");
     }, [phase, fetchNarration, router]);
 
-    return (
-        <div className="text-white min-h-screen bg-judge-background bg-cover bg-center bg-no-repeat relative">
-            <div className="mx-auto max-w-md p-6 space-y-6">
-                {/* <div className="space-y-1">
-                <div className="text-xs opacity-80">Your Scenario</div>
-                <div className="text-lg font-semibold">{scenario}</div>
-            </div> */}
-
+    if (loading) {
+        return (
+            <div className="text-white bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
+                <div className="flex items-center justify-center absolute -bottom-10">
+                    <Image src="/assets/loading/thinking.svg" alt="Ghost" width={551} height={551} />
+                </div>
+            </div>
+        )
+    }
+    else {
+        return (
+            <>
                 {phase === "decision" && (
-                    <div className="space-y-4">
-                        <div className="text-sm font-medium opacity-80">Survival Strategy</div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-lg leading-relaxed">
-                            {!decision && loading ? "Thinking…" : decision || "Couldn't decide. Lets try again."}
+                    <div className="text-white bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
+                        {/* Sound Button - Top Left */}
+                        <div className="absolute top-3 left-3">
+                            <div className="rounded-lg p-0">
+                                <Image
+                                    src="/assets/sound.svg"
+                                    alt="Sound"
+                                    width={48}
+                                    height={48}
+                                />
+                            </div>
                         </div>
+                        <div className="absolute top-20 right-0">
+                            <div className="p-0">
+                                <Image
+                                    src="/assets/game/ghost.svg"
+                                    alt="Ghost"
+                                    width={250}
+                                    height={250}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center absolute bottom-30">
+                            <div className="relative bg-strategy-frame bg-center bg-no-repeat w-[388px] h-[354px] text-wrap">
+
+                                <div className="absolute inset-0 p-6 flex items-center justify-center text-center">
+                                    <p className="text-white text-[28px] font-extrabold leading-[36px]">
+                                        {!decision && loading ? "Thinking…" : decision || "Couldn't decide. Lets try again."}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <Button onClick={onContinue} disabled={loading} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                                Continue
+                            </Button>
+                        </div>
+
                     </div>
                 )}
 
                 {phase !== "decision" && narration && (
-                    <div className="space-y-4">
-                        <div className="text-sm font-medium opacity-80">Judgement</div>
-                        {/* <div className="rounded-xl border border-white/10 bg-white/5 p-4 whitespace-pre-line leading-relaxed">
-                        {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
-                    </div> */}
-
-
+                    <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat">
+                        <div className="absolute top-24 left-[40%] bg-gray-500 rounded-full border-8 border-[#8029AB]">
+                            <Image src="/assets/characters/one.svg" alt="Sound" width={48} height={48} />
+                        </div>
+                       
+                        <div className="absolute inset-0 flex items-center justify-center -mt-10">
+                            <div className="rounded-xl  p-4 whitespace-pre-line leading-relaxed w-[227px] h-[330px] overflow-y-auto no-scrollbar">
+                                {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-center">
+                            <Button onClick={onContinue} disabled={loading} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                                {phase === "story" ? "Reveal Fate" : "Play Again"}
+                            </Button>
+                        </div>
                     </div>
                 )}
+            </>
+        );
+    }
 
-                <Button className="w-full" onClick={onContinue} disabled={loading}>
-                    {phase === "decision" ? "Continue" : phase === "story" ? "Reveal Fate" : "Play Again"}
-                </Button>
-            </div>
-
-            <div className="absolute -bottom-5 left-0">
-                <Image
-                    src="/assets/game/judge.svg"
-                    alt="Judge"
-                    width={257}
-                    height={257}
-                />
-            </div>
-
-            <div className="flex items-center justify-center">
-                <Button className="bg-button bg-cover bg-center bg-no-repeat w-[129px] h-[58px] absolute bottom-10 items-center justify-center flex">
-                    Continue
-                </Button>
-            </div>
-        </div>
-
-    );
 }
 
 

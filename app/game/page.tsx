@@ -67,12 +67,11 @@ const Game: React.FC = () => {
 
             {/* Collaborate Button - Bottom */}
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-                <Button
-                    onClick={handleStart}
-                    className="bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold py-4 px-8 rounded-xl text-lg w-[358px] h-[74px] shadow-lg"
-                >
-                    Collaborate
-                </Button>
+                <div className="flex items-center justify-center">
+                    <Button onClick={handleStart} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                        Collaborate
+                    </Button>
+                </div>
             </div>
         </div>
     );

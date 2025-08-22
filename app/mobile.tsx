@@ -1,8 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const Mobile: React.FC = () => {
+    const router = useRouter();
     return (
         <div className="min-h-screen bg-survivor-pattern bg-cover bg-center bg-no-repeat">
             <Image
@@ -20,13 +22,13 @@ const Mobile: React.FC = () => {
                         width={48}
                         height={48}
                     />
-                    <div className="w-[144px] h-[48px] bg-address-display rounded-[12px]">
+                    <div className="w-[144px] h-[48px] bg-address-display rounded-[12px] text-white">
                         0x000...0000
                     </div>
                 </div>
             </div>
             <div className="flex items-center justify-center">
-                <Button className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                <Button onClick={() => router.push('/mint')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
                     Connect Wallet
                 </Button>
             </div>

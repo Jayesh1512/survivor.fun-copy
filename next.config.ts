@@ -6,7 +6,14 @@ const nextConfig: NextConfig = {
     clientSegmentCache: true,
     nodeMiddleware: true
   },
-  serverExternalPackages: ["twitter-api-v2"]
+  serverExternalPackages: [
+    "twitter-api-v2",
+    "@noble/ciphers",
+    "@noble/hashes",
+    "@noble/curves",
+    "@stablelib/chacha20poly1305",
+    "jose"
+  ]
 };
 
 export default nextConfig;

@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import Start from './start';
 
 const Character: React.FC = () => {
 
@@ -18,6 +20,7 @@ const Character: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
     const [touchEndX, setTouchEndX] = useState<number | null>(null);
+    const [showStart, setShowStart] = useState(false);
 
     const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
         setTouchStartX(event.touches[0].clientX);
@@ -47,6 +50,10 @@ const Character: React.FC = () => {
         setTouchEndX(null);
     };
 
+    if (showStart) {
+        return <Start />;
+    }
+
     return (
         <div className="min-h-screen bg-character-background bg-cover bg-center bg-no-repeat">
 
@@ -68,6 +75,11 @@ const Character: React.FC = () => {
                         className="w-[288px] h-[288px] rounded-[27%]"
                     />
                 </div>
+                <div className="flex items-center justify-center">
+                        <Button onClick={() => setShowStart(true)} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                            Select Character
+                        </Button>
+                    </div>
             </div>
 
         </div>

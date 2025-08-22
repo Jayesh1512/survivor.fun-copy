@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const Start: React.FC = () => {
 
@@ -16,6 +17,8 @@ const Start: React.FC = () => {
         },
         bio: "Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil"
     };
+
+    const router = useRouter();
 
     return (
         <div className="min-h-screen bg-startgame  bg-cover bg-center bg-no-repeat">
@@ -67,7 +70,7 @@ const Start: React.FC = () => {
 
                     {/* Start Game Button */}
                     <div className="flex items-center justify-center">
-                        <Button className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                        <Button onClick={() => router.push('/game')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
                             Start Game
                         </Button>
                     </div>

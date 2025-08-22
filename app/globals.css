@@ -336,5 +336,16 @@
     background-image: url("/assets/game/judgeBackground.svg");
   }
 
+  .bg-strategy-frame {
+    background-image: url("/assets/game/strategyFrame.svg");
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
   
 }

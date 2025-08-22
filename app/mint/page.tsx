@@ -36,9 +36,7 @@ const Mint: React.FC = () => {
                     </div>
                 </div>
             </>}
-
-            {step === 2 && <Character />}   
-            {step === 1 && <Start />}
+            {step === 1 && <Character />}
         </div>
     );
 };
