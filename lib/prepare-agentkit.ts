@@ -1,13 +1,15 @@
 import {
-  ActionProvider,
   AgentKit,
-  cdpApiActionProvider,
-  erc20ActionProvider,
-  pythActionProvider,
   ViemWalletProvider,
+  type WalletProvider,
+} from "@coinbase/agentkit";
+import type { ActionProvider } from "@coinbase/agentkit";
+import {
   walletActionProvider,
-  WalletProvider,
+  erc20ActionProvider,
   wethActionProvider,
+  pythActionProvider,
+  cdpApiActionProvider,
 } from "@coinbase/agentkit";
 import fs from "fs";
 import { createWalletClient, http } from "viem";
