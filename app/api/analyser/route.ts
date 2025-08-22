@@ -7,6 +7,8 @@ import { AnalyserPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
 import { createCorsResponse, handleOptions } from "@/lib/cors";
 
+export const runtime = "nodejs";
+
 type AnalyseRequest = {
     scenario: string;
     agentName: string;

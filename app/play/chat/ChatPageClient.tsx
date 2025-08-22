@@ -154,7 +154,7 @@ export default function ChatPageClient() {
             <div className="fixed top-0 left-0 right-0 bg-[#C131F5] px-4 py-3 h-[100px] flex items-center justify-between">
                 <div className="rounded-lg p-2">
                     <Image
-                        src="/assets/sound.svg"
+                        src="/assets/sound.webp"
                         alt="Sound"
                         width={48}
                         height={48}
@@ -165,7 +165,7 @@ export default function ChatPageClient() {
                 </div>
                 <div className="rounded-lg p-2">
                     <Image
-                        src="/assets/home.svg"
+                        src="/assets/home.webp"
                         alt="Home"
                         width={48}
                         height={48}
@@ -195,7 +195,7 @@ export default function ChatPageClient() {
                         {m.role === "nft" && (
                             <div className="w-10 h-10 rounded-full bg-purple-400 flex-shrink-0">
                                 <Image
-                                    src="/assets/characters/two.svg"
+                                    src="/assets/characters/two.webp"
                                     alt="Character"
                                     width={40}
                                     height={40}
@@ -246,7 +246,7 @@ export default function ChatPageClient() {
                         disabled={isLoading || timeUp}
                     >
                         <Image
-                            src="/assets/sendMessage.svg"
+                            src="/assets/sendMessage.webp"
                             alt="Sound"
                             width={48}
                             height={48}

@@ -8,7 +8,7 @@ const Mobile: React.FC = () => {
     return (
         <div className="min-h-screen bg-survivor-pattern bg-cover bg-center bg-no-repeat">
             <Image
-                src="/assets/logo.svg"
+                src="/assets/logo.webp"
                 alt="Survivor.fun Logo"
                 width={322}
                 height={124}
@@ -17,7 +17,7 @@ const Mobile: React.FC = () => {
             <div className="flex items-center justify-center">
                 <div className="flex flex-row items-center w-[358px] justify-between absolute bottom-34">
                     <Image
-                        src="/assets/sound.svg"
+                        src="/assets/sound.webp"
                         alt="Volume Image"
                         width={48}
                         height={48}

@@ -4,6 +4,8 @@ import { createAgent } from "./create-agent";
 import { Message, generateId, generateText } from "ai";
 import { createCorsResponse, handleOptions } from "@/lib/cors";
 
+export const runtime = "nodejs";
+
 const messages: Message[] = [];
 
 // Handle CORS preflight requests

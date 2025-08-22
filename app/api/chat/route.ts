@@ -7,6 +7,8 @@ import { ChatPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
 import { createCorsResponse, handleOptions } from "@/lib/cors";
 
+export const runtime = "nodejs";
+
 type ChatRequest = {
     scenario: string;
     nft: unknown; // structured NFT details object

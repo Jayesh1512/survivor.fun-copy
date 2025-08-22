@@ -98,7 +98,7 @@ export default function JudgementPageClient() {
         return (
             <div className="text-white bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
                 <div className="flex items-center justify-center absolute -bottom-10">
-                    <Image src="/assets/loading/thinking.svg" alt="Ghost" width={551} height={551} />
+                    <Image src="/assets/loading/thinking.webp" alt="Ghost" width={551} height={551} />
                 </div>
             </div>
         )
@@ -112,7 +112,7 @@ export default function JudgementPageClient() {
                         <div className="absolute top-3 left-3">
                             <div className="rounded-lg p-0">
                                 <Image
-                                    src="/assets/sound.svg"
+                                    src="/assets/sound.webp"
                                     alt="Sound"
                                     width={48}
                                     height={48}
@@ -122,7 +122,7 @@ export default function JudgementPageClient() {
                         <div className="absolute top-20 right-0">
                             <div className="p-0">
                                 <Image
-                                    src="/assets/game/ghost.svg"
+                                    src="/assets/game/ghost.webp"
                                     alt="Ghost"
                                     width={250}
                                     height={250}
@@ -151,7 +151,7 @@ export default function JudgementPageClient() {
                 {phase !== "decision" && narration && (
                     <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat">
                         <div className="absolute top-24 left-[40%] bg-gray-500 rounded-full border-8 border-[#8029AB]">
-                            <Image src="/assets/characters/one.svg" alt="Sound" width={48} height={48} />
+                            <Image src="/assets/characters/one.webp" alt="Sound" width={48} height={48} />
                         </div>
 
                         <div className="absolute inset-0 flex items-center justify-center -mt-10">

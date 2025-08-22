@@ -8,7 +8,7 @@ const Start: React.FC = () => {
 
     const characterData = {
         name: "Bubba the Brave",
-        image: "/assets/characters/two.svg",
+        image: "/assets/characters/two.webp",
         stats: {
             compliance: 56,
             creativity: 21,
@@ -26,7 +26,7 @@ const Start: React.FC = () => {
             <div className="absolute bottom-0">
                 <div className='flex justify-center items-center'>
                     <Image
-                        src="/assets/characters/two.svg"
+                        src="/assets/characters/two.webp"
                         alt="gameBackground"
                         width={317}
                         height={361.21}

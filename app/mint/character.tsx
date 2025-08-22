@@ -9,7 +9,7 @@ const Character: React.FC = () => {
     const characters = [
         {
             name: "Bubba the Brave",
-            image: "/assets/characters/one.svg",
+            image: "/assets/characters/one.webp",
         }
     ]
 

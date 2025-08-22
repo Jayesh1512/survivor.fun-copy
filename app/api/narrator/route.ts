@@ -7,6 +7,8 @@ import { NarratorPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
 import { createCorsResponse, handleOptions } from "@/lib/cors";
 
+export const runtime = "nodejs";
+
 type NarratorRequest = {
     scenario: string;
     finalDecision: string;

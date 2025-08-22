@@ -46,7 +46,7 @@ const Game: React.FC = () => {
             <div className="absolute top-3 left-3">
                 <div className="rounded-lg p-0">
                     <Image
-                        src="/assets/sound.svg"
+                        src="/assets/sound.webp"
                         alt="Sound"
                         width={48}
                         height={48}
