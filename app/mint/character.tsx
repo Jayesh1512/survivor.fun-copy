@@ -76,10 +76,10 @@ const Character: React.FC = () => {
                     />
                 </div>
                 <div className="flex items-center justify-center">
-                        <Button onClick={() => setShowStart(true)} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                            Select Character
-                        </Button>
-                    </div>
+                    <Button onClick={() => setShowStart(true)} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                        Pick Your Agent
+                    </Button>
+                </div>
             </div>
 
         </div>

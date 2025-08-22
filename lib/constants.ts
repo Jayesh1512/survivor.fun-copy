@@ -25,8 +25,8 @@ export const scenarios = (characterName: string) => [
 ];
 
 export const DEFAULT_NFT = {
-    name: "Baby Punk",
-    bio: "super unhinged",
+    name: "Bubba the Brave",
+    bio: "Bubba lives for dares, gym selfies, and shouting “watch this” before doing something dumb. He the kind of guy who thinks running headfirst at danger is a personality trait.",
     attributes: {
         compliance: 80,
         creativity: 21,

@@ -22,14 +22,14 @@ const Mobile: React.FC = () => {
                         width={48}
                         height={48}
                     />
-                    <div className="w-[144px] h-[48px] bg-address-display rounded-[12px] text-white">
+                    {/* <div className="w-[144px] h-[48px] bg-address-display rounded-[12px] text-white">
                         0x000...0000
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="flex items-center justify-center">
                 <Button onClick={() => router.push('/mint')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                    Connect Wallet
+                    Start Game
                 </Button>
             </div>
         </div>

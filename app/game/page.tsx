@@ -68,7 +68,7 @@ const Game: React.FC = () => {
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center justify-center">
                     <Button onClick={handleStart} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                        Collaborate
+                        Convince Agent
                     </Button>
                 </div>
             </div>

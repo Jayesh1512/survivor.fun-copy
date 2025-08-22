@@ -19,19 +19,18 @@ const Mint: React.FC = () => {
                     <div className="flex items-center justify-center">
                         <div className="flex flex-col align-middle items-center justify-center text-center absolute bottom-40 w-[351px]">
                             <div className="text-white text-wrap bg-red text-center leading-auto font-semibold text-[32px] mx-1">
-                                <span className="block">Mint Your Fate</span>
-                                <span className="block">Will You Survive the</span>
-                                <span className="block">Reaper's Judgment?</span>
+                                <span className="block">Can you protect</span>
+                                <span className="block">your agent from</span>
+                                <span className="block">certain death?</span>
                             </div>
                             <div className="text-white text-[14px] mt-4 mx-6 text-center">
-                                Summon your agent, face twisted scenarios, and outwit death in this high-stakes
-                                game of survival.
+                                Summon your agent, face twisted scenarios together, and outwit death in this high-stakes game of survival.
                             </div>
                         </div>
                     </div>
                     <div className="flex items-center justify-center">
                         <Button onClick={handleMint} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                            Mint Agent
+                            Summon Agent
                         </Button>
                     </div>
                 </div>
