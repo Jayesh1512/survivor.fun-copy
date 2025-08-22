@@ -16,8 +16,8 @@ type NarratorRequest = {
 };
 
 // Handle CORS preflight requests
-export async function OPTIONS() {
-    return handleOptions();
+export async function OPTIONS(req: Request) {
+    return handleOptions(req);
 }
 
 export async function POST(

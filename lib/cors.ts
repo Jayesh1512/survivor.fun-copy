@@ -2,14 +2,14 @@ import { NextResponse } from "next/server";
 
 /**
  * CORS configuration for API routes
- * Set NEXT_PUBLIC_URL in your environment variables for production
+ * Fully open: allow any origin, any headers, common methods.
  */
-const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_URL || '*';
+const ALLOWED_ORIGIN = '*';
 
-const CORS_HEADERS = {
+const CORS_HEADERS: Record<string, string> = {
     'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': '*',
     'Access-Control-Max-Age': '86400',
 };
 
@@ -26,8 +26,15 @@ export function corsHeaders<T>(response: NextResponse<T>): NextResponse<T> {
 /**
  * Handle OPTIONS preflight requests
  */
-export function handleOptions() {
-    return new NextResponse(null, { status: 200, headers: CORS_HEADERS });
+export function handleOptions(request?: Request) {
+    const headers: Record<string, string> = { ...CORS_HEADERS };
+    if (request) {
+        const requestedHeaders = request.headers.get('Access-Control-Request-Headers');
+        const requestedMethod = request.headers.get('Access-Control-Request-Method');
+        if (requestedHeaders) headers['Access-Control-Allow-Headers'] = requestedHeaders;
+        if (requestedMethod) headers['Access-Control-Allow-Methods'] = requestedMethod;
+    }
+    return new NextResponse(null, { status: 204, headers });
 }
 
 /**
