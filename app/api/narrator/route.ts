@@ -5,12 +5,18 @@ import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
 import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 import { NarratorPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
+import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 type NarratorRequest = {
     scenario: string;
     finalDecision: string;
     chatHistory?: unknown[];
 };
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+    return handleOptions();
+}
 
 export async function POST(
     req: Request & { json: () => Promise<NarratorRequest> },
@@ -19,7 +25,7 @@ export async function POST(
         const { scenario, finalDecision, chatHistory = [] } = await req.json();
 
         if (!scenario || !finalDecision) {
-            return NextResponse.json(
+            return createCorsResponse(
                 { error: "Missing required fields: scenario, finalDecision" },
                 { status: 400 },
             );
@@ -46,10 +52,10 @@ export async function POST(
             ],
         });
 
-        return NextResponse.json({ response: text });
+        return createCorsResponse({ response: text });
     } catch (error) {
         console.error("Error processing narration request:", error);
-        return NextResponse.json({ error: "Failed to generate narration" }, { status: 500 });
+        return createCorsResponse({ error: "Failed to generate narration" }, { status: 500 });
     }
 }
 

@@ -5,12 +5,18 @@ import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
 import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 import { AnalyserPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
+import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 type AnalyseRequest = {
     scenario: string;
     agentName: string;
     chatHistory?: unknown[];
 };
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+    return handleOptions();
+}
 
 export async function POST(
     req: Request & { json: () => Promise<AnalyseRequest> },
@@ -19,7 +25,7 @@ export async function POST(
         const { scenario, agentName, chatHistory = [] } = await req.json();
 
         if (!scenario || !agentName) {
-            return NextResponse.json(
+            return createCorsResponse(
                 { error: "Missing required fields: scenario, agentName" },
                 { status: 400 },
             );
@@ -45,10 +51,10 @@ export async function POST(
             ],
         });
 
-        return NextResponse.json({ response: text.trim() });
+        return createCorsResponse({ response: text.trim() });
     } catch (error) {
         console.error("Error processing analyse request:", error);
-        return NextResponse.json({ error: "Failed to analyse conversation" }, { status: 500 });
+        return createCorsResponse({ error: "Failed to analyse conversation" }, { status: 500 });
     }
 }
 

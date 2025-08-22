@@ -5,6 +5,7 @@ import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
 import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 import { ChatPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
+import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 type ChatRequest = {
     scenario: string;
@@ -13,6 +14,11 @@ type ChatRequest = {
     userResponse: string;
 };
 
+// Handle CORS preflight requests
+export async function OPTIONS() {
+    return handleOptions();
+}
+
 export async function POST(
     req: Request & { json: () => Promise<ChatRequest> },
 ): Promise<NextResponse<AgentResponse>> {
@@ -20,7 +26,7 @@ export async function POST(
         const { scenario, nft: nftDetails, chatHistory = [], userResponse } = await req.json();
 
         if (!scenario || !nftDetails || !userResponse) {
-            return NextResponse.json(
+            return createCorsResponse(
                 { error: "Missing required fields: scenario, nft, userResponse" },
                 { status: 400 },
             );
@@ -42,10 +48,10 @@ export async function POST(
         });
 
         const response = sanitizePlainText(text);
-        return NextResponse.json({ response });
+        return createCorsResponse({ response });
     } catch (error) {
         console.error("Error processing chat request:", error);
-        return NextResponse.json({ error: "Failed to process chat message" }, { status: 500 });
+        return createCorsResponse({ error: "Failed to process chat message" }, { status: 500 });
     }
 }
 

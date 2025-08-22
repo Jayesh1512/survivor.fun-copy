@@ -2,8 +2,14 @@ import { AgentRequest, AgentResponse } from "@/types/api";
 import { NextResponse } from "next/server";
 import { createAgent } from "./create-agent";
 import { Message, generateId, generateText } from "ai";
+import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 const messages: Message[] = [];
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+  return handleOptions();
+}
 
 /**
  * Handles incoming POST requests to interact with the AgentKit-powered AI agent.
@@ -43,9 +49,9 @@ export async function POST(
     messages.push({ id: generateId(), role: "assistant", content: text });
 
     // 5️. Return the final response
-    return NextResponse.json({ response: text });
+    return createCorsResponse({ response: text });
   } catch (error) {
     console.error("Error processing request:", error);
-    return NextResponse.json({ error: "Failed to process message" });
+    return createCorsResponse({ error: "Failed to process message" }, { status: 500 });
   }
 }
