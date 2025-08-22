@@ -1,5 +1,5 @@
 export const scenarios = (characterName: string) => [
-    `${characterName} is stranded on a stormy island at night`,
+    `${characterName} is going to eat the suspiciously glowing berry`,
     `${characterName} is a lost in the jungle`,
     `${characterName} is a falling from the sky`,
     `${characterName} is trapped overnight in an IKEA maze`,

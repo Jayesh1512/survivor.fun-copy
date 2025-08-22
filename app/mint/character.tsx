@@ -8,13 +8,9 @@ const Character: React.FC = () => {
 
     const characters = [
         {
-            name: "Baby Rebel",
+            name: "Bubba the Brave",
             image: "/assets/characters/one.svg",
-        },
-        {
-            name: "Baby Punk",
-            image: "/assets/characters/two.svg",
-        },
+        }
     ]
 
     const [currentIndex, setCurrentIndex] = useState(0);

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 const Start: React.FC = () => {
 
     const characterData = {
-        name: "Baby Punk",
+        name: "Bubba the Brave",
         image: "/assets/characters/two.svg",
         stats: {
             compliance: 56,
@@ -15,7 +15,7 @@ const Start: React.FC = () => {
             unhingedness: 88,
             motivationToSurvive: 35
         },
-        bio: "Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil"
+        bio: "Bubba lives for dares, gym selfies, and shouting “watch this” before doing something dumb. He is the kind of guy who thinks running headfirst at danger is a personality trait."
     };
 
     const router = useRouter();
