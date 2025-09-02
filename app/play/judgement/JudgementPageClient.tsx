@@ -138,7 +138,11 @@ export default function JudgementPageClient() {
         if (phase === "story") {
             setPhase("result");
             console.log(narration?.result)
-            console.log("Kill")
+            if(narration?.result === "died") {
+                await killAgent();
+                await new Promise(resolve => setTimeout(resolve, 6000));
+                return;
+            }
             return;
         }
         router.push("/mint");
