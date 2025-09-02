@@ -1,4 +1,4 @@
-function withValidProperties(properties: Record<string, undefined | string | string[]>) {
+function withValidProperties(properties: Record<string, undefined | boolean | string | string[]>) {
     return Object.fromEntries(
         Object.entries(properties).filter(([_, value]) => (Array.isArray(value) ? value.length > 0 : !!value))
     );
@@ -32,7 +32,7 @@ export async function GET() {
             ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
             ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE,
             // use only while testing
-            noindex: process.env.ENVIRONMENT === "production" ? "false" : "true",
+            noindex: process.env.ENVIRONMENT === "production" ? false : true,
         }),
     });
 }
