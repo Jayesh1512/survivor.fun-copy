@@ -4,6 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
+import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
+import { createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { baseSepolia } from 'viem/chains';
 
 type Exchange = Record<string, string>;
 
@@ -12,6 +17,11 @@ type Narration = { story: string; result: "survived" | "died" };
 export default function JudgementPageClient() {
     const search = useSearchParams();
     const router = useRouter();
+
+    const { data: hash, writeContract } = useWriteContract();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+    const { address } = useAccount();
+
 
     const scenario = search.get("scenario") || "";
     const agentName = search.get("agentName") || "Character";
@@ -74,12 +84,50 @@ export default function JudgementPageClient() {
                 result = story.toLowerCase().includes("surviv") ? "survived" : "died";
             }
             setNarration({ story, result });
+            console.log(result)
         } catch (e) {
             console.error(e);
         } finally {
             setLoading(false);
         }
     }, [scenario, decision]);
+
+    const { data: activeAgentId } = useReadContract({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'getUserActiveAgentId',
+        args: address ? [address] : undefined,
+    }) as { data: bigint | undefined };
+
+    const killAgent = async () => {
+        if (!activeAgentId) {
+            console.error('No active agent id');
+            return;
+        }
+        const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as `0x${string}` | undefined;
+        if (!privateKey) {
+            console.error('Missing NEXT_PUBLIC_PRIVATE_KEY');
+            return;
+        }
+        const account = privateKeyToAccount(privateKey);
+        const walletClient = createWalletClient({
+            account,
+            chain: baseSepolia,
+            transport: http(),
+        });
+        try {
+            const hash = await walletClient.writeContract({
+                address: CONTRACT_ADDRESS,
+                abi: CONTRACT_ABI,
+                functionName: 'killAgent',
+                args: [activeAgentId],
+            });
+            console.log('Transaction sent with hash:', hash);
+            return hash;
+        } catch (error) {
+            console.error('Failed to send transaction:', error);
+        }
+    };
 
     const onContinue = useCallback(async () => {
         if (phase === "decision") {
@@ -89,6 +137,8 @@ export default function JudgementPageClient() {
         }
         if (phase === "story") {
             setPhase("result");
+            console.log(narration?.result)
+            console.log("Kill")
             return;
         }
         router.push("/mint");
@@ -153,9 +203,9 @@ export default function JudgementPageClient() {
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="flex flex-col items-center text-center bg-black/20 rounded-2xl p-4 w-[300px]">
                                 <div className="p-1 mb-3">
-                                    <Image src="/assets/characters/one.webp" alt="Agent" width={288}
+                                    {phase !== "story" && <Image src="/assets/characters/one.webp" alt="Agent" width={288}
                                         height={288}
-                                        className="w-[288px] h-[288px] rounded-[27%]" />
+                                        className="w-[288px] h-[288px] rounded-[27%]" />}
                                 </div>
                                 <div className="whitespace-pre-line leading-relaxed max-h-[330px] overflow-y-auto no-scrollbar mt-4">
                                     {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
