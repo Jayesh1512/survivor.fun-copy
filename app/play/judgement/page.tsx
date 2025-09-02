@@ -3,10 +3,8 @@ import JudgementPageClient from "./JudgementPageClient";
 
 export default function JudgementPage() {
     return (
-        <Suspense fallback={<div />}> 
+        <Suspense fallback={<div />}>
             <JudgementPageClient />
         </Suspense>
     );
 }
-
-

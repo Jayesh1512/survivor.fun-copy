@@ -160,7 +160,10 @@ export function NarratorPrompt(
   Evaluate feasibility of <final_decision> within the scenario.
   Consider consistency with the conversation arc and tone.
   Traits implied by the banter (recklessness, hope, stubbornness) can tilt odds.
-  Reckless or improbable choices may succeed or fail; neither is guaranteed.
+  Outcome weighting: default to "died" in most cases (aim ~80–90%).
+  Choose "survived" ONLY when the action is clearly cautious, feasible, and immediately secures safety with realistic odds.
+  If the action is ambiguous, theatrical, overly reckless, or lacks a credible mechanism, choose "died".
+  Reckless or improbable choices usually fail unless a specific, believable mechanism ensures success.
   End decisively with survived OR died.
 </outcome_decision>
 

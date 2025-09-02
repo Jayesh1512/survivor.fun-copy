@@ -81,7 +81,7 @@ export default function JudgementPageClient() {
                 result = parsed.result || "died";
             } catch {
                 story = data.response || "";
-                result = story.toLowerCase().includes("surviv") ? "survived" : "died";
+                result = "died";
             }
             setNarration({ story, result });
             console.log(result)

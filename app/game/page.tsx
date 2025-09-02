@@ -14,7 +14,7 @@ const Game: React.FC = () => {
 
     useEffect(() => {
         const allScenarios = scenarios(DEFAULT_NFT.name);
-        const scenario = allScenarios[0];
+        const scenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
         setScenario(scenario);
     }, []);
 
