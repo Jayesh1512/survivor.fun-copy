@@ -150,13 +150,16 @@ export default function JudgementPageClient() {
 
                 {phase !== "decision" && narration && (
                     <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat">
-                        <div className="absolute top-24 left-[40%] bg-gray-500 rounded-full border-8 border-[#8029AB]">
-                            <Image src="/assets/characters/one.webp" alt="Sound" width={48} height={48} />
-                        </div>
-
-                        <div className="absolute inset-0 flex items-center justify-center -mt-10">
-                            <div className="rounded-xl  p-4 whitespace-pre-line leading-relaxed w-[227px] h-[330px] overflow-y-auto no-scrollbar">
-                                {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="flex flex-col items-center text-center bg-black/20 rounded-2xl p-4 w-[300px]">
+                                <div className="p-1 mb-3">
+                                    <Image src="/assets/characters/one.webp" alt="Agent" width={288}
+                                        height={288}
+                                        className="w-[288px] h-[288px] rounded-[27%]" />
+                                </div>
+                                <div className="whitespace-pre-line leading-relaxed max-h-[330px] overflow-y-auto no-scrollbar mt-4">
+                                    {phase === "story" ? narration.story : narration.result === "survived" ? `${agentName} survived.` : `${agentName} died.`}
+                                </div>
                             </div>
                         </div>
 

@@ -2,9 +2,16 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useAppKit } from "@reown/appkit/react";
+import { useAccount, useWriteContract, useChainId, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
 
 const Mobile: React.FC = () => {
     const router = useRouter();
+    const { open } = useAppKit();
+    const account = useAccount();
+    const isConnected = account.isConnected;
+    const address = account.address;
+
     return (
         <div className="min-h-screen bg-survivor-pattern bg-cover bg-center bg-no-repeat">
             <Image
@@ -27,11 +34,17 @@ const Mobile: React.FC = () => {
                     </div> */}
                 </div>
             </div>
-            <div className="flex items-center justify-center">
+
+            {isConnected ? <div className="flex items-center justify-center">
                 <Button onClick={() => router.push('/mint')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
                     Start Game
                 </Button>
-            </div>
+            </div> : <div className="flex items-center justify-center">
+                <Button onClick={() => open()} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                    Enter Game
+                </Button>
+            </div>}
+
         </div>
     );
 };

@@ -1,16 +1,67 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Character from './character';
+import Loading from './loading';
 import Start from './start';
+import { useAppKit } from "@reown/appkit/react";
+import { useAccount, useWriteContract, useChainId, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
+import { useReadContract } from 'wagmi';
+import { ethers } from 'ethers'
+import { Randomness } from 'randomness-js'
 
 const Mint: React.FC = () => {
 
     const [step, setStep] = useState(0);
 
-    const handleMint = () => {
-        setStep(1);
+    const { data: hash, writeContract } = useWriteContract();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+    const { address } = useAccount();
+
+    const { data: readData, refetch: refetchReadData } = useReadContract({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'isUserAgentAlive',
+        args: address ? [address] : undefined,
+    }) as { data: bigint | undefined, refetch: () => void };
+
+    const handleMint = async () => {
+        if (readData) {
+            setStep(2);
+        } else {
+            await mintAgent();
+            setStep(1);
+        }
+        // show loader while waiting for confirmation
     };
+
+    const mintAgent = async () => {
+        const callbackGasLimit = 700_000;
+        const jsonProvider = new ethers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`);
+
+        const randomness = Randomness.createBaseSepolia(jsonProvider)
+        console.log("Randomness : ", randomness)
+        const [requestCallBackPrice] = await randomness.calculateRequestPriceNative(BigInt(callbackGasLimit))
+
+        writeContract({
+            address: CONTRACT_ADDRESS,
+            abi: CONTRACT_ABI,
+            functionName: 'summonBubbaAgentWithRandomTraits',
+            args: [callbackGasLimit],
+            value: requestCallBackPrice,
+        });
+    };
+
+    useEffect(() => {
+        if (isConfirmed) {
+            setStep(2); // transaction confirmed → proceed to character screen
+        }
+    }, [isConfirmed]);
+
+    useEffect(() => {
+        console.log('isUserAgentAlive data:', readData);
+    }, [readData]);
 
     return (
         <div>
@@ -35,7 +86,8 @@ const Mint: React.FC = () => {
                     </div>
                 </div>
             </>}
-            {step === 1 && <Character />}
+            {step === 1 && <Loading />}
+            {step === 2 && <Character />}
         </div>
     );
 };

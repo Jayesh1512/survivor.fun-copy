@@ -55,7 +55,7 @@ const Character: React.FC = () => {
 
             <div className='bg-bottom-frame w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>
                 <div
-                    className="flex flex-col bg-character-frame items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
+                    className="flex flex-col bg-character-frame bg-cover bg-center items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
@@ -73,7 +73,7 @@ const Character: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-center">
                     <Button onClick={() => setShowStart(true)} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                        Pick Your Agent
+                        Play Game
                     </Button>
                 </div>
             </div>

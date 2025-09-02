@@ -151,7 +151,7 @@ export default function ChatPageClient() {
     return (
         <div className="bg-[#04022F] min-h-screen flex flex-col">
             {/* Top Bar */}
-            <div className="fixed top-0 left-0 right-0 bg-[#C131F5] px-4 py-3 h-[100px] flex items-center justify-between">
+            <div className="fixed top-0 left-0 right-0 bg-startgame px-4 py-3 h-[100px] flex items-center justify-between">
                 <div className="rounded-lg p-2">
                     <Image
                         src="/assets/sound.webp"
@@ -176,7 +176,7 @@ export default function ChatPageClient() {
 
 
             {/* Scenario Area */}
-            <div className="bg-[#04022F] px-4 py-3 mt-[100px]">
+            <div className="bg-startgame px-4 py-3 mt-[100px]">
                 <div className="text-center text-white text-lg">
                     {scenario}
                 </div>
@@ -186,7 +186,7 @@ export default function ChatPageClient() {
             <div className="h-px bg-white opacity-30"></div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-[#04022F] mt-2">
+            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-startgame mt-2">
                 {display.map((m, idx) => (
                     <div
                         key={idx}
