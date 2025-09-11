@@ -32,5 +32,8 @@ export async function GET() {
             // use only while testing
             // noindex: false,
         }),
+        baseBuilder: {
+            allowedAddresses: [process.env.BASE_BUILDER_ADDRESS]
+        }
     });
 }
