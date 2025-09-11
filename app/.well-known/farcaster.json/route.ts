@@ -19,20 +19,18 @@ export async function GET() {
             description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
             screenshotUrls: [],
             iconUrl: process.env.NEXT_PUBLIC_APP_ICON,
-            imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
             splashImageUrl: process.env.NEXT_PUBLIC_APP_SPLASH_IMAGE,
             splashBackgroundColor: process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR,
             homeUrl: URL,
-            webhookUrl: `${URL}/api/webhook`,
             primaryCategory: process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY,
-            tags: [],
+            tags: ["survivor", "fun", "game", "social", "survivor.fun"],
             heroImageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE,
             tagline: process.env.NEXT_PUBLIC_APP_TAGLINE,
             ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE,
             ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION,
             ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE,
-            // should be false for production
-            noindex: false,
+            // use only while testing
+            // noindex: false,
         }),
     });
 }
