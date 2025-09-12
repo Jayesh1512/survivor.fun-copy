@@ -149,7 +149,7 @@ export default function ChatPageClient() {
     }, [name, scenario]);
 
     return (
-        <div className="bg-[#04022F] min-h-screen flex flex-col">
+        <div className="bg-[#04022F] h-screen flex flex-col overflow-hidden">
             {/* Top Bar */}
             <div className="fixed top-0 left-0 right-0 bg-startgame px-4 py-3 h-[100px] flex items-center justify-between">
                 <div className="rounded-lg p-2">
@@ -229,7 +229,7 @@ export default function ChatPageClient() {
 
             {/* Input Area */}
             <div className="px-4 py-3">
-                <div className="flex items-center gap-3 text-white">
+                <div className="flex items-center gap-3 text-white0">
                     <Input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
@@ -244,10 +244,12 @@ export default function ChatPageClient() {
                     <Button
                         onClick={handleSend}
                         disabled={isLoading || timeUp}
+                        className="p-0 m-0 h-full bg-transparent border-none inline-flex items-center justify-center"
                     >
                         <Image
                             src="/assets/sendMessage.webp"
                             alt="Sound"
+                            className="w-full h-full object-contain"
                             width={48}
                             height={48}
                         />
