@@ -2,6 +2,13 @@ import type { Metadata, Viewport } from "next";
 import { type ReactNode } from 'react';
 import { Providers } from './providers';
 import './globals.css';
+import { Fredoka } from 'next/font/google'
+
+const font = Fredoka(
+{    subsets: ['latin'],
+    weight: ['400','500','600','700']
+  }
+)
 
 /**
  * Metadata for the page
@@ -33,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className={font.className}>
         <Providers>
           {props.children}
         </Providers>
