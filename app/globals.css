@@ -286,6 +286,10 @@
     background-image: url("/assets/button.webp");
   }
 
+  .bg-chat {
+    background-image: url("/assets/chat_bg.png");
+  }
+
   .bg-button-small {
     background-image: url("/assets/button_small.png");
   }

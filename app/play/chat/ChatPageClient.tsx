@@ -1,261 +1,52 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { CHAT_DURATION_MS, DEFAULT_NFT, INITIAL_MESSAGE, scenarios } from "@/lib/constants";
-import Image from 'next/image';
-
-type Exchange = { [characterName: string]: string } | { user: string };
-
-function msToClock(ms: number): string {
-    const total = Math.max(0, Math.floor(ms / 1000));
-    const m = String(Math.floor(total / 60)).padStart(2, "0");
-    const s = String(total % 60).padStart(2, "0");
-    return `${m}:${s}`;
-}
+import { useEffect, useMemo, useRef } from "react";
+import { INITIAL_MESSAGE } from "@/lib/constants";
+import { useChatURL } from '@/lib/hooks/useChatURL';
+import { useChatAPI } from '@/lib/hooks/useChatAPI';
+import { useChatTimer } from '@/lib/hooks/useChatTimer';
+import { msToClock, formatMessages } from '@/lib/utils/chatUtils';
+import TopBar from './components/TopBar';
+import ScenarioArea from './components/ScenarioArea';
+import ChatArea from './components/ChatArea';
+import InputArea from './components/InputArea';
 
 export default function ChatPageClient() {
-    const search = useSearchParams();
-    const router = useRouter();
+    const { name, nft, scenario, goToJudgement } = useChatURL();
+    const { history, isLoading, sendMessage, initializeHistory } = useChatAPI(scenario, nft, name);
+    const { timeLeftMs, timeUp } = useChatTimer();
 
-    const name = search.get("name") || "Character";
-    const description = search.get("description") || DEFAULT_NFT.bio;
-    const nftParam = search.get("nft") || "";
-    const scenarioParam = search.get("scenario") || "";
-    // legacy support param, no longer used
+    const display = useMemo(() => formatMessages(history, name), [history, name]);
 
-    const nft = useMemo(() => {
-        if (nftParam) {
-            try {
-                return JSON.parse(decodeURIComponent(nftParam));
-            } catch { }
-        }
-        return { ...DEFAULT_NFT, name, bio: description };
-    }, [nftParam, name, description]);
-
-    const scenario = useMemo(() => {
-        if (scenarioParam.trim()) return scenarioParam;
-        const all = scenarios(name);
-        return all[Math.floor(Math.random() * all.length)];
-    }, [scenarioParam, name]);
-
-    // Ensure URL has canonical scenario/nft so refreshes keep state
-    useEffect(() => {
-        const needsScenario = !scenarioParam.trim();
-        const needsNft = !nftParam.trim();
-        if (!needsScenario && !needsNft) return;
-        const params = new URLSearchParams(Array.from(search.entries()));
-        if (needsScenario) params.set("scenario", scenario);
-        if (needsNft) params.set("nft", encodeURIComponent(JSON.stringify(nft)));
-        // Avoid pushing a new history entry
-        router.replace(`/play/chat?${params.toString()}`);
-    }, [search, router, scenarioParam, nftParam, scenario, nft]);
-
-    const [history, setHistory] = useState<Exchange[]>([]);
-    const [input, setInput] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [startAt] = useState<number>(Date.now());
-    const [now, setNow] = useState<number>(Date.now());
-    const durationMs = CHAT_DURATION_MS;
-
-    const timeLeftMs = Math.max(0, startAt + durationMs - now);
-    const timeUp = timeLeftMs <= 0;
-
-    // Scroll management
-    const endRef = useRef<HTMLDivElement | null>(null);
-    useEffect(() => {
-        endRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [history]);
-
-    // Timer tick
-    useEffect(() => {
-        const id = setInterval(() => setNow(Date.now()), 250);
-        return () => clearInterval(id);
-    }, []);
-
-    const display = useMemo(() => {
-        const messages: { role: "nft" | "user"; text: string }[] = [];
-        history.forEach((ex) => {
-            if ("user" in ex) messages.push({ role: "user", text: ex.user });
-            else {
-                const text = (ex as any)[name as keyof typeof ex] as string;
-                messages.push({ role: "nft", text });
-            }
-        });
-        return messages;
-    }, [history, name]);
-
-    const handleSend = useCallback(async () => {
-        const trimmed = input.trim();
-        if (!trimmed || isLoading || timeUp) return;
-        setIsLoading(true);
-        setInput("");
-
-        // Build updated history locally to use in the request
-        const updatedHistory: Exchange[] = [...history, { user: trimmed }];
-        setHistory(updatedHistory);
-
-        try {
-            const res = await fetch("/api/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    scenario,
-                    nft: nft,
-                    chatHistory: updatedHistory,
-                    userResponse: trimmed,
-                }),
-            });
-            const data = (await res.json()) as { response?: string; error?: string };
-            const botText = data.response?.trim() || "";
-            setHistory((prev) => [...prev, { [name]: botText } as Exchange]);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsLoading(false);
-            // restore focus to input after send completes
-            try {
-                const el = document.querySelector<HTMLInputElement>('input[data-slot="input"]');
-                el?.focus();
-            } catch { }
-        }
-    }, [input, isLoading, timeUp, scenario, nft, history]);
-
-    const goContinue = useCallback(() => {
-        const params = new URLSearchParams({
-            scenario,
-            agentName: name,
-            history: encodeURIComponent(JSON.stringify(history)),
-        });
-        router.push(`/play/judgement?${params.toString()}`);
-    }, [router, scenario, name, history]);
+    const handleSend = async (message: string) => {
+        await sendMessage(message, history);
+    };
 
     // Auto-redirect to judgement exactly once when timer ends
     const redirectedRef = useRef(false);
     useEffect(() => {
         if (!timeUp || redirectedRef.current) return;
         redirectedRef.current = true;
-        goContinue();
-    }, [timeUp, goContinue]);
+        goToJudgement(history);
+    }, [timeUp, goToJudgement, history]);
 
     // Initialize first message after name/scenario known
     useEffect(() => {
         if (history.length === 0) {
-            setHistory([{ [name]: INITIAL_MESSAGE } as Exchange]);
+            initializeHistory(INITIAL_MESSAGE);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name, scenario]);
+    }, [history.length, initializeHistory]);
 
     return (
-        <div className="bg-[#04022F] h-screen flex flex-col overflow-hidden">
-            {/* Top Bar */}
-            <div className="fixed top-0 left-0 right-0 bg-startgame px-4 py-3 h-[100px] flex items-center justify-between">
-                <div className="rounded-lg p-2">
-                    <Image
-                        src="/assets/sound.webp"
-                        alt="Sound"
-                        width={48}
-                        height={48}
-                    />
-                </div>
-                <div className="text-white text-xl font-bold">
-                    {msToClock(timeLeftMs)} s
-                </div>
-                <div className="rounded-lg p-2">
-                    <Image
-                        src="/assets/home.webp"
-                        alt="Home"
-                        width={48}
-                        height={48}
-                    />
-                </div>
-            </div>
-
-
-
-            {/* Scenario Area */}
-            <div className="bg-startgame px-4 py-3 mt-[100px]">
-                <div className="text-center text-white text-lg">
-                    {scenario}
-                </div>
-            </div>
-
-            {/* Separator Line */}
-            <div className="h-px bg-white opacity-30"></div>
-
-            {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 bg-startgame mt-2">
-                {display.map((m, idx) => (
-                    <div
-                        key={idx}
-                        className={`flex items-start gap-3 ${m.role === "nft" ? "justify-start" : "justify-end"}`}
-                    >
-                        {m.role === "nft" && (
-                            <div className="w-10 h-10 rounded-full bg-purple-400 flex-shrink-0">
-                                <Image
-                                    src="/assets/characters/two.webp"
-                                    alt="Character"
-                                    width={40}
-                                    height={40}
-                                    className="rounded-full"
-                                />
-                            </div>
-                        )}
-
-                        <div className={`max-w-[70%] ${m.role === "nft" ? "order-2" : "order-1"}`}>
-                            <div
-                                className={`px-4 py-3 rounded-2xl ${m.role === "nft"
-                                    ? "bg-gray-700 text-white"
-                                    : "bg-white text-black"
-                                    }`}
-                            >
-                                {m.text}
-                            </div>
-                        </div>
-
-                        {m.role === "user" && (
-                            <div className="w-10 h-10 rounded-full bg-yellow-400 flex-shrink-0 order-2">
-                                <div className="w-full h-full rounded-full bg-yellow-300 flex items-center justify-center text-black font-bold">
-                                    A
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
-                <div ref={endRef} />
-            </div>
-
-            {/* Input Area */}
-            <div className="px-4 py-3">
-                <div className="flex items-center gap-3 text-white0">
-                    <Input
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") handleSend();
-                        }}
-                        placeholder="Type your suggestion..."
-                        className="flex-1 bg-gray-700 text-white border-gray-600 rounded-xl px-4 py-3 h-[54px]"
-                        autoFocus
-                        disabled={timeUp}
-                    />
-                    <Button
-                        onClick={handleSend}
-                        disabled={isLoading || timeUp}
-                        className="p-0 m-0 h-full bg-transparent border-none inline-flex items-center justify-center"
-                    >
-                        <Image
-                            src="/assets/sendMessage.webp"
-                            alt="Sound"
-                            className="w-full h-full object-contain"
-                            width={48}
-                            height={48}
-                        />
-                    </Button>
-                </div>
-            </div>
+        <div className="bg-chat bg-cover bg-center bg-no-repeat h-screen flex flex-col overflow-hidden">
+            <TopBar timeLeft={msToClock(timeLeftMs)} />
+            <ScenarioArea scenario={scenario} />
+            <ChatArea messages={display} />
+            <InputArea 
+                onSend={handleSend}
+                isLoading={isLoading}
+                timeUp={timeUp}
+            />
         </div>
     );
 }
