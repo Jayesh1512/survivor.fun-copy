@@ -40,9 +40,12 @@ const Mobile: React.FC = () => {
                     Start Game
                 </Button>
             </div> : <div className="flex items-center justify-center">
-                <Button onClick={() => open()} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                    Enter Game
-                </Button>
+            <Button
+                onClick={() => open()}
+                className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 flex items-center justify-center text-2xl font-bold">
+                Enter Game
+            </Button>
+
             </div>}
 
         </div>

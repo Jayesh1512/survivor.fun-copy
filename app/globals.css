@@ -286,6 +286,10 @@
     background-image: url("/assets/button.webp");
   }
 
+  .bg-button-small {
+    background-image: url("/assets/button_small.png");
+  }
+
   .bg-address-display {
     display: grid;
     align-items: center;
@@ -332,7 +336,7 @@
   }
 
   .bg-judge-background {
-    background-image: url("/assets/game/judgeBackground.webp");
+    background-image: url("/assets/game/judgement_bg.png");
   }
 
   .bg-strategy-frame {
