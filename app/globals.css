@@ -300,6 +300,14 @@
     background-image: url("/assets/chat_bg.png");
   }
 
+  .bg-tournament-area {
+    background-image: url("/assets/game/tournament_code.svg");
+  }
+
+  .bg-search-bar {
+    background-image: url("/assets/game/search_bar.png");
+  }
+
   .bg-button-small {
     background-image: url("/assets/button_small.png");
   }

@@ -36,7 +36,7 @@ const Mobile: React.FC = () => {
             </div>
 
             {isConnected ? <div className="flex items-center justify-center">
-                <Button onClick={() => router.push('/mint')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
+                <Button onClick={() => router.push('/tournament')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
                     Start Game
                 </Button>
             </div> : <div className="flex items-center justify-center">
