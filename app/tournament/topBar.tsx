@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 export default function TopBar(){
@@ -13,15 +14,16 @@ export default function TopBar(){
           height={48}
         />
       </div>
-
-      <div className="rounded-lg p-2">
-        <Image
-          src="/assets/game/profile.png"
-          alt="Profile"
-          width={48}
-          height={48}
-        />
-      </div>
+      <Link href='/stats'>
+        <div className="rounded-lg p-2">
+          <Image
+            src="/assets/game/profile.png"
+            alt="Profile"
+            width={48}
+            height={48}
+          />
+        </div>
+      </Link>
     </div>
   </>
   );

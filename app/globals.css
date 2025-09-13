@@ -65,6 +65,12 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
+html, body {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
 @layer base {
 
   *,
