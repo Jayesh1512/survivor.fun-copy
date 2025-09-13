@@ -285,6 +285,16 @@
   .bg-button {
     background-image: url("/assets/button.webp");
   }
+  .bg-stats-page {
+    background-image: url("/assets/stats/bg-stats.svg");
+  }
+  .bg-stats {
+    background-image: url("/assets/stats/stats.svg");
+  }
+
+  .bg-mint {
+    background-image: url('/assest/mint/info-bg.png');
+  }
 
   .bg-chat {
     background-image: url("/assets/chat_bg.png");
@@ -317,6 +327,10 @@
 
   .bg-mint-background {
     background-image: url("/assets/mint/background.webp");
+  }
+
+  .bg-mint-info {
+    background-image: url("/assets/mint/info-bg.png");
   }
 
   .bg-character-background {

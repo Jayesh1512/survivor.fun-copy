@@ -16,7 +16,8 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
     <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center">
       
       {/* Character container */}
-      <div className="relative -bottom-4 flex flex-col items-center space-y-3">
+      <div className="relative -bottom-4
+       flex flex-col items-center space-y-3">
         {/* Character Image */}
         <Image
           src="/assets/characters/one.webp"
