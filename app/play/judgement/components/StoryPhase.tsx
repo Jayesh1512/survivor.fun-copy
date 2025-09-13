@@ -11,7 +11,7 @@ interface StoryPhaseProps {
 
 export default function StoryPhase({ narration, agentName, loading, onContinue }: StoryPhaseProps) {
   return (
-    <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat">
+    <div className="text-white bg-judge-background relative overflow-hidden h-screen bg-cover bg-center bg-no-repeat">
       {/* Character image circle at top */}
       <div className="absolute top-16 left-1/2 -translate-x-1/2">
         <Image
@@ -24,7 +24,7 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
       </div>
 
       {/* Ghost bottom-left */}
-      <div className="absolute -bottom-15 left-0">
+      <div className="absolute -bottom-4 left-0">
         <Image
           src="/assets/judgement/judge.svg"
           alt="Judge"
@@ -32,24 +32,6 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
           height={257}
         />
       </div>
-
-      {/* Dialog bubble */}
-      <div className="absolute -bottom-150 left-40 w-[217px] h-[64px] relative">
-        <Image
-            src="/assets/judgement/dailog_bubble.png" 
-            alt="Dialog Bubble"
-            width={217}
-            height={64}
-            className="w-full h-full"
-        />
-        <div className="absolute inset-0 -top-2 flex items-center justify-center px-2">
-            <p className="font-bold text-lg text-white text-center">
-            {`${agentName} ${narration.result}`}
-            </p>
-        </div>
-    </div>
-
-
       {/* Text content*/}
       <div className="absolute bottom-110 left-10 w-[300px] h-[100px] flex flex-col items-center justify-center px-7 text-center space-y-1">
         <p className="text-s leading-relaxed">{narration.story}</p>

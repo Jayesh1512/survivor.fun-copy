@@ -42,7 +42,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
       
 
       {/* RIP / Survived Banner */}
-      <div className="absolute top-54 left-0 w-[390px] h-[50px] bg-white/50 text-white py-2 text-center font-bold text-3xl">
+      <div className="absolute top-54 left-0 w-full h-[50px] bg-white/30 text-white py-2 text-center font-bold text-3xl">
         {isDead ? "💀 RIP" : "Survived"}
       </div>
       <div className='absolute top-44'>
@@ -51,7 +51,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
         </p>
       </div>
       {/* Ghost bottom-left */}
-      <div className="absolute -bottom-15 left-1">
+      <div className="absolute -bottom-4 left-1">
         <Image
           src="/assets/judgement/judge.svg"
           alt="Judge"

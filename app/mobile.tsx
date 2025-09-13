@@ -13,9 +13,9 @@ const Mobile: React.FC = () => {
     const address = account.address;
 
     return (
-        <div className="min-h-screen bg-survivor-pattern bg-cover bg-center bg-no-repeat">
+        <div className="min-h-screen bg-[url('https://i.postimg.cc/wTZQjp8n/background.webp')] bg-cover bg-center bg-no-repeat">
             <Image
-                src="/assets/logo.webp"
+                src="https://i.postimg.cc/pV3Cz7Lz/logo.webp"
                 alt="Survivor.fun Logo"
                 width={322}
                 height={124}

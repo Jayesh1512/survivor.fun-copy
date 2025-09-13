@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [
     "twitter-api-v2"
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
+      },
+    ],
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.resolve = config.resolve || {};
