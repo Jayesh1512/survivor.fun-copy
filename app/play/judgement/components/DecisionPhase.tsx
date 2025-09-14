@@ -9,7 +9,7 @@ interface DecisionPhaseProps {
 
 export default function DecisionPhase({ decision, loading, onContinue }: DecisionPhaseProps) {
   return (
-    <div className="text-white bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
+    <div className="text-white flex justify-center bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
       {/* Sound Button - Top Left */}
       <div className="absolute top-3 left-3">
         <div className="rounded-lg p-0">
@@ -27,14 +27,15 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
           <Image
             src="/assets/game/ghost.webp"
             alt="Ghost"
-            width={250}
-            height={250}
+            width={200}
+            height={200}
+            className=''
           />
         </div>
       </div>
       
-      <div className="flex absolute bottom-30">
-        <div className="relative left-4 w-[358px] h-[314px]">
+      <div className="flex justify-center absolute bottom-30">
+        <div className="flex justify-center left-4 w-full h-[314px]">
           <Image
             src="/assets/game/strategyFrame.webp" 
             alt="Survival Strategy Frame"
