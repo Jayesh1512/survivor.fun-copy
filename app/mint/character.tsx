@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Start from './start';
+import characterBackground from '@/public/assets/mint/characterBg.webp';
+import buttonBg from '@/public/assets/button.webp';
 
 const Character: React.FC = () => {
 
@@ -51,11 +53,20 @@ const Character: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-character-background bg-cover bg-center bg-no-repeat">
+        <div className="relative min-h-screen">
+            <Image
+                src={characterBackground}
+                alt="Character background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
 
-            <div className='bg-bottom-frame w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>
+            <div className='w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>
                 <div
-                    className="flex flex-col bg-character-frame bg-cover bg-center items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
+                    className="flex flex-col bg-center items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
@@ -71,9 +82,10 @@ const Character: React.FC = () => {
                         className="w-[288px] h-[288px] rounded-[27%]"
                     />
                 </div>
-                <div className="flex items-center justify-center">
-                    <Button onClick={() => setShowStart(true)} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                        Play Game
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                    <Button onClick={() => setShowStart(true)} className="relative overflow-hidden w-[358px] h-[74px] items-center justify-center flex">
+                        <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                        <span className="relative z-10">Play Game</span>
                     </Button>
                 </div>
             </div>

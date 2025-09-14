@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import characterBackground from '@/public/assets/mint/characterBg.webp';
 
 const Loading: React.FC = () => {
 
@@ -18,13 +19,22 @@ const Loading: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-character-background bg-cover bg-center bg-no-repeat">
+        <div className="relative min-h-screen">
+            <Image
+                src={characterBackground}
+                alt="Character background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
             <h1 className='pt-20 text-white text-2xl font-bold justify-center items-center flex'>
                 Generating Bubba Agent
             </h1>
-            <div className='bg-bottom-frame w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>
+            <div className='w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>
                 <div
-                    className="flex flex-col bg-character-frame bg-cover bg-center items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
+                    className="flex flex-col bg-center items-center justify-center w-[317px] h-[361.21px] absolute left-1/2 bottom-37 -translate-x-1/2"
                 >
 
                     <Image

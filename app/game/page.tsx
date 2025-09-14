@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DEFAULT_NFT, scenarios } from "@/lib/constants";
 import Image from 'next/image';
+import collabBackground from '@/public/assets/game/collabBackground.webp';
+import buttonBg from '@/public/assets/button.webp';
 
 const Game: React.FC = () => {
 
@@ -41,7 +43,16 @@ const Game: React.FC = () => {
     }, [scenario, router]);
 
     return (
-        <div className="min-h-screen bg-collab-background bg-cover bg-center bg-no-repeat">
+        <div className="relative min-h-screen">
+            <Image
+                src={collabBackground}
+                alt="Background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
             {/* Sound Button - Top Left */}
             <div className="absolute top-3 left-3">
                 <div className="rounded-lg p-0">
@@ -67,8 +78,9 @@ const Game: React.FC = () => {
             {/* Collaborate Button - Bottom */}
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
                 <div className="flex items-center justify-center">
-                    <Button onClick={handleStart} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                        Convince Agent
+                    <Button onClick={handleStart} className="relative overflow-hidden w-[358px] h-[74px] items-center justify-center flex">
+                        <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                        <span className="relative z-10">Convince Agent</span>
                     </Button>
                 </div>
             </div>

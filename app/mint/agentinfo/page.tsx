@@ -1,10 +1,19 @@
 import TopBar from './topBar';
 import Image from 'next/image';
 import AgentStats from './AgentStats';
+import mintInfoBg from '@/public/assets/mint/info-bg.png';
 
 export default function AgentInfoPage() {
   return (
-    <div className="min-h-screen w-[390px] h-[844px] bg-mint-info bg-cover bg-center bg-no-repeat flex flex-col">
+    <div className="relative min-h-screen w-[390px] h-[844px] flex flex-col">
+      <Image
+        src={mintInfoBg}
+        alt="Background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
       <TopBar />
       <div className="flex-1 flex items-end justify-center p-2 pb-0">
         <Image
