@@ -18,8 +18,6 @@ export const useChatTimer = () => {
       setStartAt(Number(localStorage.getItem('startTime')));
     }
   },[])
-
-  // Clear storage when timer expires (so next session starts fresh)
   useEffect(() => {
     if (timeUp) {
       localStorage.removeItem("chatStartAt");
