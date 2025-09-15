@@ -50,7 +50,16 @@ export default function ChatPageClient() {
                 sizes="100vw"
                 className="object-cover -z-10"
             />
-            <TopBar timeLeft={msToClock(timeLeftMs)} />
+            <TopBar
+                timeLeft={msToClock(timeLeftMs)}
+                onForceEnd={() => {
+                    if (!redirectedRef.current) {
+                    redirectedRef.current = true;
+                    goToJudgement(history);
+                    }
+                }}
+            />
+
             <ScenarioArea scenario={scenario} />
             <ChatArea messages={display} />
             <InputArea
