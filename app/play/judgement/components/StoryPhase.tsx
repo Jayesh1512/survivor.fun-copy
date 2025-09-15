@@ -24,7 +24,7 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
         className="object-cover -z-10"
       />
       {/* Character image circle at top */}
-      <div className="absolute top-16 left-1/2 -translate-x-1/2">
+      <div className="absolute flex flex-col justify-center items-center top-16 left-1/2 -translate-x-1/2">
         <Image
           src="/assets/characters/one.webp"
           alt="Agent"
@@ -32,6 +32,9 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
           height={70}
           className="w-[70px] h-[70px] rounded-full border-4 bg-gradient-to-r from-purple-500 via-purple-400 to-purple-600 border-purple-900 shadow-lg"
         />
+        <div className="w-[300px] mt-24 h-[100px] flex flex-col items-center justify-center px-7 text-center space-y-1">
+          <p className="text-sm leading-relaxed">{narration.story}</p>
+        </div>
       </div>
 
       {/* Ghost bottom-left */}
@@ -44,9 +47,7 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
         />
       </div>
       {/* Text content*/}
-      <div className="absolute bottom-110 left-10 w-[300px] h-[100px] flex flex-col items-center justify-center px-7 text-center space-y-1">
-        <p className="text-s leading-relaxed">{narration.story}</p>
-      </div>
+
 
       {/* Button bottom-right */}
       <div className="absolute bottom-10 right-6">
