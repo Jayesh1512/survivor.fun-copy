@@ -11,7 +11,16 @@ interface DecisionPhaseProps {
 
 export default function DecisionPhase({ decision, loading, onContinue }: DecisionPhaseProps) {
   return (
-    <div className="text-white bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
+    <div className="text-white relative h-screen">
+      <Image
+        src={collabBackground}
+        alt="Background"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
       {/* Sound Button - Top Left */}
       <div className="absolute top-3 left-3">
         <div className="rounded-lg p-0">
@@ -29,13 +38,12 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
           <Image
             src="/assets/game/ghost.webp"
             alt="Ghost"
-            width={200}
-            height={200}
-            className=''
+            width={250}
+            height={250}
           />
         </div>
       </div>
-      
+
       <div className="flex absolute bottom-30">
         <div className="relative left-4 w-[358px] h-[314px]">
           <Image

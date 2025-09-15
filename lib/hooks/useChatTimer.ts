@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { CHAT_DURATION_MS } from '@/lib/constants';
-import { start } from 'node:repl';
 
 export const useChatTimer = () => {
   const [startAt,setStartAt] = useState<number>(Date.now());
@@ -13,14 +12,14 @@ export const useChatTimer = () => {
     const saved = localStorage.getItem('startTime');
     if(!saved){
       setStartAt(Date.now());
-      localStorage.setItem('startTime',String(startAt));
+      localStorage.setItem('startTime', String(startAt));
     }else{
       setStartAt(Number(localStorage.getItem('startTime')));
     }
   },[])
   useEffect(() => {
     if (timeUp) {
-      localStorage.removeItem("chatStartAt");
+      localStorage.removeItem("startTime");
     }
   }, [timeUp]);
   
