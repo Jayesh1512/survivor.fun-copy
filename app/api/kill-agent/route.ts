@@ -28,7 +28,7 @@ export async function POST(
             );
         }
 
-        const privateKey = process.env.SPONSOR_WALLET_PRIVATE_KEY as `0x${string}` | undefined;
+        const privateKey = process.env.SPONSOR_WALLET_PRIVATE_KEY;
         if (!privateKey) {
             console.error("Missing SPONSOR_WALLET_PRIVATE_KEY");
             return createCorsResponse(
@@ -37,7 +37,15 @@ export async function POST(
             );
         }
 
-        const account = privateKeyToAccount(privateKey);
+        if (!/^0x[0-9a-fA-F]{64}$/.test(privateKey)) {
+            console.error("Invalid SPONSOR_WALLET_PRIVATE_KEY. Must be 0x-prefixed 32-byte hex.");
+            return createCorsResponse(
+                { error: "Invalid SPONSOR_WALLET_PRIVATE_KEY format. Use 0x-prefixed 64-hex." },
+                { status: 500 },
+            );
+        }
+
+        const account = privateKeyToAccount(privateKey as `0x${string}`);
         const walletClient = createWalletClient({
             account,
             chain: baseSepolia,
