@@ -1,8 +1,5 @@
 import { useAccount, useReadContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
-import { createWalletClient, http } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
-import { baseSepolia } from 'viem/chains';
 
 export const useBlockchain = () => {
   const { address } = useAccount();
@@ -19,26 +16,19 @@ export const useBlockchain = () => {
       console.error('No active agent id');
       return;
     }
-    const privateKey = process.env.SPONSOR_WALLET_PRIVATE_KEY as `0x${string}` | undefined;
-    if (!privateKey) {
-      console.error('Missing SPONSOR_WALLET_PRIVATE_KEY');
-      return;
-    }
-    const account = privateKeyToAccount(privateKey);
-    const walletClient = createWalletClient({
-      account,
-      chain: baseSepolia,
-      transport: http(),
-    });
     try {
-      const hash = await walletClient.writeContract({
-        address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
-        functionName: 'killAgent',
-        args: [activeAgentId],
+      const res = await fetch('/api/kill-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agentId: activeAgentId.toString() }),
       });
-      console.log('Transaction sent with hash:', hash);
-      return hash;
+      const data = await res.json();
+      if (!res.ok) {
+        console.error('Failed to send transaction:', data?.error || res.statusText);
+        return;
+      }
+      console.log('Transaction sent with hash:', data.hash);
+      return data.hash as `0x${string}`;
     } catch (error) {
       console.error('Failed to send transaction:', error);
     }
