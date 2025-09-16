@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import collabBackground from '@/public/assets/game/collabBackground.webp';
+import buttonBg from '@/public/assets/button.webp';
 import { Button } from '@/components/ui/button';
 
 interface DecisionPhaseProps {
@@ -9,7 +11,16 @@ interface DecisionPhaseProps {
 
 export default function DecisionPhase({ decision, loading, onContinue }: DecisionPhaseProps) {
   return (
-    <div className="text-white flex justify-center bg-collab-background relative h-screen bg-cover bg-center bg-no-repeat">
+    <div className="text-white relative h-screen">
+      <Image
+        src={collabBackground}
+        alt="Background"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
       {/* Sound Button - Top Left */}
       <div className="absolute top-3 left-3">
         <div className="rounded-lg p-0">
@@ -21,23 +32,22 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
           />
         </div>
       </div>
-      
+
       <div className="absolute top-20 right-0 z-20">
         <div className="p-0">
           <Image
             src="/assets/game/ghost.webp"
             alt="Ghost"
-            width={200}
-            height={200}
-            className=''
+            width={250}
+            height={250}
           />
         </div>
       </div>
-      
-      <div className="flex justify-center absolute bottom-30">
-        <div className="flex justify-center left-4 w-full h-[314px]">
+
+      <div className="flex absolute bottom-30">
+        <div className="relative left-4 w-[358px] h-[314px]">
           <Image
-            src="/assets/game/strategyFrame.webp" 
+            src="/assets/game/strategyFrame.webp"
             alt="Survival Strategy Frame"
             width={358}
             height={314}
@@ -56,13 +66,14 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
       </div>
 
       {/* Continue button */}
-      <div className="flex items-center justify-center">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
         <Button
           onClick={onContinue}
           disabled={loading}
-          className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute text-[24px] font-bold bottom-10 flex items-center justify-center"
+          className="relative overflow-hidden w-[358px] h-[74px] text-[24px] font-bold flex items-center justify-center"
         >
-          Continue
+          <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+          <span className="relative z-10">Continue</span>
         </Button>
       </div>
     </div>

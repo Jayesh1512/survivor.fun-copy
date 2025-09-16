@@ -1,9 +1,19 @@
 import TopBar from './topBar';
 import TournamentArea from './tournamentArea';
+import Image from 'next/image';
+import statsBackground from '@/public/assets/stats/bg-stats.svg';
 
 export default function TournamentPage() {
   return (
-    <div className="min-h-screen bg-stats-page bg-cover bg-center bg-no-repeat bg-fixed">
+    <div className="relative min-h-screen">
+      <Image
+        src={statsBackground}
+        alt="Background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
       <TopBar />
       <div className="pt-[100px] pb-4 px-4">
         <TournamentArea />

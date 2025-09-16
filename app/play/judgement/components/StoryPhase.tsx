@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import judgeBackground from '@/public/assets/game/judgement_bg.png';
+import buttonSmallBg from '@/public/assets/button_small.png';
 import { Button } from '@/components/ui/button';
 import { Narration } from '@/types/judgement';
 
@@ -11,7 +13,16 @@ interface StoryPhaseProps {
 
 export default function StoryPhase({ narration, agentName, loading, onContinue }: StoryPhaseProps) {
   return (
-    <div className="text-white bg-judge-background relative overflow-hidden h-screen bg-cover bg-center bg-no-repeat">
+    <div className="text-white relative overflow-hidden h-screen">
+      <Image
+        src={judgeBackground}
+        alt="Background"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
       {/* Character image circle at top */}
       <div className="absolute flex flex-col justify-center items-center top-16 left-1/2 -translate-x-1/2">
         <Image
@@ -43,9 +54,10 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
         <Button
           onClick={onContinue}
           disabled={loading}
-          className="bg-button-small bg-cover bg-center bg-no-repeat w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
+          className="relative overflow-hidden w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
         >
-          Reveal Fate
+          <Image src={buttonSmallBg} alt="" aria-hidden fill sizes="129px" className="object-cover z-0 pointer-events-none" />
+          <span className="relative z-10">Reveal Fate</span>
         </Button>
       </div>
     </div>

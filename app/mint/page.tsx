@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import Character from './character';
 import Loading from './loading';
 import Start from './start';
+import Image from 'next/image';
+import mintBackground from '@/public/assets/mint/background.webp';
+import buttonBg from '@/public/assets/button.webp';
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useWriteContract, useChainId, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
@@ -66,7 +69,16 @@ const Mint: React.FC = () => {
     return (
         <div>
             {step == 0 && <>
-                <div className="min-h-screen bg-mint-background bg-cover bg-center bg-no-repeat justify-center">
+                <div className="relative min-h-screen justify-center">
+                    <Image
+                        src={mintBackground}
+                        alt="Mint background"
+                        fill
+                        priority
+                        placeholder="blur"
+                        sizes="100vw"
+                        className="object-cover -z-10"
+                    />
                     <div className="flex items-center justify-center">
                         <div className="flex flex-col align-middle items-center justify-center text-center absolute bottom-40 w-[351px]">
                             <div className="text-white text-wrap bg-red text-center leading-auto font-semibold text-[32px] mx-1">
@@ -79,9 +91,10 @@ const Mint: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center">
-                        <Button onClick={handleMint} className="bg-button bg-cover bg-center bg-no-repeat text-[24px] w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                            Summon Agent
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                        <Button onClick={handleMint} className="relative overflow-hidden text-[24px] w-[358px] h-[74px] items-center justify-center flex">
+                            <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                            <span className="relative z-10">Summon Agent</span>
                         </Button>
                     </div>
                 </div>

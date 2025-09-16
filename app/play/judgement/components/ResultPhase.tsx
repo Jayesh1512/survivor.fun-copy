@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import judgeBackground from '@/public/assets/game/judgement_bg.png';
+import buttonSmallBg from '@/public/assets/button_small.png';
 import { Button } from '@/components/ui/button';
 import { Narration } from '@/types/judgement';
 
@@ -13,8 +15,17 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
   const isDead = narration.result === "died";
 
   return (
-    <div className="text-white bg-judge-background relative h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center">
-      
+    <div className="text-white relative h-screen flex flex-col items-center justify-center">
+      <Image
+        src={judgeBackground}
+        alt="Background"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
+
       {/* Character container */}
       <div className="relative -bottom-4
        flex flex-col items-center space-y-3">
@@ -27,7 +38,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
           className={` ${isDead ? "grayscale" : ""}`}
         />
 
-        
+
         {isDead && (
           <Image
             src="/assets/game/fire.svg"
@@ -37,9 +48,9 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
             className="absolute -bottom-0 left-40 -translate-x-1/2"
           />
         )}
-        
+
       </div>
-      
+
 
       {/* RIP / Survived Banner */}
       <div className="absolute top-54 left-0 w-full h-[50px] bg-white/30 text-white py-2 text-center font-bold text-3xl">
@@ -65,9 +76,10 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
         <Button
           onClick={onContinue}
           disabled={loading}
-          className="bg-button-small bg-cover bg-center bg-no-repeat w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
+          className="relative overflow-hidden w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
         >
-          Play Again
+          <Image src={buttonSmallBg} alt="" aria-hidden fill sizes="129px" className="object-cover z-0 pointer-events-none" />
+          <span className="relative z-10">Play Again</span>
         </Button>
       </div>
     </div>

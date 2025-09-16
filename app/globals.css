@@ -65,7 +65,8 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   display: block;
@@ -284,39 +285,7 @@ html, body {
 }
 
 @layer utilities {
-  .bg-survivor-pattern {
-    background-image: url("/assets/background.webp");
-  }
-
-  .bg-button {
-    background-image: url("/assets/button.webp");
-  }
-  .bg-stats-page {
-    background-image: url("/assets/stats/bg-stats.svg");
-  }
-  .bg-stats {
-    background-image: url("/assets/stats/stats.svg");
-  }
-
-  .bg-mint {
-    background-image: url('/assest/mint/info-bg.png');
-  }
-
-  .bg-chat {
-    background-image: url("/assets/chat_bg.png");
-  }
-
-  .bg-tournament-area {
-    background-image: url("/assets/game/tournament_code.svg");
-  }
-
-  .bg-search-bar {
-    background-image: url("/assets/game/search_bar.png");
-  }
-
-  .bg-button-small {
-    background-image: url("/assets/button_small.png");
-  }
+  /* Removed unused .bg-* utilities now that pages use Next/Image */
 
   .bg-address-display {
     display: grid;
@@ -339,41 +308,7 @@ html, body {
     background-clip: padding-box, border-box;
   }
 
-  .bg-mint-background {
-    background-image: url("/assets/mint/background.webp");
-  }
-
-  .bg-mint-info {
-    background-image: url("/assets/mint/info-bg.png");
-  }
-
-  .bg-character-background {
-    background-image: url("/assets/mint/characterBg.webp");
-  }
-
-  .bg-character-frame {
-    background-image: url("/assets/mint/characterFrame.webp");
-  }
-
-  .bg-bottom-frame {
-    background-image: url("/assets/mint/bottomFrame.webp");
-  }
-
-  .bg-startgame {
-    background-image: url("/assets/game/gameBackground.webp");
-  }
-
-  .bg-collab-background {
-    background-image: url("/assets/game/collabBackground.webp");
-  }
-
-  .bg-judge-background {
-    background-image: url("/assets/game/judgement_bg.png");
-  }
-
-  .bg-strategy-frame {
-    background-image: url("/assets/game/strategyFrame.webp");
-  }
+  /* Removed additional mint/game/judgement background classes */
 
   .no-scrollbar {
     -ms-overflow-style: none;

@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from 'next/image';
+import buttonBg from '@/public/assets/button.webp';
 
 export default function AgentStats() {
   const searchParams = useSearchParams();
@@ -66,9 +67,10 @@ export default function AgentStats() {
       <div className="flex justify-start">
         <button
           onClick={handleStartGame}
-          className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] text-[24px] text-white font-semibold flex items-center justify-center"
+          className="relative overflow-hidden w-[358px] h-[74px] text-[24px] text-white font-semibold flex items-center justify-center"
         >
-          Start Game
+          <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+          <span className="relative z-10">Start Game</span>
         </button>
       </div>
     </div>

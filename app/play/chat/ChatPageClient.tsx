@@ -7,6 +7,8 @@ import { useChatAPI } from '@/lib/hooks/useChatAPI';
 import { useChatTimer } from '@/lib/hooks/useChatTimer';
 import { msToClock, formatMessages } from '@/lib/utils/chatUtils';
 import TopBar from './components/TopBar';
+import Image from 'next/image';
+import chatBg from '@/public/assets/chat_bg.png';
 import ScenarioArea from './components/ScenarioArea';
 import ChatArea from './components/ChatArea';
 import InputArea from './components/InputArea';
@@ -38,11 +40,29 @@ export default function ChatPageClient() {
     }, [history.length, initializeHistory]);
 
     return (
-        <div className="bg-chat bg-cover bg-center bg-no-repeat h-screen flex flex-col overflow-hidden">
-            <TopBar timeLeft={msToClock(timeLeftMs)} />
+        <div className="relative h-screen flex flex-col overflow-hidden">
+            <Image
+                src={chatBg}
+                alt="Chat background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
+            <TopBar
+                timeLeft={msToClock(timeLeftMs)}
+                onForceEnd={() => {
+                    if (!redirectedRef.current) {
+                    redirectedRef.current = true;
+                    goToJudgement(history);
+                    }
+                }}
+            />
+
             <ScenarioArea scenario={scenario} />
             <ChatArea messages={display} />
-            <InputArea 
+            <InputArea
                 onSend={handleSend}
                 isLoading={isLoading}
                 timeUp={timeUp}

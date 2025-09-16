@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useAccount, useReadContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
+import gameBackground from '@/public/assets/game/gameBackground.webp';
+import buttonBg from '@/public/assets/button.webp';
 
 const Start: React.FC = () => {
 
@@ -51,7 +53,16 @@ const Start: React.FC = () => {
     }, [agentDetails]);
 
     return (
-        <div className="min-h-screen bg-startgame  bg-cover bg-center bg-no-repeat">
+        <div className="relative min-h-screen">
+            <Image
+                src={gameBackground}
+                alt="Game background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
 
             <div className="absolute bottom-0">
                 <div className='flex justify-center items-center'>
@@ -111,16 +122,15 @@ const Start: React.FC = () => {
                         </div>
 
                         {/* Start Game Button */}
-                        <div className="flex items-center justify-center">
-                            <Button onClick={() => router.push('/game')} className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                                Enter Scenario
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                            <Button onClick={() => router.push('/game')} className="relative overflow-hidden w-[358px] h-[74px] items-center justify-center flex">
+                                <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                                <span className="relative z-10">Enter Scenario</span>
                             </Button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };

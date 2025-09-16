@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useWriteContract, useChainId, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
+import backgroundImage from '@/public/assets/background.webp';
+import logoImage from '@/public/assets/logo.webp';
+import buttonBg from '@/public/assets/button.webp';
 
 const Mobile: React.FC = () => {
     const router = useRouter();
@@ -13,12 +16,22 @@ const Mobile: React.FC = () => {
     const address = account.address;
 
     return (
-        <div className="min-h-screen bg-[url('https://i.postimg.cc/wTZQjp8n/background.webp')] bg-cover bg-center bg-no-repeat">
+        <div className="relative min-h-screen">
             <Image
-                src="https://i.postimg.cc/pV3Cz7Lz/logo.webp"
+                src={backgroundImage}
+                alt="Background"
+                fill
+                priority
+                placeholder="blur"
+                sizes="100vw"
+                className="object-cover -z-10"
+            />
+            <Image
+                src={logoImage}
                 alt="Survivor.fun Logo"
                 width={322}
                 height={124}
+                priority
                 className="mx-auto pt-10"
             />
             <div className="flex items-center justify-center">
@@ -35,16 +48,18 @@ const Mobile: React.FC = () => {
                 </div>
             </div>
 
-            {isConnected ? <div className="flex items-center justify-center">
-                <Button onClick={() => router.push('/tournament')} className="bg-button text-2xl bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 items-center justify-center flex">
-                    Start Game
+            {isConnected ? <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                <Button onClick={() => router.push('/tournament')} className="relative overflow-hidden text-2xl h-[74px] items-center justify-center flex w-[358px]">
+                    <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                    <span className="relative z-10">Start Game</span>
                 </Button>
-            </div> : <div className="flex items-center justify-center">
-            <Button
-                onClick={() => open()}
-                className="bg-button bg-cover bg-center bg-no-repeat w-[358px] h-[74px] absolute bottom-10 flex items-center justify-center text-2xl font-bold">
-                Enter Game
-            </Button>
+            </div> : <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                <Button
+                    onClick={() => open()}
+                    className="relative overflow-hidden w-[358px] h-[74px] flex items-center justify-center text-2xl font-bold">
+                    <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                    <span className="relative z-10">Enter Game</span>
+                </Button>
 
             </div>}
 
