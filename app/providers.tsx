@@ -8,13 +8,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 
 const queryClient = new QueryClient();
-const projectId = '48d0600b40c62dbdd017ffb85ad8bf90';
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
 
 const metadata = {
-  name: 'Survivor.fun',
-  description: 'survivor.fun',
-  url: 'https://survivor.fun', // origin must match your domain & subdomain
-  icons: ['https://avatars.githubusercontent.com/u/179229932']
+  name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME as string,
+  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION as string,
+  url: process.env.NEXT_PUBLIC_URL as string, // origin must match your domain & subdomain
+  icons: [process.env.NEXT_PUBLIC_APP_ICON as string]
 };
 
 const networks: [AppKitNetwork, ...AppKitNetwork[]] = [baseSepolia];

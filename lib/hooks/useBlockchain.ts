@@ -19,9 +19,9 @@ export const useBlockchain = () => {
       console.error('No active agent id');
       return;
     }
-    const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY as `0x${string}` | undefined;
+    const privateKey = process.env.SPONSOR_WALLET_PRIVATE_KEY as `0x${string}` | undefined;
     if (!privateKey) {
-      console.error('Missing NEXT_PUBLIC_PRIVATE_KEY');
+      console.error('Missing SPONSOR_WALLET_PRIVATE_KEY');
       return;
     }
     const account = privateKeyToAccount(privateKey);

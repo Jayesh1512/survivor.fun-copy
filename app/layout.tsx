@@ -5,8 +5,9 @@ import './globals.css';
 import { Fredoka } from 'next/font/google'
 
 const font = Fredoka(
-{    subsets: ['latin'],
-    weight: ['400','500','600','700']
+  {
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700']
   }
 )
 
