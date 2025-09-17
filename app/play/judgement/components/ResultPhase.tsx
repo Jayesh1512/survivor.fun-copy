@@ -48,7 +48,6 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
             className="absolute -bottom-0 left-40 -translate-x-1/2"
           />
         )}
-
       </div>
 
 
