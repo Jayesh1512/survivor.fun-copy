@@ -12,7 +12,7 @@ export default function TopBar({ timeLeft, onForceEnd }: TopBarProps) {
     <div className="fixed top-0 left-0 right-0 bg-black/30 px-4 py-2 h-[70px] flex items-center justify-between relative">
 
       <div className="text-white text-xl font-bold">
-        Time Left: {timeLeft} s
+        Time: {timeLeft} s
       </div>
 
       <button onClick={onForceEnd} className="relative w-[129px] h-[58px] select-none">

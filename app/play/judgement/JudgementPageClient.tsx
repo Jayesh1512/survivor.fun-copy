@@ -37,7 +37,7 @@ export default function JudgementPageClient() {
     return (
         <>
             {/* Sound Button - Global */}
-            <div className="absolute top-3  left-3 z-50">
+            {/* <div className="absolute top-3  left-3 z-50">
                 <div className="rounded-lg p-0">
                     <Image
                         src="/assets/sound.webp"
@@ -46,7 +46,7 @@ export default function JudgementPageClient() {
                         height={48}
                     />
                 </div>
-            </div>
+            </div> */}
 
             {phase === "decision" && (
                 <DecisionPhase
