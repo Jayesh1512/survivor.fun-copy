@@ -41,3 +41,7 @@ export const DEFAULT_NFT = {
 export const CHAT_DURATION_MS = 2 * 60 * 1000; // 2 minutes
 
 export const INITIAL_MESSAGE = "What'd you think I should do?";
+
+// Survival thresholds for persuasion scoring
+export const SURVIVE_SCORE_THRESHOLD = 80; // Score needed to survive (0-100)
+export const MIN_STEPS_THRESHOLD = 3; // Minimum safety steps needed

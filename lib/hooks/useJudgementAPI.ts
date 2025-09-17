@@ -37,7 +37,7 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
       const res = await fetch("/api/narrator", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenario, finalDecision: decision, chatHistory }),
+        body: JSON.stringify({ scenario, finalDecision: decision, agentName, chatHistory }),
       });
       const data = (await res.json()) as { response?: string };
       let story = "";
@@ -57,7 +57,7 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
     } finally {
       setLoading(false);
     }
-  }, [scenario, decision, chatHistory]);
+  }, [scenario, decision, agentName, chatHistory]);
 
   return {
     decision,
