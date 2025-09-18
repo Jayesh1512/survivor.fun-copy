@@ -10,13 +10,26 @@ import { Button } from '@/components/ui/button';
 
 export default function TournamentArea() {
   const [tournamentCode, setTournamentCode] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
+  const validCodes = ["surviveinkorea", "surviveindelhi"];
+
   const handleJoinTournament = () => {
-    if (tournamentCode.trim()) {
-      console.log('Joining tournament with code:', tournamentCode);
+    const trimmedCode = tournamentCode.trim().toLowerCase();
+    
+    if (!trimmedCode) {
+      setError('Please enter a tournament code');
+      return;
+    }
+    
+    if (validCodes.includes(trimmedCode)) {
+      console.log('Joining tournament with code:', trimmedCode);
+      setError('');
       // Redirect to mint token page
       router.push('/mint');
+    } else {
+      setError('Invalid tournament code');
     }
   };
 
@@ -33,11 +46,20 @@ export default function TournamentArea() {
               <input
                 type="text"
                 value={tournamentCode}
-                onChange={(e) => setTournamentCode(e.target.value)}
+                onChange={(e) => {
+                  setTournamentCode(e.target.value);
+                  setError(''); // Clear error when user types
+                }}
                 placeholder="Enter tournament code"
                 className="w-full bg-transparent text-white placeholder-gray-400 focus:outline-none text-center"
               />
             </div>
+            {/* Error Message */}
+            {error && (
+              <div className="text-red-400 text-sm mt-2 text-center">
+                {error}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -45,8 +67,8 @@ export default function TournamentArea() {
       {/* Join Tournament Button */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
         <Button
-          className="relative overflow-hidden w-[358px] h-[74px] flex items-center justify-center text-white font-semibold text-[24px] hover:scale-105 transition-transform duration-200 active:scale-95"
           onClick={handleJoinTournament}
+          className="relative overflow-hidden w-[358px] h-[74px] flex items-center justify-center text-white font-semibold text-[24px] hover:scale-105 transition-transform duration-200 active:scale-95"
         >
           <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
           <span className="relative z-10">Join Tournament</span>
