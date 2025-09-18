@@ -11,9 +11,9 @@ export const useChatAPI = (scenario: string, nft: NFT, name: string) => {
     setIsLoading(true);
     const trimmed = input.trim();
 
-    // Build updated history locally to use in the request
     const updatedHistory: Exchange[] = [...currentHistory, { user: trimmed }];
     setHistory(updatedHistory);
+    localStorage.setItem('History' , JSON.stringify(updatedHistory))
 
     try {
       const res = await fetch("/api/chat", {
@@ -28,12 +28,17 @@ export const useChatAPI = (scenario: string, nft: NFT, name: string) => {
       });
       const data = (await res.json()) as { response?: string; error?: string };
       const botText = data.response?.trim() || "";
-      setHistory((prev) => [...prev, { [name]: botText } as Exchange]);
+      setHistory((prev) => {
+        const newHistory = [...prev, { [name]: botText } as Exchange];
+        localStorage.setItem("History", JSON.stringify(newHistory));
+        return newHistory;
+      });
+
+
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
-      // restore focus to input after send completes
       try {
         const el = document.querySelector<HTMLInputElement>('input[data-slot="input"]');
         el?.focus();

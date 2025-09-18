@@ -45,6 +45,10 @@ export const useChatURL = () => {
       agentName: name,
       history: encodeURIComponent(JSON.stringify(history)),
     });
+    const saved = localStorage.getItem("History")
+    if(saved){
+      localStorage.removeItem("History")
+    }
     router.push(`/play/judgement?${params.toString()}`);
   }, [router, scenario, name]);
 

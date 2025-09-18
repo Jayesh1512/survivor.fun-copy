@@ -21,6 +21,12 @@ export const useChatTimer = () => {
     if (timeUp) {
       localStorage.removeItem("startTime");
     }
+    if (timeUp){
+      const history = localStorage.getItem('History');
+      if(history){
+        localStorage.removeItem("History")
+      }
+    }
   }, [timeUp]);
   
   // Timer tick

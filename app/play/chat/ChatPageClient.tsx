@@ -1,74 +1,99 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { INITIAL_MESSAGE } from "@/lib/constants";
-import { useChatURL } from '@/lib/hooks/useChatURL';
-import { useChatAPI } from '@/lib/hooks/useChatAPI';
-import { useChatTimer } from '@/lib/hooks/useChatTimer';
-import { msToClock, formatMessages } from '@/lib/utils/chatUtils';
-import TopBar from './components/TopBar';
-import Image from 'next/image';
-import chatBg from '@/public/assets/chat_bg.png';
-import ScenarioArea from './components/ScenarioArea';
-import ChatArea from './components/ChatArea';
-import InputArea from './components/InputArea';
+import { useChatURL } from "@/lib/hooks/useChatURL";
+import { useChatAPI } from "@/lib/hooks/useChatAPI";
+import { useChatTimer } from "@/lib/hooks/useChatTimer";
+import { msToClock, formatMessages } from "@/lib/utils/chatUtils";
+import TopBar from "./components/TopBar";
+import Image from "next/image";
+import chatBg from "@/public/assets/chat_bg.png";
+import ScenarioArea from "./components/ScenarioArea";
+import ChatArea from "./components/ChatArea";
+import InputArea from "./components/InputArea";
+import { Exchange } from "@/types/chat";
 
 export default function ChatPageClient() {
-    const { name, nft, scenario, goToJudgement } = useChatURL();
-    const { history, isLoading, sendMessage, initializeHistory } = useChatAPI(scenario, nft, name);
-    const { timeLeftMs, timeUp } = useChatTimer();
+  const { name, nft, scenario, goToJudgement } = useChatURL();
+  const { history, isLoading, sendMessage, initializeHistory } = useChatAPI(
+    scenario,
+    nft,
+    name
+  );
+  const { timeLeftMs, timeUp } = useChatTimer();
 
-    const display = useMemo(() => formatMessages(history, name), [history, name]);
+  const [display, setDisplay] = useState<{ role: "nft" | "user"; text: string }[]>([]);
 
-    const handleSend = async (message: string) => {
-        await sendMessage(message, history);
-    };
+  // Load past messages from localStorage once
+  useEffect(() => {
+    const past = localStorage.getItem("History");
+    if (past) {
+      try {
+        const parsed: Exchange[] = JSON.parse(past);
+        const formatted = formatMessages(parsed, name);
+        setDisplay(formatted); // initial display only
+      } catch (err) {
+        console.error("Failed to parse past history:", err);
+      }
+    }
+  }, [name]);
 
-    // Auto-redirect to judgement exactly once when timer ends
-    const redirectedRef = useRef(false);
-    useEffect(() => {
-        if (!timeUp || redirectedRef.current) return;
-        redirectedRef.current = true;
-        goToJudgement(history);
-    }, [timeUp, goToJudgement, history]);
+  // Merge live history messages with localStorage messages
+  useEffect(() => {
+    const formatted = formatMessages(history, name);
+    setDisplay((prev) => {
+      // Combine old localStorage messages + live history, avoiding duplicates
+      const existingTexts = new Set(prev.map((m) => m.text));
+      const combined = [...prev];
+      formatted.forEach((m) => {
+        if (!existingTexts.has(m.text)) combined.push(m);
+      });
+      return combined;
+    });
+  }, [history, name]);
 
-    // Initialize first message after name/scenario known
-    useEffect(() => {
-        if (history.length === 0) {
-            initializeHistory(INITIAL_MESSAGE);
-        }
-    }, [history.length, initializeHistory]);
+  const handleSend = async (message: string) => {
+    await sendMessage(message, history);
+  };
 
-    return (
-        <div className="relative h-screen flex flex-col overflow-hidden">
-            <Image
-                src={chatBg}
-                alt="Chat background"
-                fill
-                priority
-                placeholder="blur"
-                sizes="100vw"
-                className="object-cover -z-10"
-            />
-            <TopBar
-                timeLeft={msToClock(timeLeftMs)}
-                onForceEnd={() => {
-                    if (!redirectedRef.current) {
-                    redirectedRef.current = true;
-                    goToJudgement(history);
-                    }
-                }}
-            />
+  const redirectedRef = useRef(false);
+  useEffect(() => {
+    if (!timeUp || redirectedRef.current) return;
+    redirectedRef.current = true;
+    goToJudgement(history);
+  }, [timeUp, goToJudgement, history]);
 
-            <ScenarioArea scenario={scenario} />
-            <ChatArea messages={display} />
-            <InputArea
-                onSend={handleSend}
-                isLoading={isLoading}
-                timeUp={timeUp}
-            />
-        </div>
-    );
+  useEffect(() => {
+    if (history.length === 0) {
+      initializeHistory(INITIAL_MESSAGE);
+    }
+  }, [history.length, initializeHistory]);
+
+  return (
+    <div className="relative h-screen flex flex-col overflow-hidden">
+      <Image
+        src={chatBg}
+        alt="Chat background"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="object-cover -z-10"
+      />
+      <TopBar
+        timeLeft={msToClock(timeLeftMs)}
+        onForceEnd={() => {
+          if (!redirectedRef.current) {
+            redirectedRef.current = true;
+            goToJudgement(history);
+          }
+        }}
+      />
+
+      <ScenarioArea scenario={scenario} />
+      <ChatArea messages={display} /> {/* display now has past + live messages */}
+      <InputArea onSend={handleSend} isLoading={isLoading} timeUp={timeUp} />
+    </div>
+  );
 }
-
-
