@@ -15,7 +15,7 @@ export default function StatsPage() {
         className="object-cover -z-10"
       />
       <TopBar />
-      <StatsArea totalgames={42} />
+      <StatsArea />
     </div>
   );
 }
