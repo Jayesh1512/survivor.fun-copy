@@ -21,7 +21,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
         sizes="100vw"
         className="object-cover -z-10"
       />
-      {/* Sound Button - Top Left */}
+      {/* Sound Button - Top Left
       <div className="absolute top-3 left-3">
         <div className="rounded-lg p-0">
           <Image
@@ -31,7 +31,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
             height={48}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="absolute top-20 right-0 z-20">
         <div className="p-0">

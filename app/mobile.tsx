@@ -36,12 +36,12 @@ const Mobile: React.FC = () => {
             />
             <div className="flex items-center justify-center">
                 <div className="flex flex-row items-center w-[358px] justify-between absolute bottom-34">
-                    <Image
+                    {/* <Image
                         src="/assets/sound.webp"
                         alt="Volume Image"
                         width={48}
                         height={48}
-                    />
+                    /> */}
                     {/* <div className="w-[144px] h-[48px] bg-address-display rounded-[12px] text-white">
                         0x000...0000
                     </div> */}
