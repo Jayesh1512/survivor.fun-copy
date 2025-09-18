@@ -3,6 +3,7 @@ import { type ReactNode } from 'react';
 import { Providers } from './providers';
 import './globals.css';
 import { Fredoka } from 'next/font/google'
+import { Analytics } from "@vercel/analytics/next"
 
 const font = Fredoka(
   {
@@ -44,6 +45,7 @@ export default function RootLayout(props: { children: ReactNode }) {
       <body className={font.className}>
         <Providers>
           {props.children}
+          <Analytics />
         </Providers>
       </body>
     </html>
