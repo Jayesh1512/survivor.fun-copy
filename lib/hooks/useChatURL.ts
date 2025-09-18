@@ -27,6 +27,9 @@ export const useChatURL = () => {
     return all[Math.floor(Math.random() * all.length)];
   }, [scenarioParam, name]);
 
+  // Stable per-agent storage key based on agent name and scenario
+  const agentKey = useMemo(() => `${name}::${scenario}`, [name, scenario]);
+
   // Ensure URL has canonical scenario/nft so refreshes keep state
   useEffect(() => {
     const needsScenario = !scenarioParam.trim();
@@ -45,17 +48,19 @@ export const useChatURL = () => {
       agentName: name,
       history: encodeURIComponent(JSON.stringify(history)),
     });
-    const saved = localStorage.getItem("History")
-    if(saved){
-      localStorage.removeItem("History")
-    }
+    // Clear per-agent history on navigation
+    try {
+      localStorage.removeItem(`History:${agentKey}`);
+      localStorage.removeItem(`startTime:${agentKey}`);
+    } catch { }
     router.push(`/play/judgement?${params.toString()}`);
-  }, [router, scenario, name]);
+  }, [router, scenario, name, agentKey]);
 
   return {
     name,
     nft,
     scenario,
+    agentKey,
     goToJudgement,
   };
 };

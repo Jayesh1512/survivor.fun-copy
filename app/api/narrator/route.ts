@@ -21,7 +21,7 @@ export async function POST(
 ): Promise<NextResponse<AgentResponse>> {
     try {
         const { scenario, finalDecision, agentName, chatHistory = [], persuasion } = await req.json();
-        const isDev = process.env.NODE_ENV !== "production";
+        const isDev = process.env.NEXT_PUBLIC_NODE_ENV !== "production";
         if (!scenario || !finalDecision || !agentName) {
             return NextResponse.json({ error: "Missing required fields: scenario, finalDecision, agentName" }, { status: 400 });
         }

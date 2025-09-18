@@ -15,19 +15,20 @@ import InputArea from "./components/InputArea";
 import { Exchange } from "@/types/chat";
 
 export default function ChatPageClient() {
-  const { name, nft, scenario, goToJudgement } = useChatURL();
-  const { history, isLoading, sendMessage, initializeHistory } = useChatAPI(
+  const { name, nft, scenario, agentKey, goToJudgement } = useChatURL();
+  const { history, isLoading, sendMessage, initializeHistory, ready } = useChatAPI(
     scenario,
     nft,
-    name
+    name,
+    agentKey
   );
-  const { timeLeftMs, timeUp } = useChatTimer();
+  const { timeLeftMs, timeUp } = useChatTimer(agentKey);
 
   const [display, setDisplay] = useState<{ role: "nft" | "user"; text: string }[]>([]);
 
-  // Load past messages from localStorage once
+  // Load past messages from per-agent localStorage once
   useEffect(() => {
-    const past = localStorage.getItem("History");
+    const past = localStorage.getItem(`History:${agentKey}`);
     if (past) {
       try {
         const parsed: Exchange[] = JSON.parse(past);
@@ -37,7 +38,7 @@ export default function ChatPageClient() {
         console.error("Failed to parse past history:", err);
       }
     }
-  }, [name]);
+  }, [name, agentKey]);
 
   // Merge live history messages with localStorage messages
   useEffect(() => {
@@ -65,10 +66,11 @@ export default function ChatPageClient() {
   }, [timeUp, goToJudgement, history]);
 
   useEffect(() => {
+    if (!ready) return;
     if (history.length === 0) {
       initializeHistory(INITIAL_MESSAGE);
     }
-  }, [history.length, initializeHistory]);
+  }, [ready, history.length, initializeHistory]);
 
   return (
     <div className="relative h-screen flex flex-col overflow-hidden">
@@ -83,12 +85,8 @@ export default function ChatPageClient() {
       />
       <TopBar
         timeLeft={msToClock(timeLeftMs)}
-        onForceEnd={() => {
-          if (!redirectedRef.current) {
-            redirectedRef.current = true;
-            goToJudgement(history);
-          }
-        }}
+        scenario={scenario}
+        agentName={name}
       />
 
       <ScenarioArea scenario={scenario} />

@@ -1,11 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from 'next/image';
 import { Exchange } from '@/types/judgement';
 import { useJudgementAPI } from '@/lib/hooks/useJudgementAPI';
-import { useBlockchain } from '@/lib/hooks/useBlockchain';
 import { useJudgementPhase } from '@/lib/hooks/useJudgementPhase';
 import DecisionPhase from './components/DecisionPhase';
 import StoryPhase from './components/StoryPhase';
@@ -14,9 +13,11 @@ import LoadingScreen from './components/LoadingScreen';
 
 export default function JudgementPageClient() {
     const search = useSearchParams();
+    const router = useRouter();
 
     const scenario = search.get("scenario") || "";
     const agentName = search.get("agentName") || "Character";
+    const forced = search.get("forced") || "";
     const historyParam = search.get("history") || "";
     const chatHistory: Exchange[] = useMemo(() => {
         try {
@@ -26,9 +27,21 @@ export default function JudgementPageClient() {
         }
     }, [historyParam]);
 
+    // Forced RIP path: skip analyser and narrator entirely
+    if (forced === "dead") {
+        const forcedNarration = { story: "", result: "died" as const };
+        return (
+            <ResultPhase
+                narration={forcedNarration}
+                agentName={agentName}
+                loading={false}
+                onContinue={() => router.push("/mint")}
+            />
+        );
+    }
+
     const { decision, narration, loading, fetchNarration } = useJudgementAPI(scenario, agentName, chatHistory);
-    const { killAgent } = useBlockchain();
-    const { phase, onContinue } = useJudgementPhase({ fetchNarration, narration, killAgent });
+    const { phase, onContinue } = useJudgementPhase({ fetchNarration, narration });
 
     if (loading) {
         return <LoadingScreen />;

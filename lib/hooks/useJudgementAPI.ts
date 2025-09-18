@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Exchange, Narration, PersuasionReport, AnalyserResult } from '@/types/judgement';
+import { useBlockchain } from '@/lib/hooks/useBlockchain';
 
 export const useJudgementAPI = (scenario: string, agentName: string, chatHistory: Exchange[]) => {
   const [decision, setDecision] = useState<string>("");
   const [narration, setNarration] = useState<Narration | null>(null);
   const [persuasion, setPersuasion] = useState<PersuasionReport | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { activeAgentId } = useBlockchain();
 
   // Get decision once per unique param set (avoid double calls in Strict Mode)
   const requestKeyRef = useRef<string | null>(null);
@@ -20,11 +22,11 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
         const res = await fetch("/api/analyser", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ scenario, agentName, chatHistory }),
+          body: JSON.stringify({ scenario, agentName, chatHistory, agentId: activeAgentId ? activeAgentId.toString() : undefined }),
         });
         const data = (await res.json()) as { response?: string };
         try {
-          const parsed = JSON.parse(data.response || "{}") as AnalyserResult;
+          const parsed = JSON.parse(data.response || "{}") as (AnalyserResult & { expectedOutcome?: "survived" | "died"; txHash?: string });
           setDecision((parsed.decision || "").trim());
           setPersuasion(parsed.persuasion || null);
         } catch {
@@ -37,7 +39,7 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
         setLoading(false);
       }
     })();
-  }, [scenario, agentName, chatHistory]);
+  }, [scenario, agentName, chatHistory, activeAgentId]);
 
   const fetchNarration = useCallback(async () => {
     setLoading(true);

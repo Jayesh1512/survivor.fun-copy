@@ -1,80 +1,87 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8;
 
-import {RandomnessReceiverBase} from "randomness-solidity/src/RandomnessReceiverBase.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract SurvivorDotFun is RandomnessReceiverBase {
+contract SurvivorDotFunS1 is Ownable {
+
+    // Tournament Stats
+    uint256 public agentCount;
+    uint256 public totalGraves;
+    uint256 public totalSurvivalCount;
 
     // The struct `Bubba` holds the attributes for an agent.
     struct Bubba {
         address owner;
-        uint256 compliance;
-        uint256 creativity;
-        uint256 unhingedness;
-        uint256 motivation;
+        uint32 tournamentId;
+        uint8 compliance;
+        uint8 creativity;
+        uint8 unhingedness;
+        uint8 motivation;
         bool isAlive;
+    }
+
+    // User stats per tournament
+    struct UserTournamentStats {
+        uint256 totalMints;
+        uint256 totalKills;
+        uint256 totalSurvivals;
+        uint256[] bubbaIds;
     }
 
     // Mapping from agent ID to the agent's struct
     mapping(uint256 => Bubba) public agents;
     // Mapping from user address to their current active agent ID
     mapping(address => uint256) public userActiveAgentId;
+    // Mapping from user address to their tournament stats
+    mapping(address => UserTournamentStats) public userStats;
 
-    constructor(address randomnessSender, address owner) RandomnessReceiverBase(randomnessSender, owner) {}
+    constructor(address owner) Ownable(owner){}
 
-    /**
-     * @notice Summons a new Bubba agent with random traits.
-     * @param callbackGasLimit The gas limit for the randomness callback.
-     * @return The request ID and the price paid for the randomness.
-     */
-    function summonBubbaAgentWithRandomTraits(uint32 callbackGasLimit) external payable returns (uint256, uint256) {
-        uint256 currentAgentId = userActiveAgentId[msg.sender];
+    function summonBubbaAgentWithRandomTraits(address userAddress) external {
+        uint256 currentAgentId = userActiveAgentId[userAddress];
         require(!agents[currentAgentId].isAlive, "User agent is already alive.");
 
-        (uint256 requestID, uint256 requestPrice) = _requestRandomnessPayInNative(callbackGasLimit);
-
+        agentCount = agentCount + 1;
         // Initialize agent with request ID as the unique ID
-        agents[requestID].owner = msg.sender;
-        agents[requestID].isAlive = true;
-        userActiveAgentId[msg.sender] = requestID;
-        
-        return (requestID, requestPrice);
-    }
+        agents[agentCount].owner = userAddress;
+        agents[agentCount].isAlive = true;
+        userActiveAgentId[userAddress] = agentCount;
 
-    /**
-     * @notice This function is called by the Randomness Sender service with the requested randomness.
-     * @param requestID The ID of the randomness request.
-     * @param _randomness The random value.
-     */
-    function onRandomnessReceived(uint256 requestID, bytes32 _randomness) internal override {
+        uint256 randomness = uint256(block.timestamp);
 
-        uint256 randomness = uint256(_randomness);
-
-        agents[requestID].compliance = randomness % 100;
+        agents[agentCount].compliance = uint8(randomness % 100);
         randomness /= 100;
 
-        agents[requestID].creativity = randomness % 100;
+        agents[agentCount].creativity = uint8(randomness % 100);
         randomness /= 100;
 
-        agents[requestID].unhingedness = randomness % 100;
+        agents[agentCount].unhingedness = uint8(randomness % 100);
         randomness /= 100;
 
-        agents[requestID].motivation = randomness % 100;
+        agents[agentCount].motivation = uint8(randomness % 100);
+
+        userStats[userAddress].totalMints++;
+        userStats[userAddress].bubbaIds.push(agentCount);
     }
 
     function killAgent(uint256 agentId) external onlyOwner {
         require(agents[agentId].isAlive, "Agent is not alive.");
-        
+        address agentOwner = agents[agentId].owner;
+        userStats[agentOwner].totalKills++;
         agents[agentId].isAlive = false;
+        totalGraves++;
+    }
+
+    function surviveAgent(uint256 agentId) external onlyOwner {
+        require(agents[agentId].isAlive, "Agent is not alive.");
+        address agentOwner = agents[agentId].owner;
+        userStats[agentOwner].totalSurvivals++;
+        totalSurvivalCount++;
     }
 
     // --- Getter Functions ---
 
-    /**
-     * @notice Gets the details of an agent by their ID.
-     * @param agentId The ID of the agent.
-     * @return The agent's owner, traits, and status.
-     */
     function getAgentDetails(uint256 agentId) external view returns (address, uint256, uint256, uint256, uint256, bool) {
         Bubba memory agent = agents[agentId];
         return (
@@ -87,11 +94,30 @@ contract SurvivorDotFun is RandomnessReceiverBase {
         );
     }
 
-    /**
-     * @notice Gets the current active agent ID for a user.
-     * @param userAddress The address of the user.
-     * @return The ID of the user's active agent.
-     */
+    function getUserStats(address userAddress) external view returns (
+        uint256 totalMints,
+        uint256 totalKills,
+        uint256 totalSurvivals,
+        uint256[] memory agentIds
+    ) {
+        UserTournamentStats memory stats = userStats[userAddress];
+        return (
+            stats.totalMints,
+            stats.totalKills,
+            stats.totalSurvivals,
+            stats.bubbaIds
+        );
+    }
+
+    function getTournamentStats() external view returns (uint256 totalMints, uint256 totalGraveCount, uint256 totalSurvivedGames, uint256 totalGames) {
+        return (
+            agentCount,
+            totalGraves,
+            totalSurvivalCount,
+            totalGraves + totalSurvivalCount
+        );
+    }
+
     function getUserActiveAgentId(address userAddress) external view returns (uint256) {
         return userActiveAgentId[userAddress];
     }

@@ -1,28 +1,9 @@
 // Base Sepolia.
-export const CONTRACT_ADDRESS = "0x3d6AcB91CE867d20D948BF3dAdc5ee198B7b66e2"
+export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NODE_ENV === "production" ? "0xE44698648Be31fB23Fa1bb0075dE768fc566401D" : "0x7cb954F1abCc246e320a53353Ec439f0f8c483c2"
 
 export const CONTRACT_ABI = [
 	{
-		"inputs": [],
-		"name": "acceptOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "createSubscriptionAndFundNative",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "randomnessSender",
-				"type": "address"
-			},
 			{
 				"internalType": "address",
 				"name": "owner",
@@ -33,49 +14,26 @@ export const CONTRACT_ABI = [
 		"type": "constructor"
 	},
 	{
-		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
 				"internalType": "address",
-				"name": "sender",
+				"name": "owner",
 				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
 			}
 		],
-		"name": "Funded",
-		"type": "event"
+		"name": "OwnableInvalidOwner",
+		"type": "error"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "agentId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
 			}
 		],
-		"name": "killAgent",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "subscriptionId",
-				"type": "uint256"
-			}
-		],
-		"name": "NewSubscriptionId",
-		"type": "event"
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
 	},
 	{
 		"anonymous": false,
@@ -83,32 +41,13 @@ export const CONTRACT_ABI = [
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "from",
+				"name": "previousOwner",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferRequested",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
+				"name": "newOwner",
 				"type": "address"
 			}
 		],
@@ -116,143 +55,17 @@ export const CONTRACT_ABI = [
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "Received",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "requestID",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "randomness",
-				"type": "bytes32"
-			}
-		],
-		"name": "receiveRandomness",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_randomnessSender",
-				"type": "address"
-			}
-		],
-		"name": "setRandomnessSender",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "subId",
-				"type": "uint256"
-			}
-		],
-		"name": "setSubId",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint32",
-				"name": "callbackGasLimit",
-				"type": "uint32"
-			}
-		],
-		"name": "summonBubbaAgentWithRandomTraits",
+		"inputs": [],
+		"name": "agentCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
-		"stateMutability": "payable",
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "topUpSubscriptionNative",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address[]",
-				"name": "consumers",
-				"type": "address[]"
-			}
-		],
-		"name": "updateSubscription",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Withdrawn",
-		"type": "event"
 	},
 	{
 		"inputs": [
@@ -270,24 +83,29 @@ export const CONTRACT_ABI = [
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint32",
+				"name": "tournamentId",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint8",
 				"name": "compliance",
-				"type": "uint256"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "creativity",
-				"type": "uint256"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "unhingedness",
-				"type": "uint256"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "motivation",
-				"type": "uint256"
+				"type": "uint8"
 			},
 			{
 				"internalType": "bool",
@@ -344,11 +162,26 @@ export const CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getBalance",
+		"name": "getTournamentStats",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "totalMints",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalGraveCount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalSurvivedGames",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalGames",
 				"type": "uint256"
 			}
 		],
@@ -377,17 +210,32 @@ export const CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "requestId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
 			}
 		],
-		"name": "isInFlight",
+		"name": "getUserStats",
 		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
+				"internalType": "uint256",
+				"name": "totalMints",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalKills",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalSurvivals",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "agentIds",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -396,20 +244,14 @@ export const CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "agentId",
+				"type": "uint256"
 			}
 		],
-		"name": "isUserAgentAlive",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
+		"name": "killAgent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -426,19 +268,46 @@ export const CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "summonBubbaAgentWithRandomTraits",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "subId",
+				"name": "agentId",
 				"type": "uint256"
 			}
 		],
-		"name": "pendingRequestExists",
+		"name": "surviveAgent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalGraves",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "uint256",
 				"name": "",
-				"type": "bool"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -446,20 +315,39 @@ export const CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "randomnessSender",
+		"name": "totalSurvivalCount",
 		"outputs": [
 			{
-				"internalType": "contract IRandomnessSender",
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "subscriptionId",
+		"name": "userActiveAgentId",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -478,11 +366,21 @@ export const CONTRACT_ABI = [
 				"type": "address"
 			}
 		],
-		"name": "userActiveAgentId",
+		"name": "userStats",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "totalMints",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalKills",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalSurvivals",
 				"type": "uint256"
 			}
 		],

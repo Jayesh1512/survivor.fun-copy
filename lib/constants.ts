@@ -48,5 +48,4 @@ export const INITIAL_MESSAGE = "What'd you think I should do?";
 export const SURVIVE_SCORE_THRESHOLD = 80; // Score needed to survive (0-100)
 export const MIN_STEPS_THRESHOLD = 3; // Minimum safety steps needed
 
-
-export const defaultChain = process.env.NODE_ENV === 'production' ? base : baseSepolia
+export const defaultChain = process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? base : baseSepolia

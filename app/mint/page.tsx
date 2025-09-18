@@ -7,12 +7,8 @@ import Start from './start';
 import Image from 'next/image';
 import mintBackground from '@/public/assets/mint/background.webp';
 import buttonBg from '@/public/assets/button.webp';
-import { useAppKit } from "@reown/appkit/react";
-import { useAccount, useWriteContract, useChainId, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
-import { useReadContract } from 'wagmi';
-import { ethers } from 'ethers'
-import { Randomness } from 'randomness-js'
 
 const Mint: React.FC = () => {
 
@@ -21,38 +17,38 @@ const Mint: React.FC = () => {
     const { data: hash, writeContract } = useWriteContract();
     const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
     const { address } = useAccount();
-
-    const { data: readData, refetch: refetchReadData } = useReadContract({
+    // Active agent id for this user
+    const { data: activeAgentId } = useReadContract({
         address: CONTRACT_ADDRESS,
         abi: CONTRACT_ABI,
-        functionName: 'isUserAgentAlive',
+        functionName: 'getUserActiveAgentId',
         args: address ? [address] : undefined,
-    }) as { data: bigint | undefined, refetch: () => void };
+    }) as { data: bigint | undefined };
+    // Agent details to check alive flag
+    const { data: agentDetails } = useReadContract({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'getAgentDetails',
+        args: typeof activeAgentId !== 'undefined' ? [activeAgentId] : undefined,
+    }) as { data: readonly [string, bigint, bigint, bigint, bigint, boolean] | undefined };
 
     const handleMint = async () => {
-        if (readData) {
+        const isAlive = agentDetails ? agentDetails[5] : false;
+        if (isAlive) {
             setStep(2);
-        } else {
-            await mintAgent();
-            setStep(1);
+            return;
         }
-        // show loader while waiting for confirmation
+        await mintAgent();
+        setStep(1);
     };
 
     const mintAgent = async () => {
-        const callbackGasLimit = 700_000;
-        const jsonProvider = new ethers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`);
-
-        const randomness = Randomness.createBaseSepolia(jsonProvider)
-        console.log("Randomness : ", randomness)
-        const [requestCallBackPrice] = await randomness.calculateRequestPriceNative(BigInt(callbackGasLimit))
-
+        if (!address) return;
         writeContract({
             address: CONTRACT_ADDRESS,
             abi: CONTRACT_ABI,
             functionName: 'summonBubbaAgentWithRandomTraits',
-            args: [callbackGasLimit],
-            value: requestCallBackPrice,
+            args: [address],
         });
     };
 
@@ -62,9 +58,20 @@ const Mint: React.FC = () => {
         }
     }, [isConfirmed]);
 
+    // no-op debug hook removed
     useEffect(() => {
-        console.log('isUserAgentAlive data:', readData);
-    }, [readData]);
+        try {
+            if (typeof activeAgentId !== 'undefined') {
+                console.log('activeAgentId:', activeAgentId?.toString());
+            }
+            if (agentDetails) {
+                const isAlive = agentDetails[5];
+                console.log('agentDetails:', agentDetails, 'isAlive:', isAlive);
+            }
+        } catch (e) {
+            console.log('agent debug error', e);
+        }
+    }, [activeAgentId, agentDetails]);
 
     return (
         <div>

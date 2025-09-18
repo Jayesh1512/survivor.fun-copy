@@ -1,12 +1,38 @@
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useBlockchain } from '@/lib/hooks/useBlockchain';
 
 interface TopBarProps {
   timeLeft: string;
-  onForceEnd: () => void; 
+  scenario: string;
+  agentName: string;
+  onForceEnd?: () => void;
 }
 
-export default function TopBar({ timeLeft, onForceEnd }: TopBarProps) {
+export default function TopBar({ timeLeft, scenario, agentName, onForceEnd }: TopBarProps) {
+  const router = useRouter();
+  const { killAgent } = useBlockchain();
+
+  const handleKill = async () => {
+    try {
+      await killAgent();
+    } catch (e) {
+      console.error('killAgent failed', e);
+    } finally {
+      // Clear any lingering per-agent storage immediately on kill
+      try {
+        const key = `${agentName}::${scenario}`;
+        localStorage.removeItem(`History:${key}`);
+        localStorage.removeItem(`startTime:${key}`);
+      } catch { }
+      const params = new URLSearchParams({
+        scenario,
+        agentName,
+        forced: 'dead',
+      });
+      router.push(`/play/judgement?${params.toString()}`);
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-black/30 px-4 py-2 h-[70px] flex items-center justify-between relative">
@@ -15,7 +41,7 @@ export default function TopBar({ timeLeft, onForceEnd }: TopBarProps) {
         Time: {timeLeft} s
       </div>
 
-      <button onClick={onForceEnd} className="relative w-[129px] h-[58px] select-none">
+      <button onClick={handleKill} className="relative w-[129px] h-[58px] select-none">
         <Image
           src="/assets/game/button_small.svg"
           alt="Kill Agent"
