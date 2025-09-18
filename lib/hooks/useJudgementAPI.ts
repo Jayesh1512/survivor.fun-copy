@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Exchange, Narration } from '@/types/judgement';
+import { Exchange, Narration, PersuasionReport, AnalyserResult } from '@/types/judgement';
 
 export const useJudgementAPI = (scenario: string, agentName: string, chatHistory: Exchange[]) => {
   const [decision, setDecision] = useState<string>("");
   const [narration, setNarration] = useState<Narration | null>(null);
+  const [persuasion, setPersuasion] = useState<PersuasionReport | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   // Get decision once per unique param set (avoid double calls in Strict Mode)
@@ -22,7 +23,14 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
           body: JSON.stringify({ scenario, agentName, chatHistory }),
         });
         const data = (await res.json()) as { response?: string };
-        setDecision((data.response || "").trim());
+        try {
+          const parsed = JSON.parse(data.response || "{}") as AnalyserResult;
+          setDecision((parsed.decision || "").trim());
+          setPersuasion(parsed.persuasion || null);
+        } catch {
+          setDecision((data.response || "").trim());
+          setPersuasion(null);
+        }
       } catch (e) {
         console.error(e);
       } finally {
@@ -37,7 +45,7 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
       const res = await fetch("/api/narrator", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenario, finalDecision: decision, agentName, chatHistory }),
+        body: JSON.stringify({ scenario, finalDecision: decision, agentName, chatHistory, persuasion }),
       });
       const data = (await res.json()) as { response?: string };
       let story = "";
@@ -62,6 +70,7 @@ export const useJudgementAPI = (scenario: string, agentName: string, chatHistory
   return {
     decision,
     narration,
+    persuasion,
     loading,
     fetchNarration,
   };

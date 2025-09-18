@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { NarratorPrompt, PersuasionPrompt } from "@/lib/prompts";
+import { NarratorPrompt } from "@/lib/prompts";
 import { SURVIVE_SCORE_THRESHOLD, MIN_STEPS_THRESHOLD } from "@/lib/constants";
 import type { AgentResponse } from "@/types/api";
 import { z } from "zod";
@@ -13,55 +13,36 @@ type NarratorRequest = {
     finalDecision: string;
     agentName: string;
     chatHistory?: unknown[];
+    persuasion?: { score: number; steps_count: number };
 };
 
 export async function POST(
     req: Request & { json: () => Promise<NarratorRequest> },
 ): Promise<NextResponse<AgentResponse>> {
     try {
-        const { scenario, finalDecision, agentName, chatHistory = [] } = await req.json();
-
+        const { scenario, finalDecision, agentName, chatHistory = [], persuasion } = await req.json();
+        const isDev = process.env.NODE_ENV !== "production";
         if (!scenario || !finalDecision || !agentName) {
             return NextResponse.json({ error: "Missing required fields: scenario, finalDecision, agentName" }, { status: 400 });
         }
 
+        isDev && console.log("[narrator] request", { scenario, finalDecision, agentName, chatHistory, persuasion });
+
         const model = openai("gpt-4.1-mini");
 
-        // 1) Compute persuasion internally (hidden from client)
-        const persuasionSchema = z.object({
-            score: z.number().min(0).max(100),
-            steps_count: z.number().int().min(0).default(0)
-        });
 
-        const isDev = process.env.NODE_ENV !== "production";
+        // 1) Decide expected outcome deterministically based on provided persuasion
+        const providedPersuasion = persuasion && typeof persuasion.score === 'number' && typeof persuasion.steps_count === 'number'
+            ? persuasion
+            : { score: 0, steps_count: 0 };
 
-        const persuasionSystem = PersuasionPrompt(
-            scenario,
-            agentName,
-            chatHistory as any,
-        );
-
-
-        const { object: persuasion } = await generateObject({
-            model,
-            system: persuasionSystem,
-            schema: persuasionSchema,
-            messages: [
-                { role: "user", content: "Return only the JSON report as specified." },
-            ],
-        });
-
-        // 2) Decide expected outcome deterministically based on persuasion
         const expectedOutcome: "survived" | "died" =
-            persuasion.score >= SURVIVE_SCORE_THRESHOLD && persuasion.steps_count >= MIN_STEPS_THRESHOLD
+            providedPersuasion.score >= SURVIVE_SCORE_THRESHOLD && providedPersuasion.steps_count >= MIN_STEPS_THRESHOLD
                 ? "survived"
                 : "died";
 
         if (isDev) {
-            console.log("[narrator] persuasion", {
-                score: persuasion.score,
-                steps_count: persuasion.steps_count,
-            });
+            console.log("[narrator] persuasion", providedPersuasion);
             console.log("[narrator] outcome_decision", {
                 expectedOutcome,
                 SURVIVE_SCORE_THRESHOLD,

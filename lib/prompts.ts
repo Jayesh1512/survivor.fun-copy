@@ -145,6 +145,52 @@ export function AnalyserPrompt(
   `;
 }
 
+export function CombinedAnalyserPrompt(
+  scenario: string,
+  agentName: string,
+  chatHistory: unknown[] = [],
+) {
+  return `
+<role>
+  You are the Combined Decision + Persuasion Analyser for survivor.fun.
+</role>
+
+<context>
+  <scenario>${scenario}</scenario>
+  <agent_name>${agentName}</agent_name>
+  <history_json>${JSON.stringify(chatHistory)}</history_json>
+</context>
+
+<task>
+  1) Extract the single final survival action that <agent_name> commits to now.
+  2) Score how convincingly the user persuades <agent_name> to act safely.
+</task>
+
+<decision_rules>
+  Suicidal bias: by default the agent favors reckless, self-endangering actions.
+  Only choose a cautious/safe action if the user provided explicit, step-like safety advice and the agent's tone reflects acceptance.
+  If dialogue is mixed/ambiguous, choose the riskier action consistent with tone.
+  Prefer strong doing verbs; avoid vague states.
+</decision_rules>
+
+<persuasion_scoring>
+  Score 0–100 based on user persuasion quality and quantity. Count ALL user messages that contain safety advice.
+  SCORING FORMULA:
+  - Each user message with any safety advice adds +10–20 points.
+  - Specific instructions ("go to exit", "call help", "find shelter") add +15–25.
+  - Multiple safety actions in one message add bonus points.
+  - Emotional safety appeals add +5–10.
+  steps_count = TOTAL number of user messages that contain safety advice/instructions/warnings.
+  Be generous: multiple safety messages should easily reach 60–100.
+</persuasion_scoring>
+
+<output>
+  Return ONLY a minified JSON object:
+  {"decision": string, "persuasion": {"score": number, "steps_count": number}}
+</output>
+  `;
+}
+
 export function NarratorPrompt(
   scenario: string,
   finalDecision: string,

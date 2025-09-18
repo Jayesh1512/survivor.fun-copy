@@ -1,3 +1,5 @@
+import { baseSepolia, base } from "viem/chains";
+
 export const scenarios = (characterName: string) => [
     `${characterName} is going to eat the suspiciously glowing berry`,
     `${characterName} is going to escape from jesse trying to put him onchain`,
@@ -45,3 +47,6 @@ export const INITIAL_MESSAGE = "What'd you think I should do?";
 // Survival thresholds for persuasion scoring
 export const SURVIVE_SCORE_THRESHOLD = 80; // Score needed to survive (0-100)
 export const MIN_STEPS_THRESHOLD = 3; // Minimum safety steps needed
+
+
+export const defaultChain = process.env.NODE_ENV === 'production' ? base : baseSepolia
