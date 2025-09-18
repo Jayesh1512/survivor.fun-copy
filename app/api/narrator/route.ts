@@ -4,7 +4,6 @@ import { openai } from "@ai-sdk/openai";
 import { NarratorPrompt, PersuasionPrompt } from "@/lib/prompts";
 import { SURVIVE_SCORE_THRESHOLD, MIN_STEPS_THRESHOLD } from "@/lib/constants";
 import type { AgentResponse } from "@/types/api";
-import { createCorsResponse, handleOptions } from "@/lib/cors";
 import { z } from "zod";
 
 export const runtime = "nodejs";
@@ -16,11 +15,6 @@ type NarratorRequest = {
     chatHistory?: unknown[];
 };
 
-// Handle CORS preflight requests
-export async function OPTIONS(req: Request) {
-    return handleOptions(req);
-}
-
 export async function POST(
     req: Request & { json: () => Promise<NarratorRequest> },
 ): Promise<NextResponse<AgentResponse>> {
@@ -28,10 +22,7 @@ export async function POST(
         const { scenario, finalDecision, agentName, chatHistory = [] } = await req.json();
 
         if (!scenario || !finalDecision || !agentName) {
-            return createCorsResponse(
-                { error: "Missing required fields: scenario, finalDecision, agentName" },
-                { status: 400 },
-            );
+            return NextResponse.json({ error: "Missing required fields: scenario, finalDecision, agentName" }, { status: 400 });
         }
 
         const model = openai("gpt-4.1-mini");
@@ -103,9 +94,9 @@ export async function POST(
             });
         }
 
-        return createCorsResponse({ response: JSON.stringify(narration) });
+        return NextResponse.json({ response: JSON.stringify(narration) });
     } catch (error) {
         console.error("Error processing narration request:", error);
-        return createCorsResponse({ error: "Failed to generate narration" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to generate narration" }, { status: 500 });
     }
 }

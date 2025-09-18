@@ -5,7 +5,6 @@ import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
 import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 import { AnalyserPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
-import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 export const runtime = "nodejs";
 
@@ -15,11 +14,6 @@ type AnalyseRequest = {
     chatHistory?: unknown[];
 };
 
-// Handle CORS preflight requests
-export async function OPTIONS(req: Request) {
-    return handleOptions(req);
-}
-
 export async function POST(
     req: Request & { json: () => Promise<AnalyseRequest> },
 ): Promise<NextResponse<AgentResponse>> {
@@ -27,10 +21,7 @@ export async function POST(
         const { scenario, agentName, chatHistory = [] } = await req.json();
 
         if (!scenario || !agentName) {
-            return createCorsResponse(
-                { error: "Missing required fields: scenario, agentName" },
-                { status: 400 },
-            );
+            return NextResponse.json({ error: "Missing required fields: scenario, agentName" }, { status: 400 });
         }
 
         const model = openai("gpt-4.1-mini");
@@ -53,13 +44,9 @@ export async function POST(
             ],
         });
 
-        return createCorsResponse({ response: text.trim() });
+        return NextResponse.json({ response: text.trim() });
     } catch (error) {
         console.error("Error processing analyse request:", error);
-        return createCorsResponse({ error: "Failed to analyse conversation" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to analyse conversation" }, { status: 500 });
     }
 }
-
-// Sanitizer removed; prompt enforces plain text output.
-
-

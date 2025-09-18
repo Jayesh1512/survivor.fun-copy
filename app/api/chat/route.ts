@@ -5,7 +5,6 @@ import { getVercelAITools } from "@coinbase/agentkit-vercel-ai-sdk";
 import { prepareAgentkitAndWalletProvider } from "@/lib/prepare-agentkit";
 import { ChatPrompt } from "@/lib/prompts";
 import type { AgentResponse } from "@/types/api";
-import { createCorsResponse, handleOptions } from "@/lib/cors";
 
 export const runtime = "nodejs";
 
@@ -16,11 +15,6 @@ type ChatRequest = {
     userResponse: string;
 };
 
-// Handle CORS preflight requests
-export async function OPTIONS(req: Request) {
-    return handleOptions(req);
-}
-
 export async function POST(
     req: Request & { json: () => Promise<ChatRequest> },
 ): Promise<NextResponse<AgentResponse>> {
@@ -28,10 +22,7 @@ export async function POST(
         const { scenario, nft: nftDetails, chatHistory = [], userResponse } = await req.json();
 
         if (!scenario || !nftDetails || !userResponse) {
-            return createCorsResponse(
-                { error: "Missing required fields: scenario, nft, userResponse" },
-                { status: 400 },
-            );
+            return NextResponse.json({ error: "Missing required fields: scenario, nft, userResponse" }, { status: 400 });
         }
 
         const model = openai("gpt-4.1-mini");
@@ -50,10 +41,10 @@ export async function POST(
         });
 
         const response = sanitizePlainText(text);
-        return createCorsResponse({ response });
+        return NextResponse.json({ response });
     } catch (error) {
         console.error("Error processing chat request:", error);
-        return createCorsResponse({ error: "Failed to process chat message" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to process chat message" }, { status: 500 });
     }
 }
 
