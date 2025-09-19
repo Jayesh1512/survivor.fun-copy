@@ -73,7 +73,7 @@ export default function ChatPageClient() {
   }, [ready, history.length, initializeHistory]);
 
   return (
-    <div className="relative h-screen flex flex-col overflow-hidden">
+    <div className="relative isolate h-screen flex flex-col overflow-hidden">
       <Image
         src={chatBg}
         alt="Chat background"
@@ -81,7 +81,7 @@ export default function ChatPageClient() {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 pointer-events-none"
       />
       <TopBar
         timeLeft={msToClock(timeLeftMs)}

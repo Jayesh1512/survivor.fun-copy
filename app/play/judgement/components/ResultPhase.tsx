@@ -15,7 +15,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
   const isDead = narration.result === "died";
 
   return (
-    <div className="text-white relative h-screen flex flex-col items-center justify-center">
+    <div className="text-white relative isolate h-screen flex flex-col items-center justify-center">
       <Image
         src={judgeBackground}
         alt="Background"
@@ -23,7 +23,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 pointer-events-none"
       />
 
       {/* Character container */}

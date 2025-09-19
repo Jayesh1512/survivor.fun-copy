@@ -35,7 +35,7 @@ export default function TopBar({ timeLeft, scenario, agentName, onForceEnd }: To
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-black/30 px-4 py-2 h-[70px] flex items-center justify-between relative">
+    <div className="absolute top-0 left-0 right-0 bg-black/30 px-4 py-2 h-[70px] flex items-center justify-between">
 
       <div className="text-white text-xl font-bold">
         Time: {timeLeft} s
@@ -49,7 +49,7 @@ export default function TopBar({ timeLeft, scenario, agentName, onForceEnd }: To
           height={45}
           className="object-cover z-0 w-[127px] h-[45px] pointer-events-none"
         />
-        <span className="absolute inset-0 flex items-center justify-center text-white text-[18px] font-bold z-10">
+        <span className="absolute inset-0 flex items-center justify-center text-white text-[18px] font-bold z-10 cursor-pointer">
           Kill Agent
         </span>
       </button>

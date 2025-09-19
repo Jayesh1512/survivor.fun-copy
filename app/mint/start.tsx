@@ -53,7 +53,7 @@ const Start: React.FC = () => {
     }, [agentDetails]);
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative isolate min-h-screen">
             <Image
                 src={gameBackground}
                 alt="Game background"
@@ -61,7 +61,7 @@ const Start: React.FC = () => {
                 priority
                 placeholder="blur"
                 sizes="100vw"
-                className="object-cover -z-10"
+                className="object-cover -z-10 pointer-events-none"
             />
 
             <div className="absolute bottom-0">

@@ -6,8 +6,8 @@ import mintBg from '@/public/assets/mint/info-bg.png';
 
 export default function StatsPage() {
   return (
-    <div className="relative min-h-screen w-[390px] h-[844px] flex flex-col">
-      <Image src={mintBg} alt="" aria-hidden fill sizes="390px" className="object-cover -z-10" />
+    <div className="relative isolate min-h-screen w-[390px] h-[844px] flex flex-col">
+      <Image src={mintBg} alt="" aria-hidden fill sizes="390px" className="object-cover -z-10 pointer-events-none" />
       <TopBar />
       <div className="flex-1 flex items-center justify-center p-2">
         <Image

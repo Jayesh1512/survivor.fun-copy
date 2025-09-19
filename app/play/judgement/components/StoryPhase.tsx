@@ -13,7 +13,7 @@ interface StoryPhaseProps {
 
 export default function StoryPhase({ narration, agentName, loading, onContinue }: StoryPhaseProps) {
   return (
-    <div className="text-white relative overflow-hidden h-screen">
+    <div className="text-white relative isolate overflow-hidden h-screen">
       <Image
         src={judgeBackground}
         alt="Background"
@@ -21,7 +21,7 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 pointer-events-none"
       />
       {/* Character image circle at top */}
       <div className="absolute flex flex-col justify-center items-center top-16 left-1/2 -translate-x-1/2">

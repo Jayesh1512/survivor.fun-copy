@@ -42,9 +42,13 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className={`${font.className} bg-black`}>
         <Providers>
-          {props.children}
+          <div className="app-viewport bg-black md:w-[390px] md:h-screen md:mx-auto md:rounded-[24px] md:overflow-hidden md:shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+            <div className="app-viewport-scroll min-h-screen md:h-full overflow-y-auto">
+              {props.children}
+            </div>
+          </div>
           <Analytics />
         </Providers>
       </body>

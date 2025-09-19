@@ -95,7 +95,7 @@ export default function LoadingScreen() {
   }, []);
 
   return (
-    <div className="text-white relative h-screen overflow-hidden">
+    <div className="text-white relative isolate h-screen overflow-hidden">
       {/* Background */}
       <Image
         src={collabBackground}
@@ -104,7 +104,7 @@ export default function LoadingScreen() {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 pointer-events-none"
       />
 
       <div className="flex flex-col items-center justify-end h-full pb-12">

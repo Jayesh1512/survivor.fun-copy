@@ -104,7 +104,7 @@ export default function LoadingScreen() {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover z-0 pointer-events-none"
       />
 
       <div className="flex flex-col items-center justify-end h-full pb-12">
