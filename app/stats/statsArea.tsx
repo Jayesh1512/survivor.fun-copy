@@ -31,11 +31,11 @@ export default function StatsArea() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/stats/stats.svg" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover -z-10" />
         <div className="text-center text-white text-lg pt-6 space-y-1">
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center">
             <span className="opacity-80 text-sm">Total Games</span>
             <p className="text-2xl font-bold">{totalGames}</p>
           </div>
-          <div className="flex justify-center gap-6 mt-2 text-sm">
+          <div className="flex justify-center gap-6 mt-1 text-sm">
             <div className="flex flex-col items-center">
               <span className="opacity-80">Mints</span>
               <span className="text-white font-semibold">{totalMints}</span>

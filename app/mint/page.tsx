@@ -9,6 +9,7 @@ import mintBackground from '@/public/assets/mint/background.webp';
 import buttonBg from '@/public/assets/button.webp';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
+import Link from 'next/link';
 
 const Mint: React.FC = () => {
 
@@ -77,6 +78,15 @@ const Mint: React.FC = () => {
         <div>
             {step == 0 && <>
                 <div className="relative min-h-screen justify-center">
+                    <Link href={'/'}>
+                    <Image
+                              src="/assets/back.svg"
+                              alt="Sound"
+                              width={48}
+                              height={48}
+                              className="absolute top-4 left-4 z-10"
+                            />
+                    </Link>
                     <Image
                         src={mintBackground}
                         alt="Mint background"
