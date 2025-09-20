@@ -5,7 +5,7 @@ import mintInfoBg from '@/public/assets/mint/info-bg.png';
 
 export default function AgentInfoPage() {
   return (
-    <div className="relative isolate w-full min-h-screen flex flex-col">
+    <div className="relative w-full h-screen flex flex-col overflow-hidden">
       {/* Background */}
       <Image
         src={mintInfoBg}
@@ -20,20 +20,26 @@ export default function AgentInfoPage() {
       {/* Top bar */}
       <TopBar />
 
-      {/* Character Image */}
-      <div className="flex-1 flex items-end justify-center p-2 pb-0">
-        <Image
-          src="/assets/characters/one.webp"
-          alt="agent"
-          width={390}
-          height={364}
-          className="object-contain"
-        />
-      </div>
+      {/* Scrollable content area */}
+      <div className="flex-1 flex flex-col justify-end overflow-y-auto">
+        {/* Character Image - responsive sizing based on viewport height */}
+        <div className="flex items-end justify-center px-4 py-2">
+          <div className="relative w-auto h-[30vh] sm:h-[35vh] md:h-[40vh] max-h-[364px]">
+            <Image
+              src="/assets/characters/one.webp"
+              alt="agent"
+              width={390}
+              height={364}
+              className="h-full w-auto object-contain"
+              priority
+            />
+          </div>
+        </div>
 
-      {/* Agent Stats */}
-      <div className="flex-shrink-0">
-        <AgentStats />
+        {/* Agent Stats */}
+        <div className="flex-shrink-0">
+          <AgentStats />
+        </div>
       </div>
     </div>
   );

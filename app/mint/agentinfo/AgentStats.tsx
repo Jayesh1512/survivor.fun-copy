@@ -51,10 +51,6 @@ export default function AgentStats() {
         unhingedness: Number(unhingedness),
         motivationToSurvive: Number(motivation),
       });
-
-      // Optional: update image or bio if stored on-chain
-      // setImage(imageFromChain || "/assets/characters/one.webp");
-      // setBio(bioFromChain || "Default bio...");
     }
   }, [agentDetails]);
 
@@ -63,7 +59,7 @@ export default function AgentStats() {
   };
 
   return (
-    <div className="w-full h-[364px] bg-[#030229] rounded-t-[30px] rounded-b-[30px] p-6 flex flex-col mx-auto text-[#909EBC]">
+    <div className="w-full max-w-[500px] mx-auto bg-[#030229] rounded-[30px] p-4 sm:p-6 flex flex-col text-[#909EBC]">
       {/* Header with character image and name */}
       <div className="flex items-center space-x-4 mb-6">
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
@@ -76,51 +72,51 @@ export default function AgentStats() {
           />
         </div>
         <div>
-          <p className="text-purple-400">Name</p>
-          <h2 className="text-white text-2xl font-semibold">{agentName}</h2>
+          <p className="text-purple-400 text-sm sm:text-base">Name</p>
+          <h2 className="text-white text-xl sm:text-2xl font-semibold">{agentName}</h2>
         </div>
       </div>
 
-      {/* Stats Row */}
-      <div className="w-[354px] h-[36px] mb-6 text-sm">
-        <div className="flex items-center">
-          <span className="text-medium">
+      {/* Stats Row - made responsive */}
+      <div className="w-full mb-6 text-xs sm:text-sm space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-medium whitespace-nowrap">
             COMPLIANCE: <span className="font-semibold text-white">{stats.compliance}</span>
           </span>
-          <span className="mx-2 text-white">|</span>
-          <span className="text-medium">
+          <span className="text-white hidden sm:inline">|</span>
+          <span className="text-medium whitespace-nowrap">
             CREATIVITY: <span className="font-bold text-white">{stats.creativity}</span>
           </span>
         </div>
-        <div className="flex items-center mt-2">
-          <span className="text-medium">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-medium whitespace-nowrap">
             UNHINGED-NESS: <span className="font-semibold text-white">{stats.unhingedness}</span>
           </span>
-          <span className="mx-2 text-white">|</span>
-          <span className="text-medium">
+          <span className="text-white hidden sm:inline">|</span>
+          <span className="text-medium whitespace-nowrap">
             MOTIVATION TO SURVIVE: <span className="font-semibold text-white">{stats.motivationToSurvive}</span>
           </span>
         </div>
       </div>
 
       {/* Bio Section */}
-      <div className="flex-1 mb-4">
-        <h3 className="text-purple-400 text-lg font-semibold mb-2">Bio</h3>
-        <p className="text-sm leading-relaxed">{bio}</p>
+      <div className="flex-1 mb-6">
+        <h3 className="text-purple-400 text-base sm:text-lg font-semibold mb-2">Bio</h3>
+        <p className="text-xs sm:text-sm leading-relaxed">{bio}</p>
       </div>
 
-      {/* Start Game Button */}
-      <div className="flex justify-start mx-auto">
+      {/* Start Game Button - responsive width */}
+      <div className="flex justify-center">
         <button
           onClick={handleStartGame}
-          className="relative overflow-hidden w-[358px] h-[74px] text-[24px] text-white font-semibold flex items-center justify-center"
+          className="relative overflow-hidden w-full max-w-[358px] h-[60px] sm:h-[74px] text-[20px] sm:text-[24px] text-white font-semibold flex items-center justify-center"
         >
           <Image
             src={buttonBg}
             alt=""
             aria-hidden
             fill
-            sizes="358px"
+            sizes="(max-width: 640px) 100vw, 358px"
             className="object-cover z-0 pointer-events-none"
           />
           <span className="relative z-10">Start Game</span>
