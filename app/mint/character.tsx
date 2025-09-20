@@ -61,7 +61,7 @@ const Character: React.FC = () => {
                 priority
                 placeholder="blur"
                 sizes="100vw"
-                className="object-cover -z-10"
+                className="object-cover z-0 pointer-events-none"
             />
 
             <div className='w-full h-[302.19px] absolute bottom-0 flex justify-center items-center bg-center bg-cover'>

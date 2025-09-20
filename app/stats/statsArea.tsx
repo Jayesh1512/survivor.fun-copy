@@ -26,11 +26,11 @@ export default function StatsArea() {
   };
 
   return (
-    <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[347px]">
-      <div className="relative h-full w-full">
+    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[347px] isolate">
+      <div className="relative isolate h-full w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/assets/stats/stats.svg" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover -z-10" />
-        <div className="text-center text-white text-lg pt-6 space-y-1">
+        <img src="/assets/stats/stats.svg" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none" />
+        <div className="relative z-10 text-center text-white text-lg pt-6 space-y-1">
           <div className="flex flex-col items-center">
             <span className="opacity-80 text-sm">Total Games</span>
             <p className="text-2xl font-bold">{totalGames}</p>
@@ -52,7 +52,7 @@ export default function StatsArea() {
         </div>
       </div>
       {/* Try Again Button */}
-      <div className="absolute bottom-10 right-6">
+      <div className="absolute bottom-10 right-6 z-10">
         <Button
           className="relative overflow-hidden w-[358px] h-[74px] text-[24px] font-bold flex items-center justify-center"
           onClick={handlePlayAgain}

@@ -11,7 +11,7 @@ interface DecisionPhaseProps {
 
 export default function DecisionPhase({ decision, loading, onContinue }: DecisionPhaseProps) {
   return (
-    <div className="text-white relative h-screen">
+    <div className="text-white relative isolate h-screen">
       <Image
         src={collabBackground}
         alt="Background"
@@ -19,7 +19,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 pointer-events-none"
       />
       {/* Sound Button - Top Left
       <div className="absolute top-3 left-3">

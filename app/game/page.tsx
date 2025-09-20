@@ -43,7 +43,7 @@ const Game: React.FC = () => {
     }, [scenario, router]);
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative isolate min-h-screen">
             <Image
                 src={collabBackground}
                 alt="Background"
@@ -51,7 +51,7 @@ const Game: React.FC = () => {
                 priority
                 placeholder="blur"
                 sizes="100vw"
-                className="object-cover -z-10"
+                className="object-cover -z-10 pointer-events-none"
             />
             {/* Sound Button - Top Left */}
             <div className="absolute top-3 left-3">

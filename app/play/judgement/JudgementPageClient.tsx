@@ -35,8 +35,8 @@ export default function JudgementPageClient() {
                 narration={forcedNarration}
                 agentName={agentName}
                 loading={false}
-                onContinue={() => router.push("/mint")}
-            />
+                onContinue={() => router.push("/mint?requireMint=1")}>
+            </ResultPhase>
         );
     }
 

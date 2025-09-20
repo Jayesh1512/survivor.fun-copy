@@ -21,8 +21,13 @@ export const useJudgementPhase = ({ fetchNarration, narration }: UseJudgementPha
       setPhase("result");
       return;
     }
-    router.push("/mint");
-  }, [phase, fetchNarration, router]);
+    const ts = Date.now();
+    if (narration?.result === "died") {
+      router.push(`/mint?requireMint=1&ts=${ts}`);
+      return;
+    }
+    router.push(`/mint?ts=${ts}`);
+  }, [phase, fetchNarration, router, narration]);
 
   return {
     phase,

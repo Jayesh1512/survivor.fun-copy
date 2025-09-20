@@ -24,7 +24,7 @@ const Mobile: React.FC = () => {
                 priority
                 placeholder="blur"
                 sizes="100vw"
-                className="object-cover -z-10"
+                className="object-cover z-0 pointer-events-none"
             />
             <Image
                 src={logoImage}
