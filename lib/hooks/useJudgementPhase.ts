@@ -23,10 +23,10 @@ export const useJudgementPhase = ({ fetchNarration, narration }: UseJudgementPha
     }
     const ts = Date.now();
     if (narration?.result === "died") {
-      router.push(`/mint?requireMint=1&ts=${ts}`);
+      router.push(`/mint`);
       return;
     }
-    router.push(`/mint?ts=${ts}`);
+    router.push(`/mint`);
   }, [phase, fetchNarration, router, narration]);
 
   return {
