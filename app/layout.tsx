@@ -5,6 +5,7 @@ import WalletCookieProvider from './WalletCookieProvider';
 import './globals.css';
 import { Fredoka } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const font = Fredoka(
   {
@@ -52,6 +53,7 @@ export default function RootLayout(props: { children: ReactNode }) {
             </div>
           </div>
           <Analytics />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
