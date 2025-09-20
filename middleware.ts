@@ -23,9 +23,10 @@ async function checkUserStatus(userAddress: string | null) {
 
   try {
     console.log('[middleware] Creating blockchain client');
+    const rpcUrl = process.env.RPC_URL;
     const publicClient = createPublicClient({
       chain: defaultChain,
-      transport: http(),
+      transport: rpcUrl ? http(rpcUrl) : http(),
     });
 
     try {
