@@ -140,7 +140,7 @@ export default function LoadingScreen() {
 
           {/* Loading text */}
           <div className="absolute inset-0 flex items-center justify-center font-bold text-xl text-white">
-            {progress < 100 ? "Loading..." : "Ready"}
+             Loading...
           </div>
         </div>
       </div>

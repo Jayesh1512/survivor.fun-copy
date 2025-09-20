@@ -35,7 +35,7 @@ export default function TopBar({ timeLeft, scenario, agentName, onForceEnd }: To
   };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bg-black/30 px-4 py-2 h-[70px] flex items-center justify-between">
+    <div className="absolute top-0 left-0 right-0 px-4 py-2 h-[70px] flex items-center justify-between">
 
       <div className="text-white text-xl font-bold">
         Time: {timeLeft} s

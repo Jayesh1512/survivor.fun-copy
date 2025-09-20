@@ -13,7 +13,8 @@ interface StoryPhaseProps {
 
 export default function StoryPhase({ narration, agentName, loading, onContinue }: StoryPhaseProps) {
   return (
-    <div className="text-white relative isolate overflow-hidden h-screen">
+    <div className="relative isolate h-screen overflow-hidden text-white">
+      {/* Background */}
       <Image
         src={judgeBackground}
         alt="Background"
@@ -23,8 +24,9 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
         sizes="100vw"
         className="object-cover -z-10 pointer-events-none"
       />
-      {/* Character image circle at top */}
-      <div className="absolute flex flex-col justify-center items-center top-16 left-1/2 -translate-x-1/2">
+
+      {/* Fixed character + ghost */}
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
         <Image
           src="/assets/characters/one.webp"
           alt="Agent"
@@ -32,13 +34,8 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
           height={70}
           className="w-[70px] h-[70px] rounded-full border-4 bg-gradient-to-r from-purple-500 via-purple-400 to-purple-600 border-purple-900 shadow-lg"
         />
-        <div className="w-[300px] mt-24 h-[100px] flex flex-col items-center justify-center px-7 text-center space-y-1">
-          <p className="text-sm leading-relaxed">{narration.story}</p>
-        </div>
       </div>
-
-      {/* Ghost bottom-left */}
-      <div className="absolute -bottom-4 left-0">
+      <div className="absolute -bottom-4 left-0 z-10">
         <Image
           src="/assets/judgement/judge.svg"
           alt="Judge"
@@ -46,11 +43,16 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
           height={257}
         />
       </div>
-      {/* Text content*/}
 
+      {/* Scrollable story text */}
+      <div className="absolute top-[25%] bottom-[100px] left-0 right-0 overflow-y-auto px-6">
+        <div className="max-w-[300px] mx-auto flex flex-col items-center text-center space-y-1">
+          <p className="text-md leading-relaxed">{narration.story}</p>
+        </div>
+      </div>
 
-      {/* Button bottom-right */}
-      <div className="absolute bottom-10 right-6">
+      {/* Fixed bottom button */}
+      <div className="absolute bottom-10 right-6 z-20">
         <Button
           onClick={onContinue}
           disabled={loading}
@@ -63,3 +65,4 @@ export default function StoryPhase({ narration, agentName, loading, onContinue }
     </div>
   );
 }
+

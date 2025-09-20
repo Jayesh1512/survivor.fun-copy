@@ -14,7 +14,7 @@ export default function ChatArea({ messages }: ChatAreaProps) {
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 mt-2">
+    <div className="flex-1 overflow-y-auto no-scrollbar px-4 py-3 space-y-4 mt-2">
       {messages.map((m, idx) => (
         <div
           key={idx}

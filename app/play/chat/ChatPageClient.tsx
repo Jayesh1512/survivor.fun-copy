@@ -83,15 +83,24 @@ export default function ChatPageClient() {
         sizes="100vw"
         className="object-cover -z-10 pointer-events-none"
       />
-      <TopBar
-        timeLeft={msToClock(timeLeftMs)}
-        scenario={scenario}
-        agentName={name}
-      />
 
-      <ScenarioArea scenario={scenario} />
-      <ChatArea messages={display} /> {/* display now has past + live messages */}
-      <InputArea onSend={handleSend} isLoading={isLoading} timeUp={timeUp} />
+      {/* Fixed header */}
+      <div className="fixed top-0 left-0 right-0 z-20">
+        <TopBar
+          timeLeft={msToClock(timeLeftMs)}
+          scenario={scenario}
+          agentName={name}
+        />
+        <ScenarioArea scenario={scenario} />
+      </div>
+
+      {/* Scrollable chat */}
+      <div className="flex-1 flex flex-col pt-[35%] z-10 overflow-hidden">
+        <ChatArea messages={display} />
+        <InputArea onSend={handleSend} isLoading={isLoading} timeUp={timeUp} />
+      </div>
     </div>
+
+
   );
 }

@@ -5,7 +5,7 @@ interface ScenarioAreaProps {
 export default function ScenarioArea({ scenario }: ScenarioAreaProps) {
   return (
     <>
-      <div className="bg-black/30 px-4 py-3 ">
+      <div className="bg-black/30 px-4 py-3 pt-[71px]">
         <div className="text-center text-white text-lg">
           {scenario}
         </div>

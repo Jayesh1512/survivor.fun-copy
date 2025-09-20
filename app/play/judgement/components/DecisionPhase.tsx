@@ -44,7 +44,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
         </div>
       </div>
 
-      <div className="flex absolute bottom-30">
+      <div className="flex absolute bottom-30 left-[45%] -translate-x-1/2">
         <div className="relative left-4 w-[358px] h-[314px]">
           <Image
             src="/assets/game/strategyFrame.webp"
