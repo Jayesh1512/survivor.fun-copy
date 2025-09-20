@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import buttonBg from "@/public/assets/button.webp";
 import { Button } from "@/components/ui/button";
 import { useAccount, useReadContract } from "wagmi";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "@/contracts/contractDetails";
+import { DEFAULT_NFT, scenarios } from "@/lib/constants";
 
 export default function AgentStats() {
   const router = useRouter();
@@ -23,6 +24,14 @@ export default function AgentStats() {
     "Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil"
   );
   const [image, setImage] = useState("/assets/characters/one.webp");
+  const [scenario, setScenario] = useState("");
+
+  // Generate random scenario on mount
+  useEffect(() => {
+    const allScenarios = scenarios(DEFAULT_NFT.name);
+    const randomScenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
+    setScenario(randomScenario);
+  }, []);
 
   // Fetch active agent ID
   const { data: activeAgentId } = useReadContract({
@@ -54,15 +63,33 @@ export default function AgentStats() {
     }
   }, [agentDetails]);
 
-  const handleStartGame = () => {
-    router.push("/play/chat");
-  };
+  const handleStartGame = useCallback(() => {
+    // Use either the agent data from contract or DEFAULT_NFT
+    const nft = {
+      name: agentName || DEFAULT_NFT.name,
+      bio: bio || DEFAULT_NFT.bio,
+      attributes: {
+        compliance: stats.compliance || DEFAULT_NFT.attributes.compliance,
+        creativity: stats.creativity || DEFAULT_NFT.attributes.creativity,
+        motivation_to_survive: stats.motivationToSurvive || DEFAULT_NFT.attributes.motivation_to_survive,
+        unhingedness: stats.unhingedness || DEFAULT_NFT.attributes.unhingedness,
+      },
+    };
+
+    const params = new URLSearchParams({
+      name: nft.name,
+      scenario,
+      nft: encodeURIComponent(JSON.stringify(nft)),
+    });
+
+    router.push(`/play/chat?${params.toString()}`);
+  }, [scenario, router, agentName, bio, stats]);
 
   return (
     <div className="w-full max-w-[500px] mx-auto bg-[#030229] rounded-[30px] p-4 sm:p-6 flex flex-col text-[#909EBC]">
       {/* Header with character image and name */}
       <div className="flex items-center space-x-4 mb-6">
-        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
           <Image
             src={image}
             alt={agentName}
@@ -71,9 +98,14 @@ export default function AgentStats() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div>
+        <div className="min-w-0 flex-1"> {/* min-w-0 ensures text truncation works */}
           <p className="text-purple-400 text-sm sm:text-base">Name</p>
-          <h2 className="text-white text-xl sm:text-2xl font-semibold">{agentName}</h2>
+          <h2 
+            className="text-white text-xl sm:text-2xl font-semibold truncate" 
+            title={agentName} // Shows full name on hover
+          >
+            {agentName}
+          </h2>
         </div>
       </div>
 

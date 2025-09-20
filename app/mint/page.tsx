@@ -53,7 +53,7 @@ const Mint: React.FC = () => {
                     <Link href={'/'}>
                         <Image
                             src="/assets/back.svg"
-                            alt="Sound"
+                            alt="back"
                             width={48}
                             height={48}
                             className="absolute top-4 left-4 z-10"

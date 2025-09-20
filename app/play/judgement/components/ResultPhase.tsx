@@ -57,7 +57,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
       </div>
       <div className='absolute top-44'>
         <p className="text-xl font-bold">
-          {isDead ? `You killed ${agentName}` : `${agentName} survived`}
+          {isDead ? `You killed Bubba` : `Bubba survived`}
         </p>
       </div>
       {/* Ghost bottom-left */}
