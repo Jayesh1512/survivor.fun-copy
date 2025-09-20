@@ -3,28 +3,28 @@
 import { useState } from "react";
 import Image from "next/image";
 import tournamentBg from "@/public/assets/game/tournament_code.svg";
-import searchBarBg  from "@/public/assets/game/search_bar.png";
-import buttonBg     from "@/public/assets/button.webp";
+import searchBarBg from "@/public/assets/game/search_bar.png";
+import buttonBg from "@/public/assets/button.webp";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function TournamentArea() {
   const [tournamentCode, setTournamentCode] = useState("");
-  const [error,          setError]          = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const validCodes = ["surviveinkorea", "surviveindelhi"];
 
   const handleJoinTournament = () => {
     const trimmed = tournamentCode.trim().toLowerCase();
-    if (!trimmed)             { setError("Please enter a tournament code"); return; }
+    if (!trimmed) { setError("Please enter a tournament code"); return; }
     if (!validCodes.includes(trimmed)) { setError("Invalid tournament code"); return; }
     setError("");
     router.push("/mint");
   };
 
   return (
- 
+
     <div
       className="
         absolute bottom-0 left-0
@@ -43,17 +43,17 @@ export default function TournamentArea() {
 
         {/* ---------------- SEARCH BAR ---------------- */}
         <div className="relative z-10 text-white text-lg pt-18">
-          <div className="mb-6 mt-12 flex items-center justify-center">
+          <div className="mb-2 mt-12 flex items-center justify-center">
             <div className="relative w-[90%] h-[101px] flex items-center px-4">
-              
+
               <div className="rounded-24">
-              <Image
-                src={searchBarBg}
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover pointer-events-none -z-10 rounded-24"
-              />
+                <Image
+                  src={searchBarBg}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover pointer-events-none -z-10 rounded-24"
+                />
               </div>
               <input
                 type="text"

@@ -14,16 +14,18 @@ export default function AgentInfoPage() {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="object-cover -z-10 pointer-events-none"
+        className="object-cover z-0 pointer-events-none"
       />
 
       {/* Top bar */}
-      <TopBar />
+      <div className="relative z-50">
+        <TopBar />
+      </div>
 
       {/* Scrollable content area */}
-      <div className="flex-1 flex flex-col justify-end overflow-y-auto">
+      <div className="flex-1 flex flex-col justify-end overflow-y-auto relative z-10">
         {/* Character Image - responsive sizing based on viewport height */}
-        <div className="flex items-end justify-center px-4 py-2">
+        <div className="flex items-end justify-center px-4">
           <div className="relative w-auto h-[30vh] sm:h-[35vh] md:h-[40vh] max-h-[364px]">
             <Image
               src="/assets/characters/one.webp"

@@ -13,16 +13,14 @@ export default function AgentStats() {
   const router = useRouter();
   const { address } = useAccount();
 
-  const [agentName, setAgentName] = useState("Agent");
+  const [agentName, setAgentName] = useState(DEFAULT_NFT.name);
   const [stats, setStats] = useState({
-    compliance: 0,
-    creativity: 0,
-    unhingedness: 0,
-    motivationToSurvive: 0
+    compliance: DEFAULT_NFT.attributes.compliance,
+    creativity: DEFAULT_NFT.attributes.creativity,
+    unhingedness: DEFAULT_NFT.attributes.unhingedness,
+    motivationToSurvive: DEFAULT_NFT.attributes.motivation_to_survive
   });
-  const [bio, setBio] = useState(
-    "Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil"
-  );
+  const [bio, setBio] = useState(DEFAULT_NFT.bio);
   const [image, setImage] = useState("/assets/characters/one.webp");
   const [scenario, setScenario] = useState("");
 
@@ -52,14 +50,14 @@ export default function AgentStats() {
   useEffect(() => {
     if (agentDetails) {
       const [owner, compliance, creativity, unhingedness, motivation, isAlive] = agentDetails;
-
-      setAgentName(owner);
+      setAgentName(DEFAULT_NFT.name);
       setStats({
-        compliance: Number(compliance),
-        creativity: Number(creativity),
-        unhingedness: Number(unhingedness),
-        motivationToSurvive: Number(motivation),
+        compliance: Number(compliance) || DEFAULT_NFT.attributes.compliance,
+        creativity: Number(creativity) || DEFAULT_NFT.attributes.creativity,
+        unhingedness: Number(unhingedness) || DEFAULT_NFT.attributes.unhingedness,
+        motivationToSurvive: Number(motivation) || DEFAULT_NFT.attributes.motivation_to_survive,
       });
+      setBio(DEFAULT_NFT.bio);
     }
   }, [agentDetails]);
 
@@ -100,8 +98,8 @@ export default function AgentStats() {
         </div>
         <div className="min-w-0 flex-1"> {/* min-w-0 ensures text truncation works */}
           <p className="text-purple-400 text-sm sm:text-base">Name</p>
-          <h2 
-            className="text-white text-xl sm:text-2xl font-semibold truncate" 
+          <h2
+            className="text-white text-xl sm:text-2xl font-semibold truncate"
             title={agentName} // Shows full name on hover
           >
             {agentName}
@@ -141,7 +139,7 @@ export default function AgentStats() {
       <div className="flex justify-center">
         <button
           onClick={handleStartGame}
-          className="relative overflow-hidden w-full max-w-[358px] h-[60px] sm:h-[74px] text-[20px] sm:text-[24px] text-white font-semibold flex items-center justify-center"
+          className="relative overflow-hidden w-full max-w-[358px] h-[60px] sm:h-[74px] text-[20px] sm:text-[24px] text-white font-semibold flex items-center justify-center cursor-pointer"
         >
           <Image
             src={buttonBg}

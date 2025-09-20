@@ -15,11 +15,11 @@ export default function TopBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 px-4 py-3 h-[100px] flex items-center justify-between z-50">
+    <div className="fixed top-0 left-0 right-0 px-4 py-3 h-[100px] flex items-center justify-between z-50 pointer-events-none">
       {/* Home Button */}
-      <button 
+      <button
         onClick={handleHome}
-        className="rounded-lg p-2 transition-transform hover:scale-110 active:scale-95"
+        className="rounded-lg p-2 transition-transform hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
       >
         <Image
           src="/assets/home.webp"
@@ -30,9 +30,9 @@ export default function TopBar() {
       </button>
 
       {/* Profile Button */}
-      <button 
+      <button
         onClick={handleProfile}
-        className="rounded-lg p-2 transition-transform hover:scale-110 active:scale-95"
+        className="rounded-lg p-2 transition-transform hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
       >
         <Image
           src="/assets/game/profile.png"

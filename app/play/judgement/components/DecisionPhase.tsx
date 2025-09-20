@@ -44,7 +44,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
         </div>
       </div>
 
-      <div className="flex absolute bottom-30 left-[45%] -translate-x-1/2">
+      <div className="flex absolute bottom-30 left-[45%] -translate-x-1/2 z-30">
         <div className="relative left-4 w-[358px] h-[314px]">
           <Image
             src="/assets/game/strategyFrame.webp"
@@ -55,7 +55,7 @@ export default function DecisionPhase({ decision, loading, onContinue }: Decisio
           />
 
           {/* Inner text content (overlayed on top of the PNG) */}
-          <div className="absolute inset-0 p-6 flex items-center justify-center text-center">
+          <div className="absolute inset-0 p-6 flex items-center justify-center text-center z-30 pointer-events-none">
             <p className="text-white text-[24px] font-extrabold leading-[32px] drop-shadow">
               {!decision && loading
                 ? "Thinking…"

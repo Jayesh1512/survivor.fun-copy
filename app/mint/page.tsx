@@ -8,8 +8,10 @@ import buttonBg from '@/public/assets/button.webp';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
 import AgentInfoPage from './agentinfo/page';
+import { useRouter } from 'next/navigation';
 
 const Mint: React.FC = () => {
+    const router = useRouter();
 
     const [step, setStep] = useState(0);
     const { address } = useAccount();
@@ -50,15 +52,18 @@ const Mint: React.FC = () => {
         <div>
             {step == 0 && <>
                 <div className="relative isolate min-h-screen justify-center">
-                    <Link href={'/'}>
+                    <button
+                        onClick={() => router.push('/tournament')}
+                        className="absolute top-4 left-4 z-20 rounded-lg p-2 transition-transform hover:scale-110 active:scale-95 pointer-events-auto cursor-pointer"
+                    >
                         <Image
-                            src="/assets/back.svg"
-                            alt="back"
-                            width={48}
-                            height={48}
-                            className="absolute top-4 left-4 z-10"
+                            src="/assets/game/back_button.svg"
+                            alt="Back"
+                            width={40}
+                            height={40}
+                            className="md:w-12 md:h-12"
                         />
-                    </Link>
+                    </button>
                     <Image
                         src={mintBackground}
                         alt="Mint background"
@@ -66,9 +71,9 @@ const Mint: React.FC = () => {
                         priority
                         placeholder="blur"
                         sizes="100vw"
-                        className="object-cover -z-10 pointer-events-none"
+                        className="object-cover z-0 pointer-events-none"
                     />
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center z-10 pointer-events-none">
                         <div className="flex flex-col align-middle items-center justify-center text-center absolute bottom-40 w-[351px]">
                             <div className="text-white text-wrap bg-red text-center leading-auto font-semibold text-[32px] mx-1">
                                 <span className="block">Can you protect</span>
@@ -80,7 +85,7 @@ const Mint: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                         <Button onClick={handleMint} className="relative overflow-hidden text-[24px] w-[358px] h-[74px] items-center justify-center flex">
                             <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
                             <span className="relative z-10">Summon Agent</span>

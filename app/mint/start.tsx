@@ -61,10 +61,10 @@ const Start: React.FC = () => {
                 priority
                 placeholder="blur"
                 sizes="100vw"
-                className="object-cover -z-10 pointer-events-none"
+                className="object-cover z-0 pointer-events-none"
             />
 
-            <div className="absolute bottom-0">
+            <div className="absolute bottom-0 z-10">
                 <div className='flex justify-center items-center'>
                     <Image
                         src="/assets/characters/two.webp"
@@ -73,7 +73,7 @@ const Start: React.FC = () => {
                         height={361.21}
                     />
                 </div>
-                <div className="bg-[#030229] w-full h-[450px] rounded-t-[60px] ">
+                <div className="bg-[#030229] w-full h-[450px] rounded-t-[60px] relative z-10 ">
                     <div className="flex flex-col p-6 h-full">
 
                         <div className='flex flex-row'>
@@ -122,7 +122,7 @@ const Start: React.FC = () => {
                         </div>
 
                         {/* Start Game Button */}
-                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                             <Button onClick={() => router.push('/game')} className="relative overflow-hidden w-[358px] h-[74px] items-center justify-center flex">
                                 <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
                                 <span className="relative z-10">Enter Scenario</span>
