@@ -3,22 +3,29 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import buttonBg from '@/public/assets/button.webp';
 import { useRouter } from 'next/navigation';
-import { useReadContract } from 'wagmi';
+import { useReadContract, useAccount } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
 
 export default function StatsArea() {
   const router = useRouter();
+  const { address } = useAccount();
 
-  const { data: tournamentStats } = useReadContract({
+  const { data: userStats } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: CONTRACT_ABI,
-    functionName: 'getTournamentStats',
-  }) as { data: readonly [bigint, bigint, bigint, bigint] | undefined };
+    functionName: 'getUserStats',
+    args: address ? [address] : undefined,
+  }) as { data: readonly [bigint, bigint, bigint, readonly bigint[]] | undefined };
 
-  const [totalMints, totalGraves, totalSurvived, totalGames] = (() => {
-    if (!tournamentStats) return ["-", "-", "-", "-"] as const;
-    const [mints, graves, survived, games] = tournamentStats;
-    return [mints.toString(), graves.toString(), survived.toString(), games.toString()] as const;
+  const [totalMints, totalKills, totalSurvivals, totalAgents] = (() => {
+    if (!userStats) return ["-", "-", "-", "-"] as const;
+    const [mints, kills, survivals, agentIds] = userStats;
+    return [
+      mints.toString(),
+      kills.toString(),
+      survivals.toString(),
+      agentIds.length.toString(),
+    ] as const;
   })();
 
   const handlePlayAgain = () => {
@@ -32,8 +39,8 @@ export default function StatsArea() {
         <img src="/assets/stats/stats.svg" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none" />
         <div className="relative z-10 text-center text-white text-lg pt-6 space-y-1">
           <div className="flex flex-col items-center">
-            <span className="opacity-80 text-sm">Total Games</span>
-            <p className="text-2xl font-bold">{totalGames}</p>
+            <span className="opacity-80 text-sm">Total Agents</span>
+            <p className="text-2xl font-bold">{totalAgents}</p>
           </div>
           <div className="flex justify-center gap-6 mt-1 text-sm">
             <div className="flex flex-col items-center">
@@ -41,12 +48,12 @@ export default function StatsArea() {
               <span className="text-white font-semibold">{totalMints}</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="opacity-80">Graves</span>
-              <span className="text-white font-semibold">{totalGraves}</span>
+              <span className="opacity-80">Kills</span>
+              <span className="text-white font-semibold">{totalKills}</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="opacity-80">Survivals</span>
-              <span className="text-white font-semibold">{totalSurvived}</span>
+              <span className="text-white font-semibold">{totalSurvivals}</span>
             </div>
           </div>
         </div>
