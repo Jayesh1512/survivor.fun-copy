@@ -23,7 +23,8 @@ async function checkUserStatus(userAddress: string | null) {
 
   try {
     console.log('[middleware] Creating blockchain client');
-    const rpcUrl = process.env.RPC_URL;
+    const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
+    const rpcUrl = isProduction ? process.env.RPC_URL : undefined;
     const publicClient = createPublicClient({
       chain: defaultChain,
       transport: rpcUrl ? http(rpcUrl) : http(),
