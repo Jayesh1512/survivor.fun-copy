@@ -52,9 +52,9 @@ export default function RootLayout(props: { children: ReactNode }) {
               {props.children}
             </div>
           </div>
-          <Analytics />
-          <SpeedInsights />
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
