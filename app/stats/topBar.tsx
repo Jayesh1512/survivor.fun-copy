@@ -39,16 +39,7 @@ export default function TopBar() {
           />
         </div> */}
       </div>
-      <Link href="/mint">
-        <div className="rounded-lg p-2 absolute top-18 left-4">
-          <Image
-            src="/assets/home.webp"
-            alt="Home"
-            width={48}
-            height={48}
-          />
-        </div>
-      </Link>
+      
     </>
   );
 }

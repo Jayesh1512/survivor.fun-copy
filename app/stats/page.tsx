@@ -5,17 +5,22 @@ import statsBackground from '@/public/assets/stats/bg-stats.svg';
 
 export default function StatsPage() {
   return (
-    <div className="relative min-h-screen h-screen">
-      <Image
-        src={statsBackground}
-        alt="Background"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover z-0 pointer-events-none"
-      />
+    <div className="relative w-screen h-screen overflow-hidden">
+      {/* Background */}
+      <img
+      src={statsBackground}
+      alt="Background"
+      className="absolute inset-0 w-full h-full object-cover -z-10 pointer-events-none"
+    />
+
+
+      {/* Top bar */}
       <TopBar />
-      <StatsArea />
+
+      {/* Stats content */}
+      <div className="absolute inset-0 flex flex-col justify-end">
+        <StatsArea />
+      </div>
     </div>
   );
 }

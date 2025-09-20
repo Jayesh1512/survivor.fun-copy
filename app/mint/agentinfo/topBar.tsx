@@ -5,14 +5,23 @@ export default function TopBar() {
   return (
     <>
       <div className="fixed top-0 left-0 right-0   px-4 py-3 h-[100px] flex items-center justify-between">
-        <div className="rounded-lg p-2 ">
+        {/* <div className="rounded-lg p-2 ">
           <Image
             src="/assets/back.svg"
             alt="Sound"
             width={48}
             height={48}
           />
-        </div>
+        </div> */}
+
+      <div className="rounded-lg p-2">
+              <Image
+                src="/assets/home.webp"
+                alt="Home"
+                width={48}
+                height={48}
+              />
+      </div>
 
         <div className="rounded-lg p-2">
           <Image
@@ -23,14 +32,14 @@ export default function TopBar() {
           />
         </div>
       </div>
-      <div className="rounded-lg p-2 absolute top-18 left-4">
+      {/* <div className="rounded-lg p-2 absolute top-18 left-4">
         <Image
           src="/assets/home.webp"
           alt="Home"
           width={48}
           height={48}
         />
-      </div>
+      </div> */}
     </>
   );
 }

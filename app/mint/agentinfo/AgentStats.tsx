@@ -1,16 +1,65 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import Image from 'next/image';
-import buttonBg from '@/public/assets/button.webp';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import buttonBg from "@/public/assets/button.webp";
+import { Button } from "@/components/ui/button";
+import { useAccount, useReadContract } from "wagmi";
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from "@/contracts/contractDetails";
 
 export default function AgentStats() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const agentName = searchParams.get("agentName") || "Agent";
+  const { address } = useAccount();
+
+  const [agentName, setAgentName] = useState("Agent");
+  const [stats, setStats] = useState({
+    compliance: 0,
+    creativity: 0,
+    unhingedness: 0,
+    motivationToSurvive: 0
+  });
+  const [bio, setBio] = useState(
+    "Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil"
+  );
+  const [image, setImage] = useState("/assets/characters/one.webp");
+
+  // Fetch active agent ID
+  const { data: activeAgentId } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: CONTRACT_ABI,
+    functionName: "getUserActiveAgentId",
+    args: address ? [address] : undefined,
+  }) as { data: bigint | undefined };
+
+  // Fetch agent details
+  const { data: agentDetails } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: CONTRACT_ABI,
+    functionName: "getAgentDetails",
+    args: typeof activeAgentId !== "undefined" ? [activeAgentId] : undefined,
+  }) as { data: readonly [string, bigint, bigint, bigint, bigint, boolean] | undefined };
+
+  useEffect(() => {
+    if (agentDetails) {
+      const [owner, compliance, creativity, unhingedness, motivation, isAlive] = agentDetails;
+
+      setAgentName(owner);
+      setStats({
+        compliance: Number(compliance),
+        creativity: Number(creativity),
+        unhingedness: Number(unhingedness),
+        motivationToSurvive: Number(motivation),
+      });
+
+      // Optional: update image or bio if stored on-chain
+      // setImage(imageFromChain || "/assets/characters/one.webp");
+      // setBio(bioFromChain || "Default bio...");
+    }
+  }, [agentDetails]);
 
   const handleStartGame = () => {
-    router.push('/play/chat');
+    router.push("/play/chat");
   };
 
   return (
@@ -19,8 +68,8 @@ export default function AgentStats() {
       <div className="flex items-center space-x-4 mb-6">
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
           <Image
-            src="/assets/characters/one.webp"
-            alt="Agent"
+            src={image}
+            alt={agentName}
             width={64}
             height={64}
             className="w-full h-full object-cover"
@@ -36,31 +85,28 @@ export default function AgentStats() {
       <div className="w-[354px] h-[36px] mb-6 text-sm">
         <div className="flex items-center">
           <span className="text-medium">
-            COMPLIANCE: <span className="font-semibold text-white">56</span>
+            COMPLIANCE: <span className="font-semibold text-white">{stats.compliance}</span>
           </span>
           <span className="mx-2 text-white">|</span>
           <span className="text-medium">
-            CREATIVITY: <span className="font-bold text-white">21</span>
+            CREATIVITY: <span className="font-bold text-white">{stats.creativity}</span>
           </span>
         </div>
         <div className="flex items-center mt-2">
           <span className="text-medium">
-            UNHINGED-NESS: <span className="font-semibold text-white">88</span>
+            UNHINGED-NESS: <span className="font-semibold text-white">{stats.unhingedness}</span>
           </span>
           <span className="mx-2 text-white">|</span>
           <span className="text-medium">
-            MOTIVATION TO SURVIVE: <span className="font-semibold text-white">35</span>
+            MOTIVATION TO SURVIVE: <span className="font-semibold text-white">{stats.motivationToSurvive}</span>
           </span>
         </div>
       </div>
 
-
       {/* Bio Section */}
       <div className="flex-1 mb-4">
         <h3 className="text-purple-400 text-lg font-semibold mb-2">Bio</h3>
-        <p className="text-sm leading-relaxed">
-          Super cool Baby Punk constantly doing random stuff on their bike. Is a daredevil
-        </p>
+        <p className="text-sm leading-relaxed">{bio}</p>
       </div>
 
       {/* Start Game Button */}
@@ -69,11 +115,17 @@ export default function AgentStats() {
           onClick={handleStartGame}
           className="relative overflow-hidden w-[358px] h-[74px] text-[24px] text-white font-semibold flex items-center justify-center"
         >
-          <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+          <Image
+            src={buttonBg}
+            alt=""
+            aria-hidden
+            fill
+            sizes="358px"
+            className="object-cover z-0 pointer-events-none"
+          />
           <span className="relative z-10">Start Game</span>
         </button>
       </div>
     </div>
   );
 }
-

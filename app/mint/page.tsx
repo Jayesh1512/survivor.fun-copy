@@ -7,6 +7,7 @@ import mintBackground from '@/public/assets/mint/background.webp';
 import buttonBg from '@/public/assets/button.webp';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
+import AgentInfoPage from './agentinfo/page';
 
 const Mint: React.FC = () => {
 
@@ -87,7 +88,7 @@ const Mint: React.FC = () => {
                     </div>
                 </div>
             </>}
-            {step === 2 && <Character />}
+            {step === 2 && <AgentInfoPage />}
         </div>
     );
 };

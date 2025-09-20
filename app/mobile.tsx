@@ -48,20 +48,40 @@ const Mobile: React.FC = () => {
                 </div>
             </div>
 
-            {isConnected ? <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
-                <Button onClick={() => router.push('/tournament')} className="relative overflow-hidden text-2xl h-[74px] items-center justify-center flex w-[358px]">
-                    <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
-                    <span className="relative z-10">Start Game</span>
-                </Button>
-            </div> : <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
-                <Button
-                    onClick={() => open()}
-                    className="relative overflow-hidden w-[358px] h-[74px] flex items-center justify-center text-2xl font-bold">
-                    <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
-                    <span className="relative z-10">Enter Game</span>
-                </Button>
+            {isConnected ? (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center">
+                {/* Profile Icon / Avatar */}
+                <div 
+                className="w-12 h-12 mb-2 cursor-pointer"
+                onClick={() => router.push('/stats')}
+                >
+                <Image
+                    src="/assets/game/profile.png"
+                    alt="Profile"
+                    width={48}
+                    height={48}
+                />
+                </div>
 
-            </div>}
+                <Button 
+                onClick={() => router.push('/tournament')} 
+                className="relative overflow-hidden text-2xl h-[74px] items-center justify-center flex w-[358px]"
+                >
+                <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                <span className="relative z-10">Start Game</span>
+                </Button>
+            </div>
+            ) : (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                <Button
+                onClick={() => open()}
+                className="relative overflow-hidden w-[358px] h-[74px] flex items-center justify-center text-2xl font-bold"
+                >
+                <Image src={buttonBg} alt="" aria-hidden fill sizes="358px" className="object-cover z-0 pointer-events-none" />
+                <span className="relative z-10">Enter Game</span>
+                </Button>
+            </div>
+            )}
 
         </div>
     );

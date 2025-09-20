@@ -5,7 +5,7 @@ import statsBackground from '@/public/assets/stats/bg-stats.svg';
 
 export default function TournamentPage() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden">
       <Image
         src={statsBackground}
         alt="Background"
