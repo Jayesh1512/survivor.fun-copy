@@ -47,7 +47,7 @@ export default function RootLayout(props: { children: ReactNode }) {
         <Providers>
           <WalletCookieProvider />
           <div className="app-viewport bg-black md:w-[390px] md:h-screen md:mx-auto md:rounded-[24px] md:overflow-hidden md:shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-            <div className="app-viewport-scroll h-full overflow-y-auto">
+            <div className="app-viewport-scroll min-h-screen md:h-full overflow-y-auto">
               {props.children}
             </div>
           </div>

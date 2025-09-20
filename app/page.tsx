@@ -11,7 +11,7 @@ export default function Page() {
     }, [isFrameReady, setFrameReady]);
 
     return (
-        <main className="h-full">
+        <main>
             <Mobile />
         </main>
     );
