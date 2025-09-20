@@ -1,48 +1,21 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Character from './character';
-import Loading from './loading';
 import Image from 'next/image';
 import mintBackground from '@/public/assets/mint/background.webp';
 import buttonBg from '@/public/assets/button.webp';
-import { useAccount, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/contracts/contractDetails';
+import { useAccount } from 'wagmi';
 import Link from 'next/link';
 
 const Mint: React.FC = () => {
 
     const [step, setStep] = useState(0);
-    const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
-
-    const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash: txHash });
     const { address } = useAccount();
-    // Active agent id for this user
-    const { data: activeAgentId } = useReadContract({
-        address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
-        functionName: 'getUserActiveAgentId',
-        args: address ? [address] : undefined,
-        // Ensure fresh reads on navigation
-        query: { staleTime: 0 },
-    }) as { data: bigint | undefined };
-    // Agent details to check alive flag
-    const { data: agentDetails } = useReadContract({
-        address: CONTRACT_ADDRESS,
-        abi: CONTRACT_ABI,
-        functionName: 'getAgentDetails',
-        args: typeof activeAgentId !== 'undefined' ? [activeAgentId] : undefined,
-        query: { staleTime: 0 },
-    }) as { data: readonly [string, bigint, bigint, bigint, bigint, boolean] | undefined };
 
     const handleMint = async () => {
-        const isAlive = agentDetails ? agentDetails[5] : false;
-        if (isAlive) {
-            setStep(2);
-            return;
-        }
         const ok = await mintAgent();
-        if (ok) setStep(1);
+        if (ok) setStep(2);
     };
 
     const mintAgent = async () => {
@@ -64,43 +37,13 @@ const Mint: React.FC = () => {
                 return false;
             }
             console.log('Mint tx hash:', data.hash);
-            setTxHash(data.hash as `0x${string}`);
+            // Proceed directly to play screen (step 2) without waiting for confirmation
             return true;
         } catch (e) {
             console.error('Mint request failed:', e);
             return false;
         }
     };
-
-    useEffect(() => {
-        if (isConfirmed) {
-            setStep(2); // transaction confirmed → proceed to character screen
-        }
-    }, [isConfirmed]);
-
-    // If chain says agent is alive, skip to character immediately unless requireMint flag is set
-    useEffect(() => {
-        const alive = agentDetails ? agentDetails[5] : false;
-        const requireMint = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('requireMint') === '1';
-        if (!requireMint && alive && step !== 2) {
-            setStep(2);
-        }
-    }, [agentDetails, step]);
-
-    // no-op debug hook removed
-    useEffect(() => {
-        try {
-            if (typeof activeAgentId !== 'undefined') {
-                console.log('activeAgentId:', activeAgentId?.toString());
-            }
-            if (agentDetails) {
-                const isAlive = agentDetails[5];
-                console.log('agentDetails:', agentDetails, 'isAlive:', isAlive);
-            }
-        } catch (e) {
-            console.log('agent debug error', e);
-        }
-    }, [activeAgentId, agentDetails]);
 
     return (
         <div>
@@ -144,7 +87,6 @@ const Mint: React.FC = () => {
                     </div>
                 </div>
             </>}
-            {step === 1 && <Loading />}
             {step === 2 && <Character />}
         </div>
     );
