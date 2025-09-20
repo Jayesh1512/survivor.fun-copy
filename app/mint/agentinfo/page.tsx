@@ -5,14 +5,13 @@ import mintInfoBg from '@/public/assets/mint/info-bg.png';
 
 export default function AgentInfoPage() {
   return (
-    <div className="relative min-h-screen w-[390px] h-[844px] flex flex-col">
+    <div className="relative min-h-screen w-full h-[844px] flex flex-col">
       <Image
         src={mintInfoBg}
         alt="Background"
         fill
         priority
-        sizes="100vw"
-        className="object-cover -z-10"
+        className="object-cover -z-10 w-full"
       />
       <TopBar />
       <div className="flex-1 flex items-end justify-center p-2 pb-0">

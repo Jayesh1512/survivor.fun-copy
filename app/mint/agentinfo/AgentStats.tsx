@@ -14,7 +14,7 @@ export default function AgentStats() {
   };
 
   return (
-    <div className="w-[390px] h-[364px] bg-[#030229] rounded-t-[30px] rounded-b-[30px] p-6 flex flex-col text-[#909EBC]">
+    <div className="w-full h-[364px] bg-[#030229] rounded-t-[30px] rounded-b-[30px] p-6 flex flex-col mx-auto text-[#909EBC]">
       {/* Header with character image and name */}
       <div className="flex items-center space-x-4 mb-6">
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
@@ -64,7 +64,7 @@ export default function AgentStats() {
       </div>
 
       {/* Start Game Button */}
-      <div className="flex justify-start">
+      <div className="flex justify-start mx-auto">
         <button
           onClick={handleStartGame}
           className="relative overflow-hidden w-[358px] h-[74px] text-[24px] text-white font-semibold flex items-center justify-center"
