@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { type ReactNode } from 'react';
 import { Providers } from './providers';
+import WalletCookieProvider from './WalletCookieProvider';
 import './globals.css';
 import { Fredoka } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/next"
@@ -44,6 +45,7 @@ export default function RootLayout(props: { children: ReactNode }) {
     <html lang="en">
       <body className={`${font.className} bg-black`}>
         <Providers>
+          <WalletCookieProvider />
           <div className="app-viewport bg-black md:w-[390px] md:h-screen md:mx-auto md:rounded-[24px] md:overflow-hidden md:shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
             <div className="app-viewport-scroll min-h-screen md:h-full overflow-y-auto">
               {props.children}
