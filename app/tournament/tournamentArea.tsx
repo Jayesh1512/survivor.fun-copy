@@ -17,22 +17,22 @@ export default function TournamentArea() {
 
   const handleJoinTournament = () => {
     const trimmed = tournamentCode.trim().toLowerCase();
-    if (!trimmed) { setError("Please enter a tournament code"); return; }
-    if (!validCodes.includes(trimmed)) { setError("Invalid tournament code"); return; }
+    if (!trimmed) {
+      setError("Please enter a tournament code");
+      return;
+    }
+    if (!validCodes.includes(trimmed)) {
+      setError("Invalid tournament code");
+      return;
+    }
     setError("");
     router.push("/mint");
   };
 
   return (
-
-    <div
-      className="
-        absolute bottom-0 left-0
-        w-full                
-        h-[347px] 
-      "
-    >
+    <div className="absolute bottom-0 left-0 w-full h-[347px]">
       <div className="relative z-0 h-full w-full">
+        {/* Background */}
         <Image
           src={tournamentBg}
           alt=""
@@ -43,22 +43,25 @@ export default function TournamentArea() {
 
         {/* ---------------- SEARCH BAR ---------------- */}
         <div className="relative z-10 text-white text-lg pt-18">
-          <div className="mb-2 mt-12 flex items-center justify-center">
-            <div className="relative w-[90%] h-[101px] flex items-center px-4">
+          <div className="mb-4 mt-12 flex items-center justify-center">
+            <div className="relative w-[90%] h-[101px] flex items-center px-4 overflow-hidden rounded-[24px]">
+              {/* Background image for search bar */}
+              <Image
+                src={searchBarBg}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover pointer-events-none -z-10"
+              />
 
-              <div className="rounded-24">
-                <Image
-                  src={searchBarBg}
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  className="object-cover pointer-events-none -z-10 rounded-24"
-                />
-              </div>
+              {/* Input field */}
               <input
                 type="text"
                 value={tournamentCode}
-                onChange={(e) => { setTournamentCode(e.target.value); setError(""); }}
+                onChange={(e) => {
+                  setTournamentCode(e.target.value);
+                  setError("");
+                }}
                 placeholder="Enter tournament code"
                 className="
                   w-full bg-transparent text-white text-center
@@ -68,6 +71,7 @@ export default function TournamentArea() {
             </div>
           </div>
 
+          {/* Error message */}
           {error && (
             <p className="text-red-400 text-sm text-center">{error}</p>
           )}
