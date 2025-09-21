@@ -34,36 +34,37 @@ export default function StatsArea() {
 
   return (
     <div className="w-full h-[400px] md:h-[347px] relative bg-gray-900">
-      <div className="relative h-full w-full">
-        {/* Background */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/stats/stats.svg"
-            alt=""
-            aria-hidden
-            fill
-            sizes="100vw"
-            className="object-cover pointer-events-none"
-          />
+      <div className='p-4'>
+        <Image
+          src='/assets/stats/box.png'
+          alt="Stats Box"
+          width={375}
+          height={347}
+          className='w-full object-cover'
+        />
+        <div className='text-white mx-auto text-center absolute left-1/2 -translate-x-1/2 top-1/10'>
+          <p className=''>Total Games Played</p>
+          <p className='text-4xl'>{totalAgents}</p>
+        </div>
+      </div>
+
+      <div className='px-6 flex justify-between'>
+
+        {/* Graveyard */}
+        <div>
+          <div className='flex text-white gap-1 justify-between items-center'>
+            <Image src={'/assets/stats/grave.svg'} alt="Graveyard" width={36} height={10} className='' />
+            <p>Graveyard</p>
+          </div>
+          <p className='mt-2 text-white text-2xl text-center'>{totalKills}</p>
         </div>
 
-        {/* Stats Text */}
-        <div className="relative z-10 text-center text-white text-lg h-[60%] flex flex-col justify-between items-center overflow-visible pt-6 px-4">
-          {/* Total Agents at top */}
-          <div className="flex flex-col items-center">
-            <span className="opacity-80 text-sm">Total Agents</span>
-            <p className="text-2xl font-bold">{totalAgents}</p>
+        <div>
+          <div className='flex text-white gap-1 justify-between items-center'>
+            <p>❤️</p>
+            <p>Survived</p>
           </div>
-
-          {/* Kills & Survivals above the button */}
-          <div className="w-full flex justify-between px-8 md:px-16 mb-4">
-            <div className="flex flex-col items-center">
-              <span className="text-white font-semibold">{totalKills}</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-white font-semibold">{totalSurvivals}</span>
-            </div>
-          </div>
+          <p className='mt-2 text-white text-2xl text-center'>{totalSurvivals}</p>
         </div>
       </div>
 
