@@ -90,6 +90,7 @@ export default function ChatPageClient() {
           timeLeft={msToClock(timeLeftMs)}
           scenario={scenario}
           agentName={name}
+          onDone={() => goToJudgement(history)}
         />
         <ScenarioArea scenario={scenario} />
       </div>
