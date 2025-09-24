@@ -40,8 +40,11 @@ export default function SetupPage() {
                     unhingedness,
                 },
             };
-
-            const allScenarios = scenarios(name);
+            const region = localStorage.getItem('region') || 'surviveinkorea';
+            console.log("/ply - setuo");
+            console.log(region);
+            
+            const allScenarios = scenarios(name, region);
             const scenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
 
             const params = new URLSearchParams({

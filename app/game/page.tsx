@@ -15,7 +15,11 @@ const Game: React.FC = () => {
     const [scenario, setScenario] = useState("");
 
     useEffect(() => {
-        const allScenarios = scenarios(DEFAULT_NFT.name);
+        const region = localStorage.getItem('region') || 'surviveinkorea';
+        console.log("/game");
+        console.log(region);
+
+        const allScenarios = scenarios(DEFAULT_NFT.name, region);
         const scenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
         setScenario(scenario);
     }, []);

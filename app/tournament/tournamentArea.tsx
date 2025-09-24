@@ -26,6 +26,7 @@ export default function TournamentArea() {
       return;
     }
     setError("");
+    localStorage.setItem("region", trimmed);
     router.push("/mint");
   };
 

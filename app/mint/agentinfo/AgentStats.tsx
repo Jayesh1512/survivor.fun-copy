@@ -26,7 +26,8 @@ export default function AgentStats() {
 
   // Generate random scenario on mount
   useEffect(() => {
-    const allScenarios = scenarios(DEFAULT_NFT.name);
+    const region = localStorage.getItem('region') || 'surviveinkorea';
+    const allScenarios = scenarios(DEFAULT_NFT.name,region);
     const randomScenario = allScenarios[Math.floor(Math.random() * allScenarios.length)];
     setScenario(randomScenario);
   }, []);

@@ -1,34 +1,27 @@
 import { baseSepolia, base } from "viem/chains";
 
-export const scenarios = (characterName: string) => [
-    `${characterName} is going to eat the suspiciously glowing berry`,
-    `${characterName} is going to escape from jesse trying to put him onchain`,
-    `${characterName} is going to fight sbf in a gladiator match`,
-    `${characterName} is in a crypto conference in the flight and there's a bomb`,
-    // `${characterName} is a lost in the jungle`,
-    // `${characterName} is a falling from the sky`,
-    // `${characterName} is trapped overnight in an IKEA maze`,
-    // `${characterName} is surfing a runaway zorb down a mountain`,
-    // `${characterName} is locked in a submarine-themed escape room as water rises`,
-    // `${characterName} is navigating a haunted mall blackout`,
-    // `${characterName} is clinging to a broken space elevator maintenance ladder`,
-    // `${characterName} is rafting a kombucha flood through a microbrewery`,
-    // `${characterName} is chased by feral vending machines in a deserted station`,
-    // `${characterName} is dodging lava at a volcano souvenir shop`,
-    // `${characterName} is snowed in on a dangling gondola lift`,
-    // `${characterName} is lost in a corn maze under a blood moon`,
-    // `${characterName} is stuck in a smart home gone rogue`,
-    // `${characterName} is herding hostile pigeons on a skyscraper ledge`,
-    // `${characterName} is outrunning a swarm of delivery drones`,
-    // `${characterName} is wading through a flooding subway tunnel`,
-    // `${characterName} is hopping across floating trampolines on a stormy lake`,
-    // `${characterName} is time-looped into the worst Tuesday ever`,
-    // `${characterName} is hiding from animatronic dinosaurs in a museum blackout`,
-    // `${characterName} is negotiating with a stubborn mountain goat on a narrow ridge`,
-    // `${characterName} is piloting a shopping cart through freeway traffic`,
-    // `${characterName} is stuck on a parade float with a runaway balloon`,
-];
-
+export const scenarios = (characterName: string, region: string) => {
+  if (region === "surviveindelhi") {
+    return [
+      `${characterName} is about to jump off Qutub Minar.`,
+      `${characterName} is about to hug a Delhi metro.`,
+      `${characterName} is about to run into Connaught Place traffic.`,
+      `${characterName} is about to climb on top of India Gate`,
+      `${characterName} is about to sit inside the Red Fort cannon and light it up.`,
+    ];
+  } else if (region === "surviveinkorea") {
+    return [
+      `${characterName} is about to jump off Lotte World Tower.`,
+      `${characterName} is about to run into Gangnam traffic.`,
+      `${characterName} is about to hug a speeding KTX train.`,
+      `${characterName} is about to dive off Banpo Bridge`,
+      `${characterName} is about to stick his finger in a Namsan power box`,
+    ];
+  }else{
+    return []
+  }
+};
+ 
 export const DEFAULT_NFT = {
     name: "Bubba the Brave",
     bio: "Bubba lives for dares, gym selfies, and shouting “watch this” before doing something dumb. He the kind of guy who thinks running headfirst at danger is a personality trait.",

@@ -23,7 +23,11 @@ export const useChatURL = () => {
 
   const scenario = useMemo(() => {
     if (scenarioParam.trim()) return scenarioParam;
-    const all = scenarios(name);
+    const region = localStorage.getItem('region') || 'surviveinkorea';
+    console.log(region);
+    console.log("Hook");
+
+    const all = scenarios(name, region);
     return all[Math.floor(Math.random() * all.length)];
   }, [scenarioParam, name]);
 
