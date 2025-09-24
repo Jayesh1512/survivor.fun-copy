@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface TopBarProps {
   timeLeft: string;
@@ -9,8 +10,11 @@ interface TopBarProps {
 }
 
 export default function TopBar({ timeLeft, scenario, agentName, onForceEnd, onDone }: TopBarProps) {
+  const [isDoneClicked, setIsDoneClicked] = useState(false);
+
   const handleDone = () => {
-    if (onDone) {
+    if (onDone && !isDoneClicked) {
+      setIsDoneClicked(true);
       onDone();
     }
   };
@@ -22,7 +26,11 @@ export default function TopBar({ timeLeft, scenario, agentName, onForceEnd, onDo
         Time: {timeLeft} s
       </div>
 
-      <button onClick={handleDone} className="relative w-[129px] h-[58px] select-none">
+      <button 
+        onClick={handleDone} 
+        disabled={isDoneClicked}
+        className={`relative w-[129px] h-[58px] select-none ${isDoneClicked ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+      >
         <Image
           src="/assets/game/button_small.svg"
           alt="I'm done"
@@ -30,8 +38,8 @@ export default function TopBar({ timeLeft, scenario, agentName, onForceEnd, onDo
           height={45}
           className="object-cover z-0 w-[127px] h-[45px] pointer-events-none"
         />
-        <span className="absolute inset-0 flex items-center justify-center text-white text-[18px] font-bold z-10 cursor-pointer">
-          I'm done
+        <span className={`absolute inset-0 flex items-center justify-center text-white text-[18px] font-bold z-10 ${isDoneClicked ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
+          {isDoneClicked ? "Done!" : "I'm done"}
         </span>
       </button>
     </div>
