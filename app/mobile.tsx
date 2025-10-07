@@ -1,13 +1,13 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount } from 'wagmi';
 import backgroundImage from '@/public/assets/background.webp';
-import logoImage from '@/public/assets/logo.webp';
+import logoImage from '@/public/logo.png'; // Using PNG instead of webp
 import buttonBg from '@/public/assets/button.webp';
 
 const Mobile: React.FC = () => {
@@ -15,6 +15,17 @@ const Mobile: React.FC = () => {
   const { open } = useAppKit();
   const account = useAccount();
   const isConnected = account.isConnected;
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  
+  // Ensure logo has time to display
+  useEffect(() => {
+    // Do nothing special - just ensuring logo has time to render properly
+    const timer = setTimeout(() => {
+      setLogoLoaded(true);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative min-h-screen">
@@ -43,16 +54,21 @@ const Mobile: React.FC = () => {
           />
         </div>
       )}
-
+  
       {/* Logo */}
-      <Image
-        src={logoImage}
-        alt="Survivor.fun Logo"
-        width={322}
-        height={124}
-        priority
-        className="mx-auto pt-10"
-      />
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 z-20">
+        <Image
+          src={logoImage}
+          alt="Survivor.fun Logo"
+          width={500}
+          height={250}
+          priority
+          unoptimized={true} 
+          loading="eager"
+          onLoad={() => setLogoLoaded(true)}
+          style={{ display: 'block', opacity: 1 }}
+        />
+      </div>
 
       {/* Button container */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">

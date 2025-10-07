@@ -38,6 +38,7 @@
     "drizzle-kit": "^0.31.1",
     "drizzle-orm": "^0.43.1",
     "ethers": "^6.13.7",
+    "html2canvas": "^1.4.1",
     "jose": "^6.0.11",
     "lucide-react": "^0.511.0",
     "next": "15.4.0-canary.47",

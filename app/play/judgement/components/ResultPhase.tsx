@@ -3,7 +3,6 @@ import judgeBackground from '@/public/assets/game/judgement_bg.png';
 import buttonSmallBg from '@/public/assets/button_small.png';
 import { Button } from '@/components/ui/button';
 import { Narration } from '@/types/judgement';
-
 interface ResultPhaseProps {
   narration: Narration;
   agentName: string;
@@ -15,7 +14,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
   const isDead = narration.result === "died";
 
   return (
-    <div className="text-white relative isolate h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div id = "end" className="text-white relative isolate h-screen flex flex-col items-center justify-center overflow-hidden">
       <Image
         src={judgeBackground}
         alt="Background"
@@ -79,6 +78,16 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
         >
           <Image src={buttonSmallBg} alt="" aria-hidden fill sizes="129px" className="object-cover z-0 pointer-events-none" />
           <span className="relative z-10">Play Again</span>
+        </Button>
+      </div>
+
+      <div className="absolute top-6 right-6">
+        <Button
+          disabled={loading}
+          className="relative overflow-hidden w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
+        >
+          <Image src={buttonSmallBg} alt="" aria-hidden fill sizes="129px" className="object-cover z-0 pointer-events-none" />
+          <span className="relative z-10">Share</span>
         </Button>
       </div>
     </div>
