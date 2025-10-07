@@ -3,6 +3,7 @@ import judgeBackground from '@/public/assets/game/judgement_bg.png';
 import buttonSmallBg from '@/public/assets/button_small.png';
 import { Button } from '@/components/ui/button';
 import { Narration } from '@/types/judgement';
+import { handleShare } from '@/lib/handleShare';
 interface ResultPhaseProps {
   narration: Narration;
   agentName: string;
@@ -83,6 +84,7 @@ export default function ResultPhase({ narration, agentName, loading, onContinue 
 
       <div className="absolute top-6 right-6">
         <Button
+          onClick={() => handleShare(isDead)}
           disabled={loading}
           className="relative overflow-hidden w-[129px] h-[58px] text-[18px] font-bold flex items-center justify-center"
         >
